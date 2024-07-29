@@ -1,0 +1,61 @@
+/* Reset CSS */
+* {
+    box-sizing: border-box;
+  }
+  
+  ul,
+  ol,
+  li {
+    padding: 0;
+    margin: 0;
+    list-style: none;
+  }
+  
+  input,
+  form,
+  button {
+    border: none;
+  }
+  
+  a {
+    color: #000;
+    text-decoration: none;
+    font-family: "Noto Sans KR", sans-serif;
+  }
+  
+  /* Root CSS */
+  :root {
+    --color-black-basic: #000000;
+    --color-black-bg: #131313;
+    --color-light-black: #444444;
+    --color-white-basic: #ffffff;
+    --color-light-grey: rgba(247, 247, 247, 1);
+    --color-deep-grey: #F2F2F2;
+    --color-green: #E1EFD7;
+    --color-deepgreen: #2D6210;
+  
+    --space-basic: 24px;
+  
+    --font-xsmall: 12px;
+    --font-small: 14px;
+    --font-regular: 20px;
+    --font-medium: 24px;
+    --font-large: 34px;
+  
+    --weight-bold: 700;
+  }
+  
+  body {
+    background-color: var(--color-deep-grey);
+    margin: 0;
+    font-family: "Noto Sans KR", sans-serif;
+  }
+  
+  .header__container, .footer__container {
+    width: 100%;
+  }
+  
+  .footer__container {
+    background-color: var(--color-light-grey);
+  }
+  

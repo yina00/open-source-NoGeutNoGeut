@@ -1,0 +1,42 @@
+<div class="top_category">
+    <button class="top_category2" type="button" onclick="sortProfiles('rating')"> 별점순 </button>
+    <button class="top_category2" type="button" onclick="sortProfiles('matchingCount')"> 매칭횟수순 </button>
+    <button class="top_category2" type="button" onclick="sortProfiles('recentMatching')"> 최근성사순 </button>
+    <button class="top_category2" type="button" onclick="sortProfiles('recentJoin')"> 최근가입순 </button>
+    <button class="top_category2" type="button" onclick="sortProfiles('lowPrice')"> 낮은가격순 </button>
+    <button class="top_category2" type="button" onclick="sortProfiles('highPrice')"> 높은가격순 </button>
+  </div>
+  <div class="profile">
+    <% categories.forEach(profile => { %>
+      <a href="/Detail/<%= profile.seniorNum ? 'senior' : 'student' %>/<%= profile.seniorNum || profile.stdNum %>">
+        <div class="profile2">
+          <div class="profile6">
+            <img src="data:image/jpeg;base64,<%= profile.encodedImageBase64String %>" style="width: 8%; height: 20%; border-radius: 50%; padding-left: 1px;">
+            <div class="profile3">
+              <span class="profile4"><%= profile.Member ? profile.Member.name : profile.seniorName %></span>
+              <span class="profile5"><%= profile.university %> <%= profile.major %></span>
+              <% if (sortBy === 'rating') { %>
+                <span class="profile7">별점: <%= profile.score %></span>
+              <% } else if (sortBy === 'matchingCount') { %>
+                <span class="profile7">매칭횟수: <%= profile.matchingCount %></span>
+              <% } else if (sortBy === 'recentMatching') { %>
+                <span class="profile7">최근성사: <%= profile.recentMatchingTimeDifference %> 전</span>
+              <% } else if (sortBy === 'recentJoin') { %>
+                <span class="profile7">최근가입: <%= profile.creationTimeDifference %> 전</span>
+              <% } else if (sortBy === 'lowPrice' || sortBy === 'highPrice') { %>
+                <span class="profile7">금액: <%= profile.desiredAmount === '무료' ? '0' : profile.desiredAmount %></span>
+              <% } %>
+            </div>
+          </div>
+        </div>
+      </a>
+    <% }); %>
+  </div>
+  <script>
+    function sortProfiles(sortBy) {
+      const urlParams = new URLSearchParams(window.location.search);
+      urlParams.set('sortBy', sortBy);
+      window.location.search = urlParams.toString();
+    }
+  </script>
+  
