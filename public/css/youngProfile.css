@@ -1,0 +1,79 @@
+
+body {
+    background-color: #E1EFD7;
+}
+
+.container {
+    width: 710px;
+    margin: auto;
+}
+
+.form-container {
+    width: 800px;
+    background-color: white;
+    margin: auto;
+    padding: 50px;
+}
+
+form h3 {
+    margin-bottom: 10px;
+}
+
+form h6 {
+    margin-top: 10px;
+}
+
+
+.profile-image {
+    width: 20%;
+    height: 20%;
+    border-radius: 50%;
+}
+
+.upload-button {
+    border: 0;
+    width: 90px;
+    height: 30px;
+    border-radius: 10px;
+}
+
+.input-text {
+    border: 0;
+    background-color: #F8F8F8;
+    height: 35px;
+    border-radius: 10px;
+    padding: 10px;
+}
+
+.input-year {
+    width: 80px;
+}
+
+.select-box {
+    border: 0;
+    background-color: #F8F8F8;
+    border-radius: 10px;
+    padding: 10px;
+}
+
+.age-box {
+    border: 0;
+    background-color: #F8F8F8;
+    border-radius: 10px;
+    padding: 10px;
+}
+
+.textarea {
+    width: 700px;
+    height: 300px;
+    padding: 10px;
+}
+
+.submit-button {
+    color: white;
+    background-color: #2D6210;
+    border: 0;
+    width: 70px;
+    height: 35px;
+    border-radius: 10px;
+}

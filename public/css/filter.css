@@ -1,0 +1,190 @@
+@import url("https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700&display=swap");
+
+/* Reset CSS */
+* {
+  box-sizing: border-box;
+}
+
+ul,
+ol,
+li {
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+
+input,
+form,
+button {
+  border: none;
+}
+
+a {
+  color: #000;
+  text-decoration: none;
+  font-family: "Noto Sans KR", sans-serif;
+}
+
+/* Root CSS */
+:root {
+  --color-black-basic: #000000;
+  --color-black-bg: #131313;
+  --color-light-black: #444444;
+  --color-white-basic: #ffffff;
+  --color-light-grey: rgba(247, 247, 247, 1);
+  --color-deep-grey: #F2F2F2;
+  --color-green: #E1EFD7;
+  --color-deepgreen: #2D6210;
+
+  --space-basic: 24px;
+
+  --font-xsmall: 12px;
+  --font-small: 14px;
+  --font-regular: 20px;
+  --font-medium: 24px;
+  --font-large: 34px;
+
+  --weight-bold: 700;
+}
+
+body {
+  background-color: var(--color-deep-grey);
+  margin: 0;
+  font-family: "Noto Sans KR", sans-serif;
+}
+
+.main-title {
+  display: none;
+}
+
+/* Header CSS */
+.header__container {
+  width: 100%;
+  position: sticky;
+  top: 0;
+  z-index: 10000;
+  background-color: var(--color-deep-grey);
+}
+
+.header__block {
+  display: flex;
+  align-items: center;
+  max-width: 1440px;
+  min-width: 960px;
+  margin: 0 auto;
+  padding-left: 73%;
+}
+
+.header__block > a {
+  display: inline-block;
+  height: 40px;
+  line-height: 40px;
+  margin-right: var(--space-basic);
+  font-size: var(--font-xsmall);
+  padding: 0 10px;
+}
+
+/* Header > nav */
+.header_nav-main-block {
+  width: 100%;
+  background-color: red;
+}
+
+.header__nav-block {
+  display: flex;
+  justify-content: center;
+  background-color: var(--color-white-basic);
+}
+
+.nav__list {
+  display: flex;
+  align-items: center;
+  padding: 0;
+}
+
+.nav__list2 {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.header2 {
+  padding-left: 100px;
+  align-items: center;
+  padding: 0;
+  background-color: var(--color-green);
+}
+
+.nav__list-item2 {
+  margin: 0 15px;
+  margin-top: 5px;
+  margin-bottom: 5px;
+  font-size: var(--font-small);
+  font-weight: var(--weight-bold);
+}
+
+.nav__list-item {
+  margin: 0 15px;
+  font-size: var(--font-small);
+  font-weight: var(--weight-bold);
+}
+
+.nav__list-item:last-of-type {
+  margin-right: 15px;
+}
+
+/* Filter Specific CSS */
+#filterForm {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+
+.chart {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  width: 100%;
+}
+
+.filter-list {
+  display: flex;
+  list-style: none;
+  padding: 0;
+  margin: 20px 0;
+  gap: 20px; /* 항목 간의 간격 조절 */
+  justify-content: center;
+}
+
+.filter-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.filter-item label {
+  margin-bottom: 5px;
+}
+
+.filter-item select,
+#searchButton {
+  padding: 5px;
+  font-size: 16px;
+  width: 120px; /* 드롭다운과 버튼의 너비 설정 */
+  background-color: #E1EFD7;
+  border-radius: 20px;
+  font-weight: var(--weight-bold);
+  font-style: var(--color-deepgreen);
+}
+
+.notice {
+  width: 700px; 
+  height: 300px; 
+  background-color: #E1EFD7;
+  border-radius: 20px; 
+  display: flex;
+  justify-content: center; 
+  align-items: center; 
+  margin: 50px auto; 
+  font-size: 20px;
+}

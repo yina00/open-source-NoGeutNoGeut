@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="start-date" content="2024-05-10">
+    <title>노긋노긋</title>
+    <link href="/css/header.css?v=1.0" rel="stylesheet" type="text/css">
+    <link href="/css/review.css?v=1.0" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <script defer src="https://use.fontawesome.com/releases/v5.15.3/js/all.js"
+        integrity="sha384-haqrlim99xjfMxRP6EWtafs0sB1WKcMdynwZleuUSwJR0mDeRYbhtY+KPMr+JL6f"
+        crossorigin="anonymous"></script>
+    <script src="/js/review.js"></script>
+</head>
+
+<body>
+  <!-- Header Section -->
+  <header class="header__container">
+    <!-- Site H1 / display: none -->
+    <h1 class="main-title">노긋노긋메인홈</h1>
+      <div class="header__block">
+        <a href="/Detail"> 마이페이지 </a>
+        <a href="/logout"> 로그아웃 </a>
+      </div>
+    <div class="header_nav-main-block">
+        <!-- 네비게이션에 해당하는 부분 -->
+      <nav class="header__nav-block">
+        <ul class="nav__list" role="navigation">
+          <li class="nav__list-item">
+            <a href="/main" aria-label="노긋노긋 홈페이지">
+              <img src="/images/logo.png" width="50" alt="로고">
+              </a>
+          </li>
+          <li class="nav__list-item">
+            <a href="/filter"> 매칭 </a>
+          </li>
+          <li class="nav__list-item">
+            <a href="/promiseList"> 약속 </a>
+          </li>
+          <li class="nav__list-item">
+            <a href="/reportList"> 보고서 </a>
+          </li>
+        </ul>
+      </nav>
+    </div>
+    
+  </header>
+
+    <main>
+    <div class="review-container">
+        <section>
+            <h1>후기 작성</h1>
+
+                <form id="reviewForm" action="/review/<%=promiseNum%>/<%=matchingNum%>" method="post"
+                    onsubmit="return handleSubmit(event)">
+                <div class="satisfaction-sticker">
+                    <article>
+                        <h1>만족 스티커</h1>
+                        <!--<div class="sticker-icons">
+                                <%= stickerValues.map(value=> `<span class="material-icons" data-value="${value}">grade</span>`).join('') %>
+			</div>-->
+			<div class="star-rating">
+   			<!--	<% for (let i = 1; i <= 5; i++) { %>
+					<input type="radio" id="star<%= i %>" name="rating" class="star" value="<%= i %>">
+                                	<label for="star<%= i %>">★</label>
+					<% } %>-->
+				<% for (let i=1; i <=5; i++) { %>
+                                    <input type="radio" id="star" class="star" name="rating" value="<%= i %>">
+                                <% } %>
+			</div>
+
+                    </article>
+                </div>
+
+                <div class="one-line-review">
+                    <article>
+                        <h1>한 줄 후기</h1>
+                        <input type="text" id="reviewText" name="reviewContent" placeholder="후기를 작성해주세요."
+                            autofocus maxlength="50" value="<%= reviewContent %>">
+                    </article>
+                </div>
+
+		<!-- <input type="hidden" id="stickerRating" name="reviewContent" value="<%= score %>" -->
+
+                <div class="submit-button">
+                    <input type="submit" value="제출">
+                </div>
+            </form>
+        </section>
+    </div>
+</main>
+<!-- Hidden input fields to store promiseNum and matchingNum -->
+    <input type="hidden" id="promiseNum" value="<%= promiseNum %>">
+    <input type="hidden" id="matchingNum" value="<%= matchingNum %>">
+
+    <script src="review.js"></script>
+
+    <!-- Footer Section -->
+    <footer class="footer__container">
+        <section class="pages__container">
+            <a href="#">이용약관</a>
+            <a href="#">개인정보처리방침</a>
+            <a href="#">커뮤니티이용규칙</a>
+            <a href="#">문의하기</a>
+        </section>
+    </footer>
+</body>
+
+</html>
