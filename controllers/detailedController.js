@@ -88,9 +88,9 @@ async function reviewData(memberNum) {
     try {
         const review = await Review.findAll({ where: { reviewReceiver: memberNum } });
         if (review.length > 0) {
-            console.log("있다있어!!!!!!!!!!!!!!");
+            console.log("리뷰 데이터가 있습니다.");
         } else {
-            console.log("없어!!!!!!!");
+            console.log("리뷰 데이터 불러오기 중 오류가 발생했습니다.");
         }
         return review;
     } catch (error) {
@@ -107,7 +107,8 @@ function calculateKoreanAgeByYear(birthYear) {
     return currentYear - birthYear;
 }
 
-exports.myDetail = async (req, res) => {
+//새로운 마이 페이지로 변경
+exports.myPage = async (req, res) => {
     try {
         const member = await fetchData(req.session.userID);
         res.render("myPage.ejs", { member: member });
