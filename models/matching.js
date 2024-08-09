@@ -1,41 +1,36 @@
-const { DataTypes } = require('sequelize');
-const sequelize = require('../config/database');
+const { DataTypes } = require("sequelize");
+const sequelize = require("../config/database");
 const Promise = require('./promise');
-const Report = require('./report');
 
-const Matching = sequelize.define('Matching', {
-  matching_num: {
+const Matching = sequelize.define("Matching", {
+  matchingNum: {
     type: DataTypes.INTEGER,
     primaryKey: true,
     allowNull: false,
+    autoIncrement: true
   },
-  promise_num: {
+  promiseNum: {
     type: DataTypes.INTEGER,
-    allowNull: false,
-    references: {
-      model: Promise,
-      key: 'promise_num',
-    },
+    allowNull: false
   },
-  report_num: {
+  reportNum: {
     type: DataTypes.INTEGER,
     allowNull: true,
-    references: {
-      model: Report,
-      key: 'report_num',
-    },
+    defaultValue: null
   },
-  deposit_status: {
+  depositStatus: {
     type: DataTypes.BOOLEAN,
     allowNull: false,
+    defaultValue: false
   },
-  report_status: {
+  reportStatus: {
     type: DataTypes.BOOLEAN,
     allowNull: false,
-  },
-}, {
-  tableName: 'matching',
-  timestamps: false,
+    defaultValue: false
+  }
 });
+
+Promise.hasMany(Matching, { foreignKey: 'promiseNum' });
+Matching.belongsTo(Promise, { foreignKey: 'promiseNum' });
 
 module.exports = Matching;

@@ -1,45 +1,50 @@
-const { DataTypes } = require('sequelize');
-const sequelize = require('../config/database');
-const BulletinBoard = require('./bulletinBoard');
-const Member = require('./member');
+//post.js
+const { Sequelize, DataTypes } = require("sequelize");
+const sequelize = require("../config/database");
+const Member = require("./member");
+const Board = require("./board");
 
-const Post = sequelize.define('Post', {
-  post_num: {
+const Post = sequelize.define("Post", {
+  postID: {
     type: DataTypes.INTEGER,
     primaryKey: true,
-    allowNull: false,
+    autoIncrement: true
   },
-  post_content: {
+  title: {
+    type: DataTypes.STRING(100),
+    allowNull: false
+  },
+  content: {
     type: DataTypes.STRING(1000),
-    allowNull: false,
+    allowNull: false
   },
-  region_name: {
+  regionName: {
     type: DataTypes.CHAR(6),
-    allowNull: false,
+    allowNull: false
   },
-  post_create_date: {
+  createdAt: {
     type: DataTypes.DATE,
     allowNull: false,
+    defaultValue: DataTypes.NOW
   },
-  bulletinboard_num: {
+  boardID: {
     type: DataTypes.INTEGER,
     allowNull: false,
     references: {
-      model: BulletinBoard,
-      key: 'bulletinboard_num',
-    },
+      model: Board,
+      key: 'boardID'
+    }
   },
-  member_num: {
+  memberID: {
     type: DataTypes.BIGINT,
     allowNull: false,
     references: {
       model: Member,
-      key: 'member_num',
-    },
-  },
+      key: 'memberNum'
+    }
+  }
 }, {
-  tableName: 'post',
-  timestamps: false,
+  timestamps: false
 });
 
 module.exports = Post;

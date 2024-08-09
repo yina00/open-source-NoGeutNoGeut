@@ -1,39 +1,59 @@
+// member.js 신고횟수 추가
 const { DataTypes } = require('sequelize');
-const sequelize = require('../config/database'); // 데이터베이스 설정 파일
+const sequelize = require('../config/database');
+const SeniorProfile = require('./seniorProfile');
+const StudentProfile = require('./studentProfile');
 
 const Member = sequelize.define('Member', {
-  member_num: {
-    type: DataTypes.BIGINT,
+  memberNum: {
+    type: DataTypes.INTEGER,
     primaryKey: true,
-    allowNull: false,
+    autoIncrement: true
   },
-  memberID: {
-    type: DataTypes.STRING(20),
+  email: {
+    type: DataTypes.STRING,
     allowNull: false,
+    unique: true
   },
-  password: {
-    type: DataTypes.STRING(20),
-    allowNull: false,
+  memberPW: {
+    type: DataTypes.STRING,
+    allowNull: false
   },
   name: {
-    type: DataTypes.STRING(10),
-    allowNull: false,
+    type: DataTypes.STRING,
+    allowNull: false
   },
   age: {
     type: DataTypes.INTEGER,
-    allowNull: false,
-    validate: {
-      min: 0,
-    },
+    allowNull: false
   },
-  complaint_num: {
-    type: DataTypes.SMALLINT,
-    allowNull: false,
-    defaultValue: 0,
+  userType: {
+    type: DataTypes.STRING,
+    allowNull: false
   },
-}, {
-  tableName: 'member',
-  timestamps: false,
+  profileCreationStatus: {
+    type: DataTypes.BOOLEAN,
+    defaultValue: false
+  },
+  createdAt: {
+    type: DataTypes.DATE,
+    defaultValue: DataTypes.NOW
+  },
+  updatedAt: {
+    type: DataTypes.DATE,
+    defaultValue: DataTypes.NOW
+  },
+  reportCount: {
+    type: DataTypes.INTEGER,
+    allowNull: true,
+    defaultValue: 0
+  }
 });
+
+Member.hasOne(SeniorProfile, { foreignKey: 'seniorNum', sourceKey: 'memberNum' });
+Member.hasOne(StudentProfile, { foreignKey: 'stdNum', sourceKey: 'memberNum' });
+
+SeniorProfile.belongsTo(Member, { foreignKey: 'seniorNum', targetKey: 'memberNum' });
+StudentProfile.belongsTo(Member, { foreignKey: 'stdNum', targetKey: 'memberNum' });
 
 module.exports = Member;

@@ -1,0 +1,239 @@
+@import url("https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700&display=swap");
+
+/* Reset CSS */
+* {
+  box-sizing: border-box;
+}
+
+ul,
+ol,
+li {
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+
+input,
+form,
+button {
+  border: none;
+}
+
+a {
+  color: #000;
+  text-decoration: none;
+  font-family: "Noto Sans KR", sans-serif;
+}
+
+/* Root CSS */
+:root {
+  --color-black-basic: #000000;
+  --color-black-bg: #131313;
+  --color-light-black: #444444;
+  --color-white-basic: #ffffff;
+  --color-light-grey: rgba(247, 247, 247, 1);
+  --color-deep-grey: #F2F2F2;
+  --color-green: #E1EFD7;
+  --color-deepgreen: #2D6210;
+
+  --space-basic: 24px;
+
+  --font-xsmall: 12px;
+  --font-small: 14px;
+  --font-regular: 16px;
+  --font-medium: 20px;
+  --font-large: 30px;
+
+  --weight-bold: 700;
+}
+
+body {
+  background-color: var(--color-deep-grey);
+  margin: 0;
+  font-family: "Noto Sans KR", sans-serif;
+}
+
+.main-title {
+  display: none;
+}
+
+/* Header CSS */
+.header__container {
+  width: 100%;
+  position: sticky;
+  top: 0;
+  z-index: 10000;
+  background-color: var(--color-deep-grey);
+}
+
+.header__block {
+  display: flex;
+  align-items: center;
+  max-width: 1440px;
+  min-width: 960px;
+  margin: 0 auto;
+  padding-left: 73%;
+}
+
+.header__block > a {
+  display: inline-block;
+  height: 40px;
+  line-height: 40px;
+  margin-right: var(--space-basic);
+  font-size: var(--font-xsmall);
+  padding: 0 10px;
+}
+
+/* Header > nav */
+.header_nav-main-block {
+  width: 100%;
+}
+
+.header__nav-block {
+  display: flex;
+  justify-content: center;
+  background-color: var(--color-white-basic);
+}
+
+.nav__list {
+  display: flex;
+  align-items: center;
+  padding: 0;
+}
+
+.nav__list2 {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.header2 {
+  padding-left: 100px;
+  align-items: center;
+  padding: 0;
+  background-color: var(--color-green);
+}
+
+.nav__list-item2 {
+  margin: 0 15px;
+  margin-top: 5px;
+  margin-bottom: 5px;
+  font-size: var(--font-small);
+  font-weight: var(--weight-bold);
+}
+
+.nav__list-item {
+  margin: 0 15px;
+  font-size: var(--font-small);
+  font-weight: var(--weight-bold);
+}
+
+.nav__list-item:last-of-type {
+  margin-right: 15px;
+}
+
+/* 메인 콘텐츠 CSS */
+.main-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 45px 45px; 
+}
+
+.content-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 20px; 
+}
+
+.image-placeholder {
+  width: 55%;
+  height: 350px;
+  display: flex;
+  padding-left: 40px;
+  margin-bottom: 20px;
+}
+
+.image-placeholder img {
+  max-width: 100%;
+  max-height: 100%;
+  opacity: 0.8;
+}
+
+.introduction {
+  width: 45%;
+  margin-left: -130px;
+}
+
+.introduction span {
+  color: var(--color-deepgreen);
+}
+
+.introduction h2 {
+  font-size: var(--font-medium);
+  margin-bottom: 10px;
+}
+
+.introduction p {
+  font-size: var(--font-regular);
+  line-height: 1.4;
+  color: var(--color-light-black);
+  margin: 0;
+}
+
+.button-container {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  padding-top: 25px;
+}
+
+.main-button {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 150px;
+  height: 80px;
+  border-radius: 10px;
+  background-color: var(--color-green);
+  font-size: var(--font-xsmall);
+  font-weight: var(--weight-bold);
+  text-align: center;
+  text-decoration: none;
+  color: var(--color-black-basic);
+}
+
+.main-button span.material-icons {
+  margin-bottom: 4px;
+}
+
+.main-button:hover {
+  background-color: var(--color-deepgreen);
+  color: var(--color-white-basic);
+}
+
+/* Footer CSS */
+.footer__container {
+  width: 100%;
+  background-color: var(--color-light-grey);
+}
+
+.pages__container {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  width: 100%;
+  height: 50px;
+  justify-content: center;
+  max-width: 1440px;
+  padding: 0 var(--space-basic);
+  margin: 0 auto;
+}
+
+.pages__container > a {
+  margin-right: var(--space-basic);
+  font-size: var(--font-xsmall);
+}

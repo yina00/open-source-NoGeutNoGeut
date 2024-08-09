@@ -1,61 +1,51 @@
-const { DataTypes } = require('sequelize');
-const sequelize = require('../config/database');
-const Member = require('./member');
-const ChatRoom = require('./chatRoom');
+const { DataTypes } = require("sequelize");
+const sequelize = require("../config/database");
 
-const Promise = sequelize.define('Promise', {
-  promise_num: {
+const Promise = sequelize.define("Promise", {
+  promiseNum: {
     type: DataTypes.INTEGER,
     primaryKey: true,
     allowNull: false,
+    autoIncrement: true
   },
-  student_num: {
+  stdNum: {
     type: DataTypes.BIGINT,
-    allowNull: false,
-    references: {
-      model: Member,
-      key: 'member_num',
-    },
+    allowNull: false
   },
-  guardian_num: {
+  protectorNum: {
     type: DataTypes.BIGINT,
-    allowNull: false,
-    references: {
-      model: Member,
-      key: 'member_num',
-    },
+    allowNull: false
   },
-  chat_room_num: {
+  roomNum: {
     type: DataTypes.INTEGER,
-    allowNull: false,
-    references: {
-      model: ChatRoom,
-      key: 'chat_room_num',
-    },
+    allowNull: true
   },
-  promise_create_time: {
-    type: DataTypes.DATEONLY,
+  promiseCreationDate: {
+    type: DataTypes.DATE,
     allowNull: false,
+    defaultValue: DataTypes.NOW
   },
-  promise_date: {
-    type: DataTypes.DATEONLY,
-    allowNull: false,
+  promiseDay: {
+    type: DataTypes.DATE,
+    allowNull: false
   },
-  start_time: {
+  startTime: {
     type: DataTypes.TIME,
-    allowNull: false,
+    allowNull: false
   },
-  finish_time: {
+  finishTime: {
     type: DataTypes.TIME,
-    allowNull: false,
+    allowNull: false
   },
-  texting_status: {
+  textSendingStatus: {
     type: DataTypes.BOOLEAN,
     allowNull: false,
+    defaultValue: false
   },
-}, {
-  tableName: 'promise',
-  timestamps: false,
+  promiseSender: {
+    type: DataTypes.BIGINT,
+    allowNull: true
+  }
 });
 
 module.exports = Promise;

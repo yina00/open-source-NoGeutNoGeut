@@ -1,0 +1,58 @@
+<!-- signUp.ejs -->
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>회원가입</title>
+  <link href="/css/header.css" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="/css/signup.css">
+</head>
+<body>
+  <header class="header__container">
+    <h1 class="main-title">회원가입</h1>
+  </header>
+  
+  <div class="container">
+    <div class="signup-container">
+      <form class="signup-form" action="/signup" method="POST">
+        <h2>회원가입</h2>
+        <% if (typeof error !== 'undefined' && error) { %>
+          <p><%= error %></p>
+        <% } %>
+        <label for="email">이메일</label>
+        <input type="email" id="email" name="email" placeholder="Email" required>
+        
+        <label for="password">비밀번호</label>
+        <input type="password" id="password" name="password" placeholder="Password" required>
+        
+        <label for="name">이름</label>
+        <input type="text" id="name" name="name" placeholder="Name" required>
+        
+        <label for="age">나이</label>
+        <input type="number" id="age" name="age" placeholder="Age" required>
+        
+        <label for="userType">사용자 유형</label>
+        <select id="userType" name="userType" required>
+          <option value="student">학생</option>
+          <option value="senior">노인</option>
+        </select>
+
+        <button type="submit">회원가입</button>
+      </form>
+    </div>
+  </div>
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+  const form = document.querySelector('.signup-form');
+  const birthYearInput = document.getElementById('age');
+
+  form.addEventListener('submit', function(event) {
+    // 출생연도 값을 저장
+    localStorage.setItem('signupAge', birthYearInput.value);
+  });
+});
+</script>
+</body>
+</html>

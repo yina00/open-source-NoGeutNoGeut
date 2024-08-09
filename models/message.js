@@ -1,53 +1,70 @@
-const { DataTypes } = require('sequelize');
-const sequelize = require('../config/database');
-const Member = require('./member');
-const ChatRoom = require('./chatRoom');
+//message.js
+const { Sequelize, DataTypes } = require("sequelize");
+const sequelize = require("../config/database");
+const Member = require("./member");
+const ChatRoom = require("./chatRoom");
 
-const Message = sequelize.define('Message', {
-  sender_num: {
+const Message = sequelize.define("Message", {
+  messageID: {
+    type: DataTypes.BIGINT,
+    primaryKey: true,
+    autoIncrement: true
+  },
+  senderNum: {
     type: DataTypes.BIGINT,
     allowNull: false,
     references: {
       model: Member,
-      key: 'member_num',
-    },
+      key: 'memberNum'
+    }
   },
-  receiver_num: {
+  receiverNum: {
     type: DataTypes.BIGINT,
     allowNull: false,
     references: {
       model: Member,
-      key: 'member_num',
-    },
+      key: 'memberNum'
+    }
   },
-  sending_date: {
-    type: DataTypes.DATEONLY,
-    allowNull: false,
-  },
-  check_status: {
-    type: DataTypes.BOOLEAN,
-    allowNull: false,
-  },
-  chat_room_num: {
+  chatRoomNum: {
     type: DataTypes.INTEGER,
     allowNull: false,
     references: {
       model: ChatRoom,
-      key: 'chat_room_num',
-    },
+      key: 'chatRoomNum'
+    }
   },
-  message_num: {
-    type: DataTypes.INTEGER,
-    primaryKey: true,
+  sendDate: {
+    type: DataTypes.DATE,
     allowNull: false,
+    defaultValue: DataTypes.NOW
   },
-  message_content: {
-    type: DataTypes.STRING(20),
+  isChecked: {
+    type: DataTypes.TINYINT,
     allowNull: false,
+    defaultValue: 0
   },
+  messageType: {
+    type: DataTypes.STRING(10),
+    allowNull: false,
+    defaultValue: "text"
+  },
+  messageContent: {
+    type: DataTypes.TEXT,
+    allowNull: true
+  },
+  messageImage: {
+    type: DataTypes.BLOB("medium"),
+    allowNull: true
+  }
 }, {
-  tableName: 'message',
   timestamps: false,
+  indexes: [
+    {
+      unique: true,
+      fields: ['senderNum', 'receiverNum', 'sendDate']
+    }
+  ]
 });
 
 module.exports = Message;

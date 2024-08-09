@@ -1,27 +1,22 @@
-const { DataTypes } = require('sequelize');
-const sequelize = require('../config/database');
-const Member = require('./member');
+const { DataTypes } = require("sequelize");
+const sequelize = require("../config/database");
+const Member = require("./member");
 
-const InterestField = sequelize.define('InterestField', {
-  member_num: {
+const InterestField = sequelize.define("InterestField", {
+  memberNum: {
     type: DataTypes.BIGINT,
+    primaryKey: true,
     allowNull: false,
     references: {
       model: Member,
-      key: 'member_num',
-    },
+      key: "memberNum"
+    }
   },
-  interest_field: {
+  interestField: {
     type: DataTypes.STRING(20),
-    allowNull: false,
-  },
-}, {
-  tableName: 'interestField',
-  timestamps: false,
-  primaryKey: {
-    type: 'primary',
-    fields: ['member_num', 'interest_field'],
-  },
+    primaryKey: true,
+    allowNull: false
+  }
 });
 
 module.exports = InterestField;

@@ -1,96 +1,105 @@
-const { DataTypes } = require('sequelize');
-const sequelize = require('../config/database');
-const Member = require('./member');
+//studentProfile.js
+const { Sequelize, DataTypes } = require("sequelize");
+const sequelize = require("../config/database");
+const Member = require("./member");
 
-const StudentProfile = sequelize.define('StudentProfile', {
-  member_num: {
+const StudentProfile = sequelize.define("StudentProfile", {
+  stdNum: {
     type: DataTypes.BIGINT,
     primaryKey: true,
-    allowNull: false,
     references: {
       model: Member,
-      key: 'member_num',
-    },
+      key: "memberNum"
+    }
   },
-  profile_picture: {
-    type: DataTypes.BLOB('medium'),
-  },
-  univ_certification: {
-    type: DataTypes.BOOLEAN,
-    allowNull: false,
+  profileImage: {
+    type: DataTypes.BLOB("medium")
   },
   major: {
     type: DataTypes.STRING(20),
-    allowNull: false,
+    allowNull: false
   },
-  grade: {
+  score: {
     type: DataTypes.DOUBLE,
-    allowNull: false,
+    allowNull: false
   },
-  univ_name: {
+  university: {
     type: DataTypes.STRING(20),
-    allowNull: false,
+    allowNull: false
   },
-  activation_status: {
-    type: DataTypes.BOOLEAN,
+  enableMatching: {
+    type: DataTypes.TINYINT,
     allowNull: false,
+    defaultValue: 1
   },
   gender: {
-    type: DataTypes.STRING(2),
-    allowNull: false,
-  },
-  phone_number: {
     type: DataTypes.STRING(20),
-    allowNull: false,
+    allowNull: false
   },
-  desired_amount: {
+  phoneNumber: {
+    type: DataTypes.STRING(20),
+    allowNull: false
+  },
+  desiredAmount: {
     type: DataTypes.STRING(10),
-    allowNull: false,
+    allowNull: false
   },
-  self_intro: {
-    type: DataTypes.TEXT,
+  introduce: {
+    type: DataTypes.TEXT
   },
-  matching_count: {
+  matchingCount: {
     type: DataTypes.INTEGER,
     allowNull: false,
-    defaultValue: 0,
+    defaultValue: 0
   },
-  profile_creation_time: {
+  creationTime: {
     type: DataTypes.DATE,
     allowNull: false,
-    defaultValue: DataTypes.NOW,
+    defaultValue: DataTypes.NOW
   },
-  last_matching_time: {
-    type: DataTypes.DATEONLY,
-    allowNull: false,
+  recentMatchingTime: {
+    type: DataTypes.DATE,
+    allowNull: true
   },
-  birth_year: {
+  yearOfBirth: {
     type: DataTypes.INTEGER,
-    allowNull: false,
-    validate: {
-      min: 1940,
-      max: 2024,
-    },
+    allowNull: false
   },
   sido: {
     type: DataTypes.STRING(20),
-    allowNull: false,
+    allowNull: false
   },
   gu: {
     type: DataTypes.STRING(20),
-    allowNull: false,
+    allowNull: false
   },
-  day: {
+  availableDay: {
     type: DataTypes.STRING(20),
-    allowNull: false,
+    allowNull: false
   },
-  time: {
+  availableTime: {
     type: DataTypes.STRING(20),
-    allowNull: false,
+    allowNull: false
   },
+  account: {
+    type: DataTypes.STRING(50),
+    allowNull: false
+  },
+  scoreCount: {
+    type: DataTypes.INTEGER,
+    allowNull: true
+  },
+  scoreTotal: {
+    type: DataTypes.INTEGER,
+    allowNull: true
+  },
+  universityVerified: {
+    type: DataTypes.TINYINT,
+    allowNull: false,
+    defaultValue: 0
+  }
 }, {
-  tableName: 'studentProfile',
-  timestamps: false,
+  timestamps: false
 });
 
 module.exports = StudentProfile;

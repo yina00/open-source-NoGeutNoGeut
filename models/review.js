@@ -1,44 +1,30 @@
-const { DataTypes } = require('sequelize');
-const sequelize = require('../config/database');
-const Matching = require('./matching');
-const Member = require('./member');
+const { DataTypes } = require("sequelize");
+const sequelize = require("../config/database");
 
-const Review = sequelize.define('Review', {
-  matching_num: {
+const Review = sequelize.define("Review", {
+  matchingNum: {
+    type: DataTypes.INTEGER,
+    primaryKey: true,
+    allowNull: false
+  },
+  reviewSender: {
+    type: DataTypes.BIGINT,
+    allowNull: false
+  },
+  reviewReceiver: {
+    type: DataTypes.BIGINT,
+    primaryKey: true,
+    allowNull: false
+  },
+  reviewContent: {
+    type: DataTypes.STRING(100),
+    allowNull: false
+  },
+  score: {
     type: DataTypes.INTEGER,
     allowNull: false,
-    references: {
-      model: Matching,
-      key: 'matching_num',
-    },
-  },
-  review_writer: {
-    type: DataTypes.BIGINT,
-    allowNull: false,
-    references: {
-      model: Member,
-      key: 'member_num',
-    },
-  },
-  review_receiver: {
-    type: DataTypes.BIGINT,
-    allowNull: false,
-    references: {
-      model: Member,
-      key: 'member_num',
-    },
-  },
-  review_content: {
-    type: DataTypes.STRING(200),
-    allowNull: false,
-  },
-}, {
-  tableName: 'review',
-  timestamps: false,
-  primaryKey: {
-    type: 'primary',
-    fields: ['matching_num', 'review_receiver'],
-  },
+    defaultValue: 0
+  }
 });
 
 module.exports = Review;

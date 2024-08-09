@@ -1,0 +1,78 @@
+"use strict";
+
+const express = require("express"),
+  layouts = require("express-ejs-layouts"),
+  app = express(),
+  router = express.Router(),
+  errorController = require("./controllers/errorController"),
+  categoryController = require("./controllers/categoryController.js"),
+  methodOverride = require("method-override");
+
+
+app.set("port", process.env.PORT || 80);
+app.set("view engine", "ejs");
+
+router.use(
+  methodOverride("_method", {
+    methods: ["POST", "GET"]
+  })
+);
+
+router.use(layouts);
+router.use(express.static("public"));
+
+router.use(
+  express.urlencoded({
+    extended: false
+  })
+);
+router.use(express.json());
+
+router.get("/", homeController.index);
+
+router.get("/users", usersController.index, usersController.indexView);
+router.get("/users/new", usersController.new);
+router.post("/users/create", usersController.create, usersController.redirectView);
+router.get("/users/:id/edit", usersController.edit);
+router.put("/users/:id/update", usersController.update, usersController.redirectView);
+router.get("/users/:id", usersController.show, usersController.showView);
+router.delete("/users/:id/delete", usersController.delete, usersController.redirectView);
+
+router.get("/subscribers", subscribersController.index, subscribersController.indexView);
+router.get("/subscribers/new", subscribersController.new);
+router.post(
+  "/subscribers/create",
+  subscribersController.create,
+  subscribersController.redirectView
+);
+router.get("/subscribers/:id/edit", subscribersController.edit);
+router.put(
+  "/subscribers/:id/update",
+  subscribersController.update,
+  subscribersController.redirectView
+);
+router.get("/subscribers/:id", subscribersController.show, subscribersController.showView);
+router.delete(
+  "/subscribers/:id/delete",
+  subscribersController.delete,
+  subscribersController.redirectView
+);
+
+//카테고리 라우트
+router.get("/category", categoryController.index, categoryController.indexView);
+router.get("/category/new", categoryController.new);
+router.post("/category/create", categoryController.create, categoryController.redirectView);
+router.get("/category/:id/edit", categoryController.edit);
+router.put("/category/:id/update", categoryController.update, categoryController.redirectView);
+router.get("/category/:id", categoryController.show, categoryController.showView);
+router.delete("/category/:id/delete", categoryController.delete, categoryController.redirectView);
+
+//에러핸들링
+router.use(errorController.pageNotFoundError);
+router.use(errorController.internalServerError);
+
+app.use("/", router);
+
+app.listen(app.get("port"), () => {
+  console.log(`Server running at http://localhost:${app.get("port")}`);
+});

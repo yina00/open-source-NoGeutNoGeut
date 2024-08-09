@@ -1,0 +1,95 @@
+/* 전체 페이지 스타일 */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+/* 헤더 스타일 */
+.header__container {
+    background-color: #f0f0f0;
+    padding: 20px;
+}
+
+.header__block {
+    float: right;
+}
+
+.nav__list-item {
+    display: inline-block;
+    margin-right: 20px;
+}
+
+/* 컨테이너 스타일 */
+.report__container {
+    width: 900px;
+    margin: auto;
+    padding: 20px;
+}
+
+.report__content {
+    margin-bottom: 20px;
+}
+
+.report__content p {
+    margin: 10px 0;
+}
+
+.report__form {
+    width: 100%;
+    max-width: 600px;
+    margin: auto;
+}
+
+.form__group {
+    margin-bottom: 20px;
+}
+
+.form__group label {
+    display: block;
+    margin-bottom: 5px;
+}
+
+.form__group input[type="date"],
+.form__group input[type="time"],
+.form__group input[type="text"],
+.form__group textarea,
+.form__group input[type="file"] {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-sizing: border-box;
+}
+
+.form__group textarea {
+    height: 100px;
+}
+
+button {
+    background-color: #007bff;
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+
+/* 커스텀 알림 스타일 */
+.custom-alert {
+    display: none;
+    background-color: rgba(0, 0, 0, 0.5);
+    color: #fff;
+    text-align: center;
+    padding: 20px;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border-radius: 10px;
+}

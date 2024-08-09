@@ -1,0 +1,100 @@
+회원 테이블 member 
+회원번호 memberNum BIGINT NOTNULL PK 
+회원아이디 memberID VARCHAR(20) NOTNULL
+비밀번호 memberPW VARCHAR(20) NOTNULL
+이름 name VARCHAR(20) NOTNULL
+나이 age INT NOTNULL 제약조건 0이상
+프로필생성여부 profileCreationStatus BOOL NOTNULL 기본값FALSE
+
+nn
+학생프로필 테이블 studentProfile
+회원번호 stdNum BIGINT NOTNULL PK FK
+프로필 사진 profileImage MEDIUMBLOB NULL허용
+전공 major VARCHAR(20) NOTNULL 
+평점 score DOUBLE NOTNULL
+대학이름 university VARCHAR(20) NOTNULL
+매칭 활성화 여부 enableMatching BOOLEAN NOTNULL 기본값TRUE
+성별 gender VARCHAR(20) NOTNULL
+전화번호 phoneNumber VARCHAR(20) NOTNULL
+희망금액 desiredAmount VARCHAR(10) NOTNULL
+자기소개 introduce TEXT NULL허용
+매칭횟수 matchingCount INT NOTNULL 기본값0
+프로필생성시간 creationTime DATE NOTNULL 기본값현재시각
+최신매칭시간 recentMatchingTime DATE NOTNULL 기본값매칭할때마다업데이트 
+출생연도 yearOfBirth INT NOTNULL 제약조건 1940-2024사이
+시/도 sido  VARCHAR(20) NOTNULL
+구 gu  VARCHAR(20) NOTNULL
+요일 availableDay  VARCHAR(20) NOTNULL
+시간 availableTime  VARCHAR(20) NOTNULL
+
+채팅방 테이블 chatRoom
+채팅방번호 roomNum INT NOTNULL PK
+학생번호 stdNum BIGINT NOTNULL FK
+보호자번호 protectorNum BIGINT NOTNULL FK
+생성날짜 roomCreationTime DATE NOTNULL
+
+메시지 테이블 message
+발송자번호 senderNum BIGINT NOTNULL PK FK
+수신자번호 receiverNum BIGINT NOTNULL PK FK
+발송날짜 sendDay DATE NOTNULL PK
+확인여부 check BOOLEAN NOTNULL
+메시지 message TEXT NOTNULL
+
+노인프로필 테이블  seniorProfile
+회원번호 seniorNum BIGINT NOTNULL PK FK
+프로필 사진 profileImage MEDIUMBLOB NULL허용
+희망금액 desiredAmount VARCHAR(10) NOTNULL
+매칭 활성화 여부 enableMatching BOOLEAN NOTNULL 기본값 TRUE
+성별 gender VARCHAR(20) NOTNULL
+주의사항 precautions TEXT NULL허용
+자기소개 introduce TEXT NULL허용
+(노인)전화번호 seniorPhoneNumber VARCHAR(20) NOTNULL
+노인 이름 seniorName VARCHAR(10) NOTNULL
+매칭횟수 matchingCount INT NOTNULL 기본값0
+프로필생성시간 creationTime DATE NOTNULL 기본값현재시각
+최신매칭시간 recentMatchingTime DATE NOTNULL 기본값매칭할때마다업데이트 
+출생연도 yearOfBirth INT NOTNULL 제약조건 1940-2024사이
+시/도 sido  VARCHAR(20) NOTNULL
+구 gu  VARCHAR(20) NOTNULL
+요일 availableDay  VARCHAR(20) NOTNULL
+시간 availableTime  VARCHAR(20) NOTNULL
+평점 score DOUBLE NOTNULL
+
+매칭 테이블 matching
+매칭번호 matchingNum INT NOTNULL PK
+약속번호 promiseNum INT NOTNULL  FK
+보고서번호 reportNum INT NULL허용 기본값NULL FK
+입금여부 depositStatus BOOLEAN NOTNULL 기본값 FALSE
+보고서여부 reportStatus BOOLEAN NOTNULL 기본값 FALSE
+
+약속 테이블 promise
+약속번호 promiseNum INT NOTNULL PK
+학생번호 stdNumBIGINT NOTNULL FK
+보호자번호 protectorNum BIGINT NOTNULL FK
+채팅방번호 roomNum INT NOTNULL FK
+생성날짜 promiseCreationDate DATE NOTNULL
+약속날짜 promiseDay DATE NOTNULL
+시작시간 startTime TIME NOTNULL
+종료시간 finishTime TIME NOTNULL
+문자발송여부 textSendingStatus BOOLEAN NOTNULL 기본값FALSE
+
+후기 테이블 review
+매칭번호 matchingNum INT NOTNULL PK FK
+후기작성자 reviewSender  BIGINT NOTNULL FK
+후기수신자 reviewReceiver BIGINT NOTNULL PK FK
+후기내용 reviewContent VARCHAR(20) NOTNULL
+평점 score INT NOTNULL 기본값0 
+
+관심분야 테이블 interestField
+회원번호 memberNum BIGINT NOTNULL PK FK
+관심분야 interestField  VARCHAR(20) NOTNULL PK
+
+보고서 테이블 report
+보고서 번호 reportNum INT NOTNULL PK
+보고서 내용 reportContent TEXT NOTNULL 
+사진1 reportMedia MEDIUMBLOB NOTNULL
+
+찜 테이블 keep
+학생번호 stdNum BIGINT NOTNULL PK FK
+노인회원번호 seniorNum  BIGINT NOTNULL PK FK
+생성시간 keepTime DATETIME NOTNULL 

@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="/css/header.css" type="text/css"/>
+    <link rel="stylesheet" href="/css/youngProfile.css" type="text/css"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="start-date" content="2024-05-10">
+    <title>노긋노긋</title>
+    <script defer src="https://use.fontawesome.com/releases/v5.15.3/js/all.js" integrity="sha384-haqrlim99xjfMxRP6EWtafs0sB1WKcMdynwZleuUSwJR0mDeRYbhtY+KPMr+JL6f" crossorigin="anonymous"></script>
+</head>
+<body style="background-color: #E1EFD7;">
+    <div class="container">
+        <h2>대학생 프로필 등록하기</h2>
+        <div class="form-container">
+            <form id="profileForm" action="/student/create" method="post" enctype="multipart/form-data">
+                <!-- 폼 내용 -->
+                <h3>프로필 사진</h3>
+                <img id="profileImage" src="" onerror="this.src='https://i.ytimg.com/vi/as9gGq8itrk/maxresdefault.jpg'"
+                style="width: 200px; height: 200px; border-radius: 50%; object-fit: cover;">
+                <input type="file" id="chooseFile" name="profileImage" accept="image/*" onchange="loadFile(event)"
+                style="display: none;">
+                <input type="button" value="사진 업로드" onclick="document.getElementById('chooseFile').click();"
+                style="background-color:#F8F8F8; border: 0; width: 90px; height: 30px; border-radius: 10px;">
+                <br><br>
+
+                <h3>이름</h3>
+                <h6>이름을 입력해 주세요.</h6>
+                <input type="text" name="name" class="input-text">
+                <br><br>
+
+                <h3>계좌번호</h3>
+                <h6>한국 123456789 (숫자만 입력해주세요.)</h6>
+                <input type="text" name="account" class="input-text">
+                <br><br>
+
+                <h3>나이</h3>
+                <h6>본인의 출생연도를 선택해 주세요.</h6>
+                <div class="form-group">
+                  <select id="birthYear" name="birthYear" class="age-box">
+                     <option value="">--나이 선택--</option>
+                  </select>
+                </div>
+                <br><br>
+
+                <h3>전화번호</h3>
+                <h6>매칭 약속이 잡혔을 때 일정 문자발송을 위해 필요한 정보입니다. 다른 사람에겐 보이지 않는 정보입니다.</h6>
+                <input type="text" name="phoneNumber" placeholder="예: 01012345678" class="input-text">
+                <br><br>
+
+                <h3>성별</h3>
+                <h6>성별을 선택해 주세요.</h6>
+                <input type="radio" name="gender" id="female" value="female">여성
+                <input type="radio" name="gender" id="male" value="male">남성
+                <br><br>
+
+                <h3>대학명</h3>
+                <h6>재학 혹은 졸업한 대학 이름을 입력해 주세요.</h6>
+                <input type="text" name="university" class="input-text">
+                <br><br>
+
+                <h3>전공</h3>
+                <h6>전공을 입력해 주세요.</h6>
+                <input type="text" name="major" class="input-text">
+                <br><br>
+
+                <h3>지역</h3>
+                <h6>활동 가능한 지역을 선택해 주세요.</h6>
+                <div class="form-group">
+                    <select name="sido" id="sido" class="select-box">
+                     <option value="">--시/도 선택--</option>
+                    </select>
+
+                    <select name="gugun" id="gugun" class="select-box">
+                        <option value="">--구/군 선택--</option>
+                    </select>
+                </div>
+                <br><br>
+
+                <h3>자신있는 분야</h3>
+                <h6>자신있는 분야를 선택해 주세요. (중복 선택 가능)</h6>
+                <input type="checkbox" name="favoField" value="FF_exercise">운동
+                <input type="checkbox" name="favoField" value="FF_craft">수공예
+                <input type="checkbox" name="favoField" value="FF_digital">디지털
+                <input type="checkbox" name="favoField" value="FF_music">음악
+                <input type="checkbox" name="favoField" value="FF_art">미술
+                <input type="checkbox" name="favoField" value="FF_companion">말동무
+                <br><br>
+
+                <h3>희망 금액</h3>
+                <h6>원하시는 금액대를 선택해 주세요.</h6>
+                <input type="radio" name="desiredAmount" value="DA_free">무료
+                <input type="radio" name="desiredAmount" value="DA_1">1만원
+                <input type="radio" name="desiredAmount" value="DA_3">3만원
+                <input type="radio" name="desiredAmount" value="DA_5">5만원
+                <input type="radio" name="desiredAmount" value="DA_disscu">협의
+                <br><br>
+
+                <h3>가능 시간</h3>
+                <h6>가능한 시간대를 선택해 주세요. (중복 선택 불가능, 구체적인 내용은 자기소개에 작성해주세요.)</h6>
+                <h4>요일</h4>
+                <input type="radio" name="ableDay" value="ableDay_1">월
+                <input type="radio" name="ableDay" value="ableDay_2">화
+                <input type="radio" name="ableDay" value="ableDay_3">수
+                <input type="radio" name="ableDay" value="ableDay_4">목
+                <input type="radio" name="ableDay" value="ableDay_5">금
+                <input type="radio" name="ableDay" value="ableDay_6">토
+                <input type="radio" name="ableDay" value="ableDay_7">일
+
+                <h4>시간</h4>
+                <input type="radio" name="ableTime" value="ableTime_morn">오전
+                <input type="radio" name="ableTime" value="ableTime_noon">오후
+                <input type="radio" name="ableTime" value="ableTime_disscu">협의
+                <br><br>
+
+                <h3>자기 소개</h3>
+                <textarea name="selfIntro" class="textarea" placeholder="더 구체적인 본인 소개와 가능 시간을 기재해 주세요."></textarea>
+                <br><br>
+
+                <h4>매칭 활성화 여부</h4>
+                <input type="radio" name="active" id="active">활성화
+                <br><br><br>
+
+                <input type="submit" class="submit-button">
+            </form>
+
+            <script>
+              // 폼 제출 전 확인 스크립트
+              document.getElementById('profileForm').addEventListener('submit', function(event) {
+                const requiredFields = [
+                  'name',
+                  'birthYear',
+                  'phoneNumber',
+                  'gender',
+                  'sido',
+                  'gugun',
+                  'favoField',
+                  'desiredAmount',
+                  'ableDay',
+                  'ableTime',
+                  'selfIntro',
+                  'university',
+                  'major',
+                  'account'
+                ];
+                let valid = true;
+                requiredFields.forEach(field => {
+                  const element = document.querySelector(`[name="${field}"]`);
+                  if (element) {
+                    if (element.type === 'radio' || element.type === 'checkbox') {
+                      if (!document.querySelector(`[name="${field}"]:checked`)) {
+                        valid = false;
+                      }
+                    } else {
+                      if (!element.value) {
+                        valid = false;
+                      }
+                    }
+                  }
+                });
+                if (!valid) {
+                  event.preventDefault();
+                  alert('필수 입력 필드를 모두 입력하세요.');
+                }
+              });
+      
+              const regionData = {
+                "서울특별시": ["강남구", "강동구", "강북구", "강서구", "관악구", "광진구", "구로구", "금천구", "노원구", "도봉구", "동대문구", "동작구", "마포구", "서대문구", "서초구", "성동구", "성북구", "송파구", "양천구", "영등포구", "용산구", "은평구", "종로구", "중구", "중랑구"],
+                // 나머지 지역 데이터 생략
+              };
+              
+              const sidoSelect = document.getElementById('sido');
+              const gugunSelect = document.getElementById('gugun');
+      
+              for (const sido in regionData) {
+                const option = document.createElement('option');
+                option.value = sido;
+                option.text = sido;
+                sidoSelect.appendChild(option);
+              }
+      
+              sidoSelect.addEventListener('change', function () {
+                gugunSelect.innerHTML = '<option value="">선택하세요</option>';
+                const selectedSido = this.value;
+                const gugunList = regionData[selectedSido];
+                if (gugunList) {
+                  gugunList.forEach(function (gugun) {
+                    const option = document.createElement('option');
+                    option.value = gugun;
+                    option.text = gugun;
+                    gugunSelect.appendChild(option);
+                  });
+                }
+              });
+      
+              // 이미지 미리보기 기능
+              function loadFile(event) {
+                const output = document.getElementById('profileImage');
+                output.src = URL.createObjectURL(event.target.files[0]);
+                output.onload = function () {
+                  URL.revokeObjectURL(output.src); // free memory
+                }
+              }
+              
+             document.addEventListener('DOMContentLoaded', function() {
+  const birthYearSelect = document.getElementById('birthYear');
+  const currentYear = new Date().getFullYear();
+  const startYear = 1900; // 시작 연도 (원하는 대로 조정 가능)
+
+  // 출생연도 옵션 추가
+  for (let year = currentYear; year >= startYear; year--) {
+    const option = document.createElement('option');
+    option.value = year;
+    option.text = year;
+    birthYearSelect.appendChild(option);
+  }
+
+  // 이전에 저장된 출생연도가 있는 경우, 선택된 값으로 설정
+  const savedAge = localStorage.getItem('signupAge');
+  if (savedAge) {
+    birthYearSelect.value = savedAge;
+  }
+
+  birthYearSelect.addEventListener('change', function() {
+    const selectedYear = this.value;
+    if (selectedYear) {
+      localStorage.setItem('signupAge', selectedYear);
+    }
+  });
+
+  document.getElementById('profileForm').addEventListener('submit', function(event) {
+    const selectedBirthYear = birthYearSelect.value;
+    if (savedAge && selectedBirthYear !== savedAge) {
+      event.preventDefault();
+      alert('출생연도가 입력한 값과 선택한 값이 다릅니다. 확인해 주세요.');
+    }
+  });
+});
+
+            </script>
+        </div>
+    </div>
+
+    <footer class="footer__container">
+      <section class="pages__container">
+        <a href="#">이용약관</a>
+        <a href="#">개인정보처리방침</a>
+        <a href="#">커뮤니티이용규칙</a>
+        <a href="#">문의하기</a>
+      </section>
+    </footer>
+
+</body>
+</html>

@@ -1,40 +1,36 @@
-const { DataTypes } = require('sequelize');
-const sequelize = require('../config/database');
-const StudentProfile = require('./studentProfile');
+const { Model, DataTypes } = require("sequelize");
+const sequelize = require("../config/database");
 
-const ChatRoom = sequelize.define('ChatRoom', {
-  chat_room_num: {
-    type: DataTypes.INTEGER,
+class ChatRoom extends Model {}
+
+ChatRoom.init({
+  roomNum: {
+    type: DataTypes.BIGINT,
     primaryKey: true,
-    allowNull: false,
+    autoIncrement: true,
+    allowNull: false
   },
-  student_num: {
+  roomName: {
+    type: DataTypes.STRING(50),
+    allowNull: true
+  },
+  stdNum: {
     type: DataTypes.BIGINT,
-    allowNull: false,
-    references: {
-      model: StudentProfile,
-      key: 'member_num',
-    },
+    allowNull: false
   },
-  guardian_num: {
+  protectorNum: {
     type: DataTypes.BIGINT,
-    allowNull: false,
-    references: {
-      model: StudentProfile,
-      key: 'member_num',
-    },
+    allowNull: false
   },
-  create_date: {
-    type: DataTypes.DATEONLY,
+  roomCreationTime: {
+    type: DataTypes.DATE,
     allowNull: false,
-  },
-  last_message: {
-    type: DataTypes.STRING(20),
-    allowNull: false,
-  },
+    defaultValue: DataTypes.NOW
+  }
 }, {
-  tableName: 'chatRoom',
-  timestamps: false,
+  sequelize,
+  modelName: 'ChatRoom',
+  timestamps: false
 });
 
 module.exports = ChatRoom;

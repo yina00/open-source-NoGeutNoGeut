@@ -1,45 +1,46 @@
-const { DataTypes } = require('sequelize');
-const sequelize = require('../config/database');
-const Member = require('./member');
-const Post = require('./post');
+//comment.js
+const { Sequelize, DataTypes } = require("sequelize");
+const sequelize = require("../config/database");
+const Member = require("./member");
+const Post = require("./post");
 
-const Comment = sequelize.define('Comment', {
-  post_num: {
+const Comment = sequelize.define("Comment", {
+  commentID: {
+    type: DataTypes.INTEGER,
+    primaryKey: true,
+    autoIncrement: true
+  },
+  postID: {
     type: DataTypes.INTEGER,
     allowNull: false,
     references: {
       model: Post,
-      key: 'post_num',
-    },
+      key: 'postID'
+    }
   },
-  commentID: {
-    type: DataTypes.INTEGER,
-    primaryKey: true,
-    allowNull: false,
-  },
-  writing_time: {
+  createdAt: {
     type: DataTypes.DATE,
     allowNull: false,
+    defaultValue: DataTypes.NOW
   },
-  affiliation_comment_num: {
-    type: DataTypes.BIGINT,
-    allowNull: false,
+  parentCommentID: {
+    type: DataTypes.INTEGER,
+    allowNull: true
   },
-  member_num: {
+  memberNum: {
     type: DataTypes.BIGINT,
     allowNull: false,
     references: {
       model: Member,
-      key: 'member_num',
-    },
+      key: 'memberNum'
+    }
   },
-  comment_content: {
-    type: DataTypes.STRING(20),
-    allowNull: false,
-  },
+  content: {
+    type: DataTypes.STRING(255),
+    allowNull: false
+  }
 }, {
-  tableName: 'comment',
-  timestamps: false,
+  timestamps: false
 });
 
 module.exports = Comment;

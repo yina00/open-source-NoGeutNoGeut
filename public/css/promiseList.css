@@ -1,0 +1,63 @@
+.promise__list_start_page-container {
+    width: 700px;
+    height: 820px;
+    margin: auto;
+    background-color: white;
+    padding: 2%;
+}
+
+.promise__list-container {
+    width: 700px;
+    height: auto;
+    margin: auto;
+    background-color: white;
+    padding: 2%;
+}
+
+.prmoise-title {
+    color: #2D6210;
+    margin-top: 0;
+}
+
+.promise-item {
+    padding-left: 10px;
+    padding-right: 10px;
+    background-color: white;
+    border: 2px solid #E1EFD7;
+    height: 90px;
+    margin-top: 20px;
+    cursor: pointer;
+    /* Optional: makes it clear that the item is clickable */
+}
+
+.promise-item:hover {
+    background-color: #E1EFD7;
+}
+
+.names-container {
+    display: flex;
+    justify-content: space-between;
+}
+
+.div1{
+    padding-left: 5px;
+}
+.div2 {
+    padding-left: 5px;
+}
+.names-container span {
+    flex: 1;
+    padding: 5px;
+}
+
+.student-name {
+    text-align: left;
+}
+
+.protector-name {
+    text-align: center;
+}
+
+.senior-name {
+    text-align: right;
+}
