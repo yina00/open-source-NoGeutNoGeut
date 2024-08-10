@@ -1,0 +1,163 @@
+@import url("https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700&display=swap");
+
+/* Reset CSS */
+* {
+  box-sizing: border-box;
+}
+
+ul,
+ol,
+li {
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+
+input,
+form,
+button {
+  padding: 0;
+  margin: 0;
+  border: none;
+  font-family: "Noto Sans KR", sans-serif;
+  background-color: transparent;
+}
+
+a {
+  color: #000;
+  text-decoration: none;
+  font-family: "Noto Sans KR", sans-serif;
+}
+
+/* Root CSS */
+:root {
+  --color-black-basic: #000000;
+  --color-black-bg: #131313;
+  --color-light-black: #444444;
+  --color-white-basic: #ffffff;
+  --color-light-grey: rgba(247, 247, 247, 1);
+  --color-deep-grey: #F2F2F2;
+  --color-green: #E1EFD7;
+  --color-deepgreen: #2D6210;
+
+  --space-basic: 24px;
+
+  --font-xsmall: 12px;
+  --font-small: 14px;
+  --font-regular: 20px;
+  --font-medium: 24px;
+  --font-large: 34px;
+
+  --weight-bold: 700;
+}
+
+body{
+    background-color: var(--color-deep-grey);
+    margin: 0;
+    font-family: "Noto Sans KR", sans-serif;
+}
+
+.main-title {
+    display: none;
+  }
+
+
+/* Header CSS */
+.header__container {
+  width: 100%;
+  position: sticky;
+  top: 0;
+  z-index: 10000;
+  background-color: var(--color-deep-grey);
+}
+
+.header__block {
+  display: flex;
+  align-items: center;
+  max-width: 1440px;
+  min-width: 960px;
+  margin: 0 auto;
+  padding-left: 73%;
+}
+
+.header__block > a {
+  display: inline-block;
+  height: 40px;
+  line-height: 40px;
+  margin-right: var(--space-basic);
+  font-size: var(--font-xsmall);
+  padding: 0 10px;
+}
+
+
+/* Header > nav */
+.header_nav-main-block {
+    width: 100%;
+    background-color: red;
+}
+
+.header__nav-block {
+    display: flex;
+    justify-content: center; 
+    background-color: var(--color-white-basic);
+}
+
+.nav__list {
+    display: flex;
+    align-items: center; 
+    padding: 0;
+}
+
+
+.nav__list-item {
+    margin: 0 15px;
+    font-size: var(--font-small);
+    font-weight: var(--weight-bold);
+}
+
+
+.nav__list-item:last-of-type {
+    margin-right: 15px;
+}
+
+
+/* Footer CSS */
+.footer__container {
+  width: 100%;
+  background-color: var(--color-light-grey);
+}
+
+.pages__container {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  width: 100%;
+  height: 50px;
+  justify-content: center;
+  max-width: 1440px;
+  padding: 0 var(--space-basic);
+  margin: 0 auto;
+}
+
+.pages__container > a {
+  margin-right: var(--space-basic);
+  font-size: var(--font-xsmall);
+}
+
+.side__nav-container {
+  background-color: #E1EFD7;
+  display: flex;
+  justify-content: center;
+  margin-bottom: 0;
+  height: 30px;
+}
+
+.side__nav__list-item {
+  margin: 0 20px;
+  font-size: var(--font-small);
+  font-weight: var(--weight-bold);
+}
+
+.side__nav__list-item a:hover {
+  color: #2D6210;
+}

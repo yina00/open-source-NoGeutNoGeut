@@ -1,0 +1,86 @@
+<!-- views/chat.ejs -->
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>노긋노긋</title>
+    <link rel="stylesheet" href="/css/chat.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <script defer src="/js/chat.js"></script>
+    <script defer src="https://use.fontawesome.com/releases/v5.15.3/js/all.js"
+          integrity="sha384-haqrlim99xjfMxRP6EWtafs0sB1WKcMdynwZleuUSwJR0mDeRYbhtY+KPMr+JL6f"
+          crossorigin="anonymous"></script>
+</head>
+<body>
+<header class="header__container">
+    <h1 class="main-title">코밋메인홈</h1>
+    <div class="header__block">
+        <a href="#"> 마이페이지 </a>
+        <a href="#"> 로그인 </a>
+    </div>
+    <div class="header_nav-main-block">
+        <nav class="header__nav-block">
+            <ul class="nav__list" role="navigation">
+                <li class="nav__list-item">
+                    <a href="/main" aria-label="노긋노긋 홈페이지">
+                        <img src="./logo.png" width=50px alt="로고">
+                    </a>
+                </li>
+                <li class="nav__list-item">
+                    <a href="#"> 매칭하기 </a>
+                </li>
+                <li class="nav__list-item">
+                    <a href="#"> 채팅 </a>
+                </li>
+                <li class="nav__list-item">
+                    <a href="#"> 보고서작성 </a>
+                </li>
+                <li class="nav__list-item">
+                    <a href="#" onclick="checkReportBeforeReview(event, '/review-page-url')">후기 작성</a>
+                </li>
+                <li class="nav__list-item">
+                    <a href="#"> 보고서확인 </a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+</header>
+<main>
+    <div style="display: flex; width: 1000px; height: 850px; margin: auto; background-color: white;">
+        <div style="width: 300px; border-right: 1px solid #ddd; overflow-y: auto; padding: 10px;">
+            <h2 style="color: #2D6210; margin-top: 20px; margin-bottom: 30px;">채팅방</h2>
+            <div style="background-color: #E1EFD7; height: 20px;"></div>
+            <ul>
+                <!-- 채팅방 항목 목록 -->
+                <!-- 동적 채팅방 목록 -->
+            </ul>
+        </div>
+        <div style="flex-grow: 1; display: flex; flex-direction: column;">
+            <div style="display: flex; justify-content: space-between; background-color: #E1EFD7; border-bottom: 1px solid #E1EFD7; padding: 17px;">
+                <span id="chat-room-title" style="font-size: 20px; font-weight: bold; padding-left: 20px; color: #2D6210;">채팅방 선택</span>
+                <span style="font-size: 20px; color: #2D6210; font-weight: bold;">...</span>
+            </div>
+            <div id="chat-messages" style="flex-grow: 1; padding: 10px; overflow-y: auto;"></div>
+            <div style="display: flex; padding: 10px; border-top: 1px solid #E1EFD7;">
+                <input type="text" id="chat-input" placeholder="메시지 입력" style="flex-grow: 1; padding: 10px; border: 1px solid #E1EFD7; border-radius: 5px;">
+                <button onclick="sendMessage()" style="padding: 10px; margin-left: 10px; border: none; background-color: #2D6210; color: white; border-radius: 5px; cursor: pointer;">전송</button>
+            </div>
+            <input type="hidden" id="chat-user-id" value="<%= currentUser.id %>">
+            <input type="hidden" id="chat-user-name" value="<%= currentUser.username %>">
+            <input type="hidden" id="chat-room-id" value="<%= roomId %>">
+        </div>
+    </div>
+</main>
+<script src="/js/chat.js"></script>
+<footer class="footer__container">
+    <section class="pages__container">
+        <a href="#">이용약관</a>
+        <a href="#">개인정보처리방침</a>
+        <a href="#">커뮤니티이용규칙</a>
+        <a href="#">문의하기</a>
+    </section>
+</footer>
+</body>
+</html>

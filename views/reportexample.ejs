@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <title>보고서 작성</title>
+    <link href="/css/report.css?v=1.0" rel="stylesheet" type="text/css">
+</head>
+
+<body>
+    <header class="header__container">
+        <h1 class="main-title">노긋메인홈</h1>
+        <div class="header__block">
+            <a href="#"> 마이페이지 </a>
+            <a href="#"> 로그인 </a>
+        </div>
+        <nav class="header__nav-block">
+            <ul class="nav__list" role="navigation">
+                <li class="nav__list-item">
+                    <a href="#" aria-label="노긋노긋 홈페이지">
+                        <img src="/images/logo.png" width="50px" alt="로고">
+                    </a>
+                </li>
+                <li class="nav__list-item"><a href="#"> 매칭하기 </a></li>
+                <li class="nav__list-item"><a href="#"> 채팅 </a></li>
+                <li class="nav__list-item"><a href="#"> 보고서작성 </a></li>
+                <li class="nav__list-item"><a href="#"> 후기작성 </a></li>
+                <li class="nav__list-item"><a href="#"> 보고서확인 </a></li>
+            </ul>
+        </nav>
+        <div class="side__nav-container">
+            <ul class="nav__list" role="navigation">
+                <li class="nav__review__list-item">
+                    <a href="/reportexample"> 예시 </a>
+                </li>
+                <li class="nav__review__list-item">
+                    <a href="/reportList">보고서 목록</a>
+                </li>
+            </ul>
+        </div>
+        <div id="container" style="width: 900px; margin: auto;">
+        <div id="container1" style="background-color: white; width: 900px;">
+            <!-- 예시 내용 추가 -->
+           <div style="text-align: center;">
+                <h2>보고서 작성 예시</h2>
+            </div>
+            
+            <ol>
+                <li>&nbsp;&nbsp;&nbsp;  1.보고서는 활동 후 3일 이내에 작성해야 합니다.</li>
+                <li>&nbsp;&nbsp;&nbsp;  2.활동 내용은 진행한 수업에 대한 간단한 내용을 포함해야 합니다.</li>
+                <li>&nbsp;&nbsp;&nbsp;  3.자세하게 작성할 필요는 없으나 당일 수업에서 무엇을 했는지 알 수 있을 정도로 작성하세요.</li>
+            </ol>
+            <!-- 날짜와 시간 입력란 -->
+            <div id="date" style="margin-left: 30px;">
+                    날짜 <input type="text" name="promiseDate" value="2023-03-03" required>
+                    시간 <input type="text" name="startTime" value="15:00" required>
+                </div>
+                <!-- 이름 입력란 -->
+                <div id="name" style="margin-left: 30px;">
+                    학생 이름 <input type="text" name="stdNum" value="강수정" required>
+                    노인 이름 <input type="text" name="seniorNum" value="강노인" required>
+                    보호자 이름 <input type="text" name="protectorNum" value="보호자 " required>
+                </div>
+            <!-- 활동 내용 입력란 -->
+            <div id="contents" style="margin-left: 30px;">
+                <label for="reportContent">활동 내용:</label><br>
+                <textarea id="reportContent" name="reportContent" rows="4" cols="50" readonly>안녕하세요 반갑습니다.</textarea><br>
+            </div>
+                           <!-- 사진 업로드 -->
+            <div id="text"style="margin-left:30px;">사진</div>
+            <div class="image-container"style="width:700px ;height:300px; text-align: center;margin-left:30px ;">
+                <div id="picture">
+                    <img src="/images/mainhome.jpeg"style="width:300px; height=300px;margin-top:15px">
+                </div>
+            </div>
+            <!-- 제출 버튼 -->
+            <div class="button">
+                 <button onclick="submitReport()">확인</button>
+            </div>
+            
+        </div>
+    </div>
+
+    <footer class="footer__container">
+        <section class="pages__container">
+            <a href="#">이용약관</a>
+            <a href="#">개인정보처리방침</a>
+            <a href="#">커뮤니티이용규칙</a>
+            <a href="#">문의하기</a>
+        </section>
+    </footer>
+</body>
+
+</html>
