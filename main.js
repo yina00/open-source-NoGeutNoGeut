@@ -143,15 +143,16 @@ app.get("/login", loginController.login);
 app.post("/login", loginController.postLogin);
 app.get("/main", mainController.mainRender);
 app.get('/logout', loginController.logout);
-app.get("/Detail", detailedController.myDetail);
+//app.get("/Detail", detailedController.myDetail); //구버전 마이 페이지
+app.get("/Detail", detailedController.myPage); //새로운 마이 페이지 추가
 app.get("/Detail/profile", detailedController.detail);
 app.get("/Detail/Senior", detailedController.oldDetail);
-app.use('/senior', seniorProfileRoutes); //시니어 프로필 라우터 추가
+app.use('/senior', seniorProfileRoutes);
 app.use('/Creation', creationRoutes);
 app.get("/modified", modifiedController.modified);
 //app.get("/Update/Senior", oldProfileController.modifiedSeniorProfile);
 app.post("/Update/Senior", upload.single('profileImage'), oldProfileController.updateSeniorProfile);
-app.use("/student", studentProfileRoutes); // 68 수정
+app.use("/student", studentProfileRoutes);
 app.post("/edit/student", upload.single('profileImage'), youngProfileController.updateStudentProfile);
 app.get("/reportexample", (req, res) => {
     res.render("reportexample");
