@@ -1,24 +1,26 @@
 //comment.js
-const { Sequelize, DataTypes } = require("sequelize");
-const sequelize = require("../config/database");
-const Member = require("./member");
-const Post = require("./post");
+const { DataTypes } = require('sequelize');
+const sequelize = require('../config/database');
+const Post = require('./post');
+const Member = require('./member');
 
-const Comment = sequelize.define("Comment", {
+const Comment = sequelize.define('Comment', {
   commentID: {
     type: DataTypes.INTEGER,
     primaryKey: true,
-    autoIncrement: true
+    autoIncrement: true,
+    allowNull: false
   },
   postID: {
     type: DataTypes.INTEGER,
-    allowNull: false,
     references: {
       model: Post,
       key: 'postID'
-    }
+    },
+    allowNull: false,
+    onDelete: 'CASCADE'
   },
-  createdAt: {
+  commentTime: {
     type: DataTypes.DATE,
     allowNull: false,
     defaultValue: DataTypes.NOW
@@ -29,18 +31,26 @@ const Comment = sequelize.define("Comment", {
   },
   memberNum: {
     type: DataTypes.BIGINT,
-    allowNull: false,
     references: {
       model: Member,
       key: 'memberNum'
-    }
+    },
+    allowNull: false,
+    onDelete: 'CASCADE'
   },
   content: {
-    type: DataTypes.STRING(255),
+    type: DataTypes.STRING,
     allowNull: false
   }
 }, {
-  timestamps: false
+  timestamps: false,
+  tableName: 'Comments'
 });
+
+Post.hasMany(Comment, { foreignKey: 'postID' });
+Comment.belongsTo(Post, { foreignKey: 'postID' });
+
+Member.hasMany(Comment, { foreignKey: 'memberNum' });
+Comment.belongsTo(Member, { foreignKey: 'memberNum' });
 
 module.exports = Comment;

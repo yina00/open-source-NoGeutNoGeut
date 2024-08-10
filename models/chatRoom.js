@@ -1,3 +1,4 @@
+// chatRoom.js
 const { Model, DataTypes } = require("sequelize");
 const sequelize = require("../config/database");
 
@@ -26,6 +27,18 @@ ChatRoom.init({
     type: DataTypes.DATE,
     allowNull: false,
     defaultValue: DataTypes.NOW
+  },
+  lastMessageContent: {
+    type: DataTypes.TEXT,
+    allowNull: true
+  },
+  lastMessageTime: {
+    type: DataTypes.DATE,
+    allowNull: true
+  },
+  lastMessageID: {
+    type: DataTypes.BIGINT,
+    allowNull: true
   }
 }, {
   sequelize,
