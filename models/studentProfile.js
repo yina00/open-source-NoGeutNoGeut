@@ -92,7 +92,8 @@ const StudentProfile = sequelize.define("StudentProfile", {
   scoreTotal: {
     type: DataTypes.INTEGER,
     allowNull: true
-  },
+  }
+  /*
   universityVerified: {
     type: DataTypes.TINYINT,
     allowNull: false,
@@ -100,6 +101,7 @@ const StudentProfile = sequelize.define("StudentProfile", {
   }
 }, {
   timestamps: false
+}*/
 });
 
 module.exports = StudentProfile;
