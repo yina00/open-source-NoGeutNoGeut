@@ -1,74 +1,92 @@
+//youngProfileController.js
 const StudentProfile = require('../models/studentProfile');
 const Member = require('../models/member');
+const Sequelize = require('sequelize');
 const InterestField = require("../models/interestField");
 const fs = require('fs').promises;
 const Review = require("../models/review");
 
-// Fetch user data
+
 async function fetchData(userID) {
     try {
-        return await Member.findOne({ where: { memberNum: userID } });
+        const users = await Member.findOne({ where: { memberNum: userID } });
+        return users;
     } catch (error) {
-        console.error("Error fetching member data:", error);
+        console.error(error);
         throw error;
     }
 }
 
-// Fetch student profile data
-async function fetchStudentProfile(userID) {
+async function fetchData3(userID) {
     try {
-        return await StudentProfile.findOne({ where: { stdNum: userID } });
+        const student = await StudentProfile.findOne({ where: { stdNum: userID } });
+        return student;
     } catch (error) {
-        console.error("Error fetching student profile:", error);
+        console.error(error);
         throw error;
     }
 }
 
-// Fetch interest field data
-async function fetchInterestFieldData(userID) {
+async function interestFieldData(userID) {
     try {
-        return await InterestField.findAll({ where: { memberNum: userID } });
+        const interests = await InterestField.findAll({ where: { memberNum: userID } });
+        if (interests.length > 0) {
+            console.log(interests);
+            console.log("등록된 관심 분야가 있습니다.");
+        } else {
+            console.log("등록된 관심 분야가 없습니다.");
+        }
+        return interests;
     } catch (error) {
-        console.error("Error fetching interest fields:", error);
+        console.error(error);
         throw error;
     }
 }
 
-// Fetch review data
-async function fetchReviewData(memberNum) {
+async function reviewData(memberNum) {
     try {
-        return await Review.findAll({ where: { reviewReceiver: memberNum } });
+        const review = await Review.findAll({ where: { reviewReceiver: memberNum } });
+        if (review.length > 0) {
+            console.log("등록된 후기가 있습니다.");
+        } else {
+            console.log("등록된 후기가 없습니다.");
+        }
+        return review;
     } catch (error) {
-        console.error("Error fetching reviews:", error);
+        console.error(error);
         throw error;
     }
 }
 
-// Calculate Korean age by year
 function calculateKoreanAgeByYear(birthYear) {
     const currentYear = new Date().getFullYear();
-    return currentYear - birthYear + 1; // 한국 나이는 출생 연도에 1을 더함
+    return currentYear - birthYear;
 }
 
-// Render profile creation page
 exports.createYoungProfile = (req, res) => {
+    //const user = fetchData(req.session.userID);
     const user = req.session.user;
-    const age = calculateKoreanAgeByYear(user.birthYear); // 세션에서 출생연도를 기반으로 나이 계산
-    res.render("CreateProfile_young.ejs", { user, age });
+    res.render("CreateProfile_young.ejs",  { user: user});
 };
 
-// Handle profile creation post request
 exports.postcreateYoungProfile = (req, res) => {
     console.log(req.body);
     res.send("프로필이 성공적으로 생성되었습니다.");
 };
 
-// Create student profile
+/*
+exports.detailedYoungdProfile = (req, res) => {
+    const user = fetchData(req.session.userID);
+    res.render("DetaileProfile_young",  {user: user});
+};
+*/
+
 exports.createStudentProfile = async (req, res) => {
     try {
         const {
+            //name : StudentProfile 테이블에 없는 속성입니다.
             account,
-            birthYear,    // 출생연도
+            birthYear,
             phoneNumber,
             gender,
             university,
@@ -82,14 +100,15 @@ exports.createStudentProfile = async (req, res) => {
             selfIntro,
             active
         } = req.body;
-        if (!account) {
-            throw new Error('Account is required.');
-        }
 
-        const formattedSelfIntro = selfIntro.replace(/\r\n/g, "<br>");
+        const formatSelfIntro = selfIntro.replace(/\r\n/g, "<br>");
+
+        console.log("req.file 생성");
+        console.log(req.file);
         const profileImagePath = req.file ? req.file.path : null;
         let profileImage = null;
 
+        //이미지 파일을 읽어 BLOB 데이터로 변환합니다.
         if (profileImagePath) {
             profileImage = await fs.readFile(profileImagePath);
         }
@@ -105,14 +124,13 @@ exports.createStudentProfile = async (req, res) => {
             'ableDay_6': '토',
             'ableDay_7': '일'
         };
-
         const ableTimeMapping = {
             'ableTime_noon': '오후',
             'ableTime_morn': '오전',
             'ableTime_disscu': '협의'
         };
 
-        const desireMapping = {
+        const DesireMapping = {
             'DA_1': '1만원',
             'DA_3': '3만원',
             'DA_5': '5만원',
@@ -120,32 +138,32 @@ exports.createStudentProfile = async (req, res) => {
             'DA_disscu': '협의'
         };
 
-        const yearOfBirth = parseInt(birthYear, 10);
-        const age = calculateKoreanAgeByYear(yearOfBirth);  // 출생연도로 나이 계산
-
-        await StudentProfile.create({
+        const studentProfile = await StudentProfile.create({
             stdNum: req.session.user.memberNum,
             profileImage: profileImage,
+            //studentName: name,
             account: account,
-            yearOfBirth: yearOfBirth,
+            yearOfBirth: birthYear,
             phoneNumber: phoneNumber,
-            gender: gender === 'male' ? '남성' : '여성',
+            gender: gender === 'male'? '남성' : '여성',
             university: university,
             major: major,
             sido: sido,
             gu: gugun,
-            desiredAmount: desireMapping[desiredAmount],
+            desiredAmount: DesireMapping[desiredAmount],
             availableDay: ableDayMapping[ableDayString],
             availableTime: ableTimeMapping[ableTime],
-            introduce: formattedSelfIntro,
+            introduce: selfIntro,
             enableMatching: active === '활성화',
             matchingCount: 0,
             score: 0,
             creationTime: new Date(),
+            recentMatchingTime: null,
             recentMatchingTime: null
         });
 
         const favoFields = Array.isArray(favoField) ? favoField : [favoField];
+        
         const fieldMappings = {
             'FF_exercise': '운동',
             'FF_craft': '수공예',
@@ -159,7 +177,7 @@ exports.createStudentProfile = async (req, res) => {
             const mappedField = fieldMappings[field];
             if (mappedField) {
                 await InterestField.create({
-                    memberNum: req.session.user.memberNum,
+                    memberNum: req.session.userID,
                     interestField: mappedField
                 });
             }
@@ -167,37 +185,40 @@ exports.createStudentProfile = async (req, res) => {
 
         await Member.update({ profileCreationStatus: true }, { where: { memberNum: req.session.user.memberNum } });
         res.redirect('/main');
-
+           
     } catch (error) {
-        console.error("Error creating student profile:", error);
+        console.error("Error creating Student profile:", error);
         res.status(500).send("프로필을 생성하는 중에 오류가 발생했습니다.");
     }
 };
 
-// Render modified profile page
+
 exports.modifiedStudentProfile = async (req, res) => {
     try {
         const user = req.session.user;
-        const student = await fetchStudentProfile(req.session.user.memberNum);
+        const student = await fetchData3(req.session.userID);
 
         if (student) {
-            const age = calculateKoreanAgeByYear(student.yearOfBirth);  // 기존 프로필의 출생연도를 사용해 나이 계산
-            const interestField = await fetchInterestFieldData(student.stdNum);
-            const review = await fetchReviewData(student.stdNum);
-            const encodedImageBase64String = student.profileImage ? Buffer.from(student.profileImage).toString('base64') : null;
+            console.log(student.introduce);
+            const year = await calculateKoreanAgeByYear(student.yearOfBirth);
+            console.log(year);
+            const interestField = await interestFieldData(student.stdNum);
+            console.log(interestField);
 
-            res.render('modifiedProfile_young', { student, age, encodedImageBase64String, interests: interestField, review, user });
-        } else {
-            res.status(404).send("학생 프로필을 찾을 수 없습니다.");
+            const review = await reviewData(student.stdNum);
+            console.log(review);
+            const encodedImageBase64String = Buffer.from(student.profileImage).toString('base64');
+            res.render('modifiedProfile_young', { student, age: year, encodedImageBase64String: encodedImageBase64String, interests: interestField, review: review, user: user });
         }
+        console.log("학생 프로필 수정 페이지를 불러옵니다.")
 
     } catch (error) {
-        console.error("Error loading modified profile page:", error);
+        console.error("Error loading modified Profile Page:", error);
         res.status(500).send("프로필 수정 페이지를 불러오는 중에 오류가 발생했습니다.");
     }
 };
 
-// Update student profile
+// XXX
 exports.updateStudentProfile = async (req, res) => {
     const {
         gender,
@@ -213,66 +234,149 @@ exports.updateStudentProfile = async (req, res) => {
         ableTime,
         selfIntro,
     } = req.body;
+    console.log(req.body);
 
-    const userId = req.session.user.memberNum;
+    const userId = req.session.userID;
+    
     const profileImagePath = req.file ? req.file.path : null;
+    if (req.file) {
+        const profileImage = await fs.readFile(req.file.path);
+        await StudentProfile.update(
+            { profileImage: profileImage },
+            {
+                where: {
+                    stdNum: userId,
+                },
+            },
+        );
+        console.log("이미지가 있습니다.");
+    } else {
+        console.log("이미지 경로가 없습니다");
+    }
+
+    if (profileImagePath) {
+        profileImage = await fs.readFile(profileImagePath);
+    }
+
+    const ableDayMapping = {
+        'ableDay_1': '월',
+        'ableDay_2': '화',
+        'ableDay_3': '수',
+        'ableDay_4': '목',
+        'ableDay_5': '금',
+        'ableDay_6': '토',
+        'ableDay_7': '일'
+    };
+    const ableTimeMapping = {
+        'ableTime_noon': '오후',
+        'ableTime_morn': '오전',
+        'ableTime_disscu': '협의'
+    };
+
+    const DesireMapping = {
+        'DA_1': '1만원',
+        'DA_3': '3만원',
+        'DA_5': '5만원',
+        'DA_free': '무료',
+        'DA_disscu': '협의'
+    };
 
     try {
-        const updates = {};
-
-        // 프로필 이미지 업데이트
-        if (profileImagePath) {
-            const profileImage = await fs.readFile(profileImagePath);
-            updates.profileImage = profileImage;
-        }
-
-        // 데이터 매핑
-        const ableDayMapping = {
-            'ableDay_1': '월',
-            'ableDay_2': '화',
-            'ableDay_3': '수',
-            'ableDay_4': '목',
-            'ableDay_5': '금',
-            'ableDay_6': '토',
-            'ableDay_7': '일'
-        };
-        const ableTimeMapping = {
-            'ableTime_noon': '오후',
-            'ableTime_morn': '오전',
-            'ableTime_disscu': '협의'
-        };
-        const desireMapping = {
-            'DA_1': '1만원',
-            'DA_3': '3만원',
-            'DA_5': '5만원',
-            'DA_free': '무료',
-            'DA_disscu': '협의'
-        };
-
-        // 프로필 정보 업데이트
+        //const userId = req.session.userID;
+;
         await StudentProfile.update(
+            { desiredAmount: DesireMapping[desiredAmount] },
             {
-                ...updates,
-                desiredAmount: desireMapping[desiredAmount],
-                introduce: selfIntro.replace(/\r\n/g, "<br>"),
-                gender: gender === 'male' ? '남성' : '여성',
-                university: university,
-                major: major,
-                account: account,
-                sido: sido,
-                gu: gugun,
-                availableDay: ableDayMapping[ableDay] || null,
-                availableTime: ableTimeMapping[ableTime] || null,
-                phoneNumber: phoneNumber
+                where: {
+                    stdNum: userId,
+                },
             },
-            { where: { stdNum: userId } }
         );
-
-        // 관심 분야 업데이트
+        await StudentProfile.update(
+            { introduce: selfIntro },
+            {
+                where: {
+                    stdNum: userId,
+                },
+            },
+        );
+        await StudentProfile.update(
+            { gender: gender === 'male' ? '남성' : '여성' },
+            {
+                where: {
+                    stdNum: userId,
+                },
+            },
+        );
+        await StudentProfile.update(
+            { university: university },
+            {
+                where: {
+                    stdNum: userId,
+                },
+            },
+        );
+        await StudentProfile.update(
+            { major: major },
+            {
+                where: {
+                    stdNum: userId,
+                },
+            },
+        );
+        await StudentProfile.update(
+            { account: account },
+            {
+                where: {
+                    stdNum: userId,
+                },
+            },
+        );
+        await StudentProfile.update(
+            { sido: sido },
+            {
+                where: {
+                    stdNum: userId,
+                },
+            },
+        );
+        await StudentProfile.update(
+            { gu: gugun },
+            {
+                where: {
+                    stdNum: userId,
+                },
+            },
+        );
+        await StudentProfile.update(
+            { availableDay: ableDayMapping[ableDay] },
+            {
+                where: {
+                    stdNum: userId,
+                },
+            },
+        );
+        await StudentProfile.update(
+            { availableTime: ableTime },
+            {
+                where: {
+                    stdNum: userId,
+                },
+            },
+        );
+        await StudentProfile.update(
+            { phoneNumber: phoneNumber },
+            {
+                where: {
+                    stdNum: userId,
+                },
+            },
+        );
         await InterestField.destroy({
-            where: { memberNum: userId }
+            where: {
+                memberNum: userId,
+            },
         });
-
         const fieldMappings = {
             'FF_exercise': '운동',
             'FF_craft': '수공예',
@@ -297,6 +401,6 @@ exports.updateStudentProfile = async (req, res) => {
 
     } catch (error) {
         console.error("Error updating profile:", error);
-        res.status(500).json({ error: "프로필 업데이트 중 오류가 발생했습니다." });
+        res.status(500).json({ error: "An error occurred while updating the profile" });
     }
 };
