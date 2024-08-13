@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html>
     <head>
@@ -81,10 +82,13 @@
                     <p style="text-align: center;">탈퇴 시<br> 개인 정보 및 서비스 이용 기록이 <br> 영구적으로 삭제됩니다. </p>
                     <p style="margin-top: -10px; text-align: center; font-weight: bold;"> 탈퇴하시겠습니까?</p>
                     <div style="display: flex; gap: 10px; margin-top: 10px;">
-                      <button type="button" id="delete_btn"
-                              style="border: none; width: 100px; height: 35px; border-radius: 10px; color: black; background-color: #E1EFD7; font-size: 14px; font-weight: bold; text-align: center; cursor: pointer;">
+                      <form id="'delete" action="/Detail/goodbye" method="post"> <!--router-->
+                        <input type="hidden" name="userId" value="<%= member.email %>">
+                        <button type="submit" id="delete_btn"
+                        style="border: none; width: 100px; height: 35px; border-radius: 10px; color: black; background-color: #E1EFD7; font-size: 14px; font-weight: bold; text-align: center; cursor: pointer;">
                         탈퇴하기
                       </button>
+                      </form>
                       <button type="button" id="close_modal" 
                               style="border: none; width: 60px; height: 35px; border-radius: 10px; color: black; background-color: #F2F2F2; font-size: 14px; font-weight: bold; text-align: center; cursor: pointer;">
                         닫기
@@ -119,7 +123,6 @@
       const openModalBtn = document.getElementById("open_modal");
       const modal = document.getElementById("modal");
       const closeModalBtn = document.getElementById("close_modal");
-      const deleteBtn = document.querySelector('.delete_btn');
 
       document.addEventListener("DOMContentLoaded", function() {
         modal.style.display = "none";

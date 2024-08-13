@@ -26,7 +26,7 @@ const filterRoutes = require("./routes/filterRoutes");
 const mainRoutes = require("./routes/mainRoutes");
 const reviewRoutes = require("./routes/reviewRoutes");
 const seniorProfileRoutes = require("./routes/seniorProfileRoutes");
-const studentProfileRoutes = require("./routes/studentProfileRoutes"); //68 추가
+const studentProfileRoutes = require("./routes/studentProfileRoutes");
 const keepRoutes = require("./routes/keepRoutes");
 const promiseToStdRoutes = require("./routes/promiseToStdRoutes.js");
 const promiseToSnRoutese = require("./routes/promiseToSnRoutes.js");
@@ -39,8 +39,9 @@ const loginController = require("./controllers/loginController");
 const mainController = require("./controllers/mainController");
 const detailedController = require("./controllers/detailedController");
 const oldProfileController = require("./controllers/oldProfileController");
-const youngProfileController = require('./controllers/youngProfileController'); //68 추가
+const youngProfileController = require('./controllers/youngProfileController');
 const reportController=require("./controllers/reportController.js");
+const deleteController = require("./controllers/deleteController.js") //회원 탈퇴 컨트롤러
 const app = express();
 app.set("port", process.env.PORT || 8080);
 
@@ -145,6 +146,7 @@ app.get("/main", mainController.mainRender);
 app.get('/logout', loginController.logout);
 //app.get("/Detail", detailedController.myDetail); //구버전 마이 페이지
 app.get("/Detail", detailedController.myPage); //새로운 마이 페이지 추가
+app.post("/Detail/goodbye", deleteController.record_delete, deleteController.user_delete); //탈퇴 하기 기능
 app.get("/Detail/profile", detailedController.detail);
 app.get("/Detail/Senior", detailedController.oldDetail);
 app.use('/senior', seniorProfileRoutes);

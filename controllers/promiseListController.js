@@ -162,7 +162,8 @@ exports.getMatchingPromises = async (req, res) => {
         });
 
         if (!promises || promises.length === 0) {
-            return res.render('matchingPromiseList', { promises: [], user: user });
+            //promises: [] => matchingPromises: [] 변경
+            return res.render('matchingPromiseList', { matchingPromises: [], user: user });
         }
 
         //매칭이 있는 약속 필터링 및 학생과 노인 정보 추가
