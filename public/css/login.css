@@ -113,3 +113,33 @@ body, html {
 }
 
 
+/* 로그인 버튼과 구글 로그인 버튼 스타일링 */
+.google-signin {
+    text-align: center;
+    margin: 20px 0;
+}
+
+.google-signin-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px 20px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    background-color: #4285F4; /* 구글 블루 색상 */
+    color: white;
+    font-size: 16px;
+    font-weight: bold;
+    text-decoration: none;
+    transition: background-color 0.3s, box-shadow 0.3s;
+}
+
+.google-signin-button:hover {
+    background-color: #357ae8; /* 구글 블루 색상의 어두운 버전 */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.google-signin-button i {
+    margin-right: 10px;
+    font-size: 18px;
+}

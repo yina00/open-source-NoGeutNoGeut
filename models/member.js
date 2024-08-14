@@ -1,4 +1,4 @@
-// member.js 신고횟수 추가
+
 const { DataTypes } = require('sequelize');
 const sequelize = require('../config/database');
 const SeniorProfile = require('./seniorProfile');
@@ -25,11 +25,11 @@ const Member = sequelize.define('Member', {
   },
   age: {
     type: DataTypes.INTEGER,
-    allowNull: false
+    allowNull: true
   },
   userType: {
     type: DataTypes.STRING,
-    allowNull: false
+    allowNull: true
   },
   profileCreationStatus: {
     type: DataTypes.BOOLEAN,
@@ -47,6 +47,11 @@ const Member = sequelize.define('Member', {
     type: DataTypes.INTEGER,
     allowNull: true,
     defaultValue: 0
+  },
+    googleId: {
+    type: DataTypes.STRING,
+    allowNull: true,
+    unique: true // Google ID는 유니크하게 설정
   }
 });
 

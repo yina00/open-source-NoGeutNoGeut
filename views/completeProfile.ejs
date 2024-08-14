@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Complete Your Profile</title>
+</head>
+<body>
+    <h1>Complete Your Profile</h1>
+    <form action="/complete-profile" method="POST">
+        <div>
+            <label for="age">출생연도:</label>
+            <input type="number" id="age" name="age" required>
+        </div>
+        <div>
+            <label for="userType">User Type(student/senior):</label>
+            <input type="text" id="userType" name="userType" required>
+        </div>
+        <button type="submit">Save</button>
+    </form>
+</body>
+</html>
