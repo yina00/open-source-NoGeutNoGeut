@@ -39,8 +39,8 @@ const mainController = require("./controllers/mainController");
 const detailedController = require("./controllers/detailedController");
 const oldProfileController = require("./controllers/oldProfileController");
 const youngProfileController = require('./controllers/youngProfileController');
-const reportController=require("./controllers/reportController.js");
-const deleteController = require("./controllers/deleteController.js") //회원 탈퇴 컨트롤러
+const reportController = require("./controllers/reportController.js");
+
 const app = express();
 app.set("port", process.env.PORT || 3030);
 app.set("view engine", "ejs");
@@ -139,10 +139,9 @@ app.use('/', loginRoutes); // 기존 로그인 라우터
 app.use('/', googleRoutes); // 구글 로그인 라우터
 app.use('/main', mainController.mainRender);
 app.get('/logout', loginController.logout);
-app.get("/Detail", detailedController.myPage); //새로운 마이 페이지 추가
-app.post("/Detail/goodbye", deleteController.record_delete, deleteController.user_delete); //탈퇴 하기 기능
-app.get("/Detail/profile", detailedController.detail);
-app.get("/Detail/Senior", detailedController.oldDetail);
+app.get('/Detail', detailedController.myPage);
+app.get('/Detail/profile', detailedController.detail);
+app.get('/Detail/Senior', detailedController.oldDetail);
 app.use('/senior', seniorProfileRoutes);
 app.use('/Creation', creationRoutes);
 app.get('/modified', modifiedController.modified);
