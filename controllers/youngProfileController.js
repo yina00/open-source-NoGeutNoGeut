@@ -143,7 +143,7 @@ exports.createStudentProfile = async (req, res) => {
             profileImage: profileImage,
             //studentName: name,
             account: account,
-            yearOfBirth: birthYear,
+            yearOfBirth: req.session.user.age,
             phoneNumber: phoneNumber,
             gender: gender === 'male'? '남성' : '여성',
             university: university,
