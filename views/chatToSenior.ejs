@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="start-date" content="2024-05-10">
+    <title>노긋노긋</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="/css/header.css?after" rel="stylesheet" type="text/css">
+    <link href="/css/chat.css?after" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <script defer src="https://use.fontawesome.com/releases/v5.15.3/js/all.js"
+        integrity="sha384-haqrlim99xjfMxRP6EWtafs0sB1WKcMdynwZleuUSwJR0mDeRYbhtY+KPMr+JL6f"
+        crossorigin="anonymous"></script>
+</head>
+
+<body>
+    <!-- Header Section -->
+    <header class="header__container">
+        <!-- Site H1 / display: none -->
+        <h1 class="main-title">코밋메인홈</h1>
+        <div class="header__block">
+            <a href="#"> 마이페이지 </a>
+            <a href="#"> 로그인 </a>
+        </div>
+
+        <div class="header_nav-main-block">
+            <!-- 네비게이션에 해당하는 부분 -->
+            <nav class="header__nav-block">
+                <ul class="nav__list" role="navigation">
+
+                    <li class="nav__list-item">
+                        <a href="/main" aria-label="노긋노긋 홈페이지">
+                            <img src="/images/logo.png" width="50" alt="로고">
+                        </a>
+                    </li>
+                    <li class="nav__list-item">
+                        <a href="#"> 매칭하기 </a>
+                    </li>
+                    <li class="nav__list-item">
+                        <a href="#"> 채팅 </a>
+                    </li>
+                    <li class="nav__list-item">
+                        <a href="#"> 보고서작성 </a>
+                    </li>
+                    <li class="nav__list-item">
+                        <!--<a href="#"> 후기작성 </a>-->
+                        <a href="#" onclick="checkReportBeforeReview(event, '/review-page-url')">후기 작성</a>
+                    </li>
+                    <li class="nav__list-item">
+                        <a href="#"> 보고서확인 </a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+
+    </header>
+    <main>
+        <!-- 채팅방 목록과 채팅창을 감싸는 컨테이너 -->
+        <div class="chat__container">
+            <!-- 채팅방 목록 -->
+            <div class="chat__room__list">
+                <h2 class="chat__title">채팅방</h2>
+                <!-- 채팅방 목록의 상단 분리선 -->
+                <div class="chat__room__list__line"></div>
+                <ul id="chat-room-list">
+                    <% chatRooms.forEach(room=> { %>
+                        <li>
+                            <a href="#" onclick="openChatRoom('<%= room.dataValues.roomNum %>')">
+                                <div class="chat__room__item">
+                                    <div class="chat__room__profile">
+                                        <% const profile=room.dataValues.SeniorProfile; const profileImage=profile ?
+                                            profile.profileImage : null; const seniorName=profile ? profile.seniorName
+                                            : 'No Name' ; %>
+                                            <% if (profileImage) { %>
+                                                <% // Base64로 인코딩된 이미지를 사용 const
+                                                    encodedImageBase64String=Buffer.from(profileImage).toString('base64');
+                                                    %>
+                                                    <img src="data:image/jpeg;base64,<%= encodedImageBase64String %>"
+                                                        alt="<%= seniorName %>" class="chat__profile__img">
+                                                    <% } else { %>
+                                                        <img src="/path/to/default/profile-image.png"
+                                                            alt="Default Profile" class="chat__profile__img">
+                                                        <% } %>
+                                    </div>
+                                    <div class="chat__room__info">
+                                        <div class="chat__other-user">
+                                            <span>
+                                                <%= seniorName %>
+                                            </span>
+
+                                            <span class="chat_last__message__time"
+                                                data-time="<%= room.dataValues.lastMessageTime %>">
+
+                                            </span>
+                                        </div>
+                                        <div class="chat__last__message">
+                                            <span>
+                                                <%= room.dataValues.lastMessageContent ?
+                                                    room.dataValues.lastMessageContent : 'No messages' %>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </a>
+                        </li>
+                        <% }) %>
+                </ul>
+
+            </div>
+            <!-- 채팅 메시지창 -->
+            <div class="inChatRoom">
+                <div class="other-user">
+                    <span id="chat-room-title" class="chat__room__title">
+                        <%= seniorProfile.seniorName %>
+                    </span>
+                    <span id="settings-button" class="settings__button">...</span>
+                    <div id="settings-menu" class="settings__menu">
+                        <ul class="settings__menu__list">
+                            <li class="settings__menu__item" onclick="showModal('promise-modal')">약속잡기</li>
+                            <li class="settings__menu__item"><a href="/reportList"> 보고서</a></li>
+                            <li class="settings__menu__item" onclick="clickReview()"> 후기 작성 </li>
+                        </ul>
+                    </div>
+                </div>
+                <!-- 채팅 메시지 -->
+                <div class="chat__message">
+                    <ul class="chatting__list" id="chatting-list">
+                        <% messages.forEach((message, index)=> { %>
+                            <% const isSentByUser=message.senderNum===user; %>
+                                <% const showDateSeparator=message.dateSeparator; %>
+
+                                    <!-- 날짜 구분선 (첫 메시지 또는 날짜가 바뀔 경우) -->
+                                    <% if (showDateSeparator) { %>
+                                        <li class="date-separator">
+                                            <div
+                                                style="display: flex; align-items: center; text-align: center; margin: 20px 0;">
+                                                <span
+                                                    style="flex: 1; border-bottom: 1px dashed #ccc; margin-right: 15px; margin-left: 10px;"></span>
+                                                <span style="white-space: nowrap; color: #666; font-size: 14px;">
+                                                    <%= message.dateSeparator %>
+                                                </span>
+                                                <span
+                                                    style="flex: 1; border-bottom: 1px dashed #ccc; margin-left: 15px; margin-right: 10px;"></span>
+                                            </div>
+                                        </li>
+                                        <% } %>
+
+                                            <!-- 채팅 메시지 -->
+                                            <li class="<%= isSentByUser ? 'sent' : 'received' %>">
+                                                <span
+                                                    class="<%= isSentByUser ? 'sent__container' : 'received__container' %>">
+                                                    <% if (message.promiseNum) { %>
+                                                        <!-- 약속 정보가 있는 경우 -->
+                                                        <% const
+                                                            formattedPromiseDay=message.promiseInfo.formattedPromiseDay;
+                                                            %>
+                                                            <% const
+                                                                formattedStartTime=message.promiseInfo.formattedStartTime;
+                                                                %>
+                                                                <% const
+                                                                    formattedFinishTime=message.promiseInfo.formattedFinishTime;
+                                                                    %>
+                                                                    <% const
+                                                                        promiseTitle=message.promiseInfo.promiseTitle;
+                                                                        %>
+                                                                        <% const userRoleClass=userType==='student'
+                                                                            ? 'student' : 'protector' ; %>
+                                                                            <% const
+                                                                                depositStatus=message.promiseInfo.depositStatus;
+                                                                                %>
+                                                                                <input type="hidden"
+                                                                                    class="depositStatus"
+                                                                                    value="<%= depositStatus %>">
+                                                                                <span
+                                                                                    class="<%= isSentByUser ? 'sent__message__content' : 'received__message__content' %>">
+                                                                                    <div class="<%= userRoleClass %>">
+                                                                                        <div
+                                                                                            class="<%= userRoleClass === 'protector' ? 'promise__comment' : '' %>">
+                                                                                            <span>약속이 성사되었습니다.</span>
+                                                                                            <% if
+                                                                                                (userRoleClass==='protector'
+                                                                                                ) { %>
+                                                                                                <span
+                                                                                                    class="deposit__status">
+                                                                                                    <%= depositStatus===false
+                                                                                                        ? '입금 확인 대기'
+                                                                                                        : '입금 확인 완료' %>
+                                                                                                </span>
+                                                                                                <% } %>
+                                                                                        </div>
+                                                                                        <span>
+                                                                                            <% if
+                                                                                                (userRoleClass==='student'
+                                                                                                ) { %>
+                                                                                                <%= depositStatus===false
+                                                                                                    ? '입금이 확인되면 아래의 입금 확인 버튼을 눌러주세요!'
+                                                                                                    : '입금이 확인되었습니다.' %>
+                                                                                                    <% } else { %>
+                                                                                                        학생의 계좌번호를 확인하고
+                                                                                                        입금해주세요!
+                                                                                                        <% } %>
+                                                                                        </span>
+                                                                                        <br><br>
+                                                                                        <div>
+                                                                                            <span
+                                                                                                class="promise__info">약속
+                                                                                                제목: </span>
+                                                                                            <span class="promise__info">
+                                                                                                <%= promiseTitle %>
+                                                                                            </span>
+                                                                                        </div>
+                                                                                        <div>
+                                                                                            <span class="promise__info">
+                                                                                                날짜</span>
+                                                                                            <span>
+                                                                                                <%= formattedPromiseDay
+                                                                                                    %>
+                                                                                            </span>
+                                                                                        </div>
+                                                                                        <div>
+                                                                                            <div class="time__box">
+                                                                                                <span
+                                                                                                    class="promise__info">시작시간</span>
+                                                                                                <span>
+                                                                                                    <%= formattedStartTime
+                                                                                                        %>
+                                                                                                </span>
+                                                                                                <span
+                                                                                                    class="promise__info">종료시간</span>
+                                                                                                <span>
+                                                                                                    <%= formattedFinishTime
+                                                                                                        %>
+                                                                                                </span>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                        <br>
+                                                                                        <div class="button__box">
+                                                                                            <% if
+                                                                                                (userRoleClass==='student'
+                                                                                                &&
+                                                                                                depositStatus===false) {
+                                                                                                %>
+                                                                                                <% const
+                                                                                                    promiseFormId=`promiseDeposit_${message.promiseNum}`
+                                                                                                    %>
+                                                                                                    <form
+                                                                                                        id="<%= promiseFormId %>"
+                                                                                                        method="POST"
+                                                                                                        onsubmit="clickDeposit(event, <%= message.promiseNum %>)">
+                                                                                                        <button
+                                                                                                            class="deposit__button"
+                                                                                                            type="submit">입금확인</button>
+                                                                                                    </form>
+                                                                                                    <% } else if
+                                                                                                        (userRoleClass==='protector'
+                                                                                                        &&
+                                                                                                        depositStatus===false)
+                                                                                                        { %>
+                                                                                                        <a href="/promise/deposit/<%= message.promiseNum %>"
+                                                                                                            class="account__button">계좌번호
+                                                                                                            보기</a>
+                                                                                                        <% } %>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </span>
+                                                                                <% } else { %>
+                                                                                    <!-- 약속 정보가 없는 경우 -->
+                                                                                    <span
+                                                                                        class="<%= isSentByUser ? 'sent__message__content' : 'received__message__content' %>">
+                                                                                        <%= message.message %>
+                                                                                    </span>
+                                                                                    <% } %>
+                                                                                        <span
+                                                                                            class="<%= isSentByUser ? 'sent__message__time' : 'received__message__time' %>">
+                                                                                            <%= message.sendDay %>
+                                                                                        </span>
+                                                </span>
+                                            </li>
+                                            <% }) %>
+                    </ul>
+                </div>
+
+
+                <!-- 메시지 입력창 -->
+                <div class="input__message">
+                    <span class="input__message-span">
+                        <input class="chatting__input" type="text" id="chat-input" placeholder="메시지 입력">
+                        <button class="send__button">전송</button>
+                    </span>
+                </div>
+            </div>
+        </div>
+
+        <!-- 약속 잡기 모달 -->
+        <div id="promise-modal" class="promise__modal">
+            <div class="modal__header">
+                <span class="promise__modal__title">약속 잡기</span>
+                <button class="close__btn" onclick="hideModal('promise-modal')">&times;</button>
+            </div>
+            <!-- 약속 잡기 폼 또는 내용 action="/promise/<%=roomNum%>"-->
+            <form id="promiseForm" method="POST" onsubmit="handleFormSubmit(event)">
+                <div class="modal__content">
+                    <p>
+                    <div class="form-group">
+                        <div>
+                            <label for="promiseTitle" style="color: #2D6210;">약속 제목</label>
+                        </div>
+                        <span class="form-text text-muted" style="color: #2D6210; font-size: 11px;">만나서 진행할 활동에 대한 간단한
+                            제목을 작성해주세요.</span>
+                        <input type="text" class="form-control" id="promiseTitle" name="promiseTitle"
+                            placeholder="20글자 이내" required>
+                    </div>
+                    </p>
+                    <p>
+                    <div class="form-group">
+                        <label for="promiseDay" style="color: #2D6210;">약속 날짜</label>
+                        <input type="date" class="form-control" id="promiseDay" name="promiseDay" required>
+                    </div>
+                    </p>
+                    <p>
+                    <div class="form-group">
+                        <label for="startTime" style="color: #2D6210;">시작 시간</label>
+                        <input type="time" class="form-control" id="startTime" name="startTime">
+                    </div>
+                    </p>
+                    <p>
+                    <div class="form-group">
+                        <label for="finishTime" style="color: #2D6210;">종료 시간</label>
+                        <input type="time" class="form-control" id="finishTime" name="finishTime">
+                    </div>
+                    </p>
+                </div>
+                <div class="modal__footer">
+                    <button class="promise__button" type="submit">약속신청</button>
+                    <button class="promise__button" type="button" onclick="hideModal('promise-modal')">닫기</button>
+                </div>
+            </form>
+        </div>
+
+    </main>
+
+    <!-- 숨겨진 input 요소로 현재 로그인한 사용자 ID를 저장 -->
+    <input type="hidden" id="currentUser" value="<%= user %>">
+    <input type="hidden" id="seniorNum" value="<%= seniorProfile.seniorNum %>">
+    <input type="hidden" id="seniorName" value="<%= seniorProfile.seniorName %>">
+    <input type="hidden" id="roomNum" value="<%=roomNum %>">
+    <input type="hidden" id="userType" value="<%=userType%>">
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="/js/chatToSenior.js"></script>
+
+    <!-- Custom Alert -->
+    <div id="customAlert" class="custom-alert hidden">
+        <div class="alert-content">
+            <p id="alertMessage"></p>
+            <button style="color: white;" onclick="closeAlert()">닫기</button>
+        </div>
+    </div>
+
+    <!-- Footer Section -->
+    <footer class="footer__container">
+        <section class="pages__container">
+            <a href="#">이용약관</a>
+            <a href="#">개인정보처리방침</a>
+            <a href="#">커뮤니티이용규칙</a>
+            <a href="#">문의하기</a>
+        </section>
+    </footer>
+</body>
+
+</html>

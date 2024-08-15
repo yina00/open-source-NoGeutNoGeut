@@ -1,5 +1,42 @@
 const user = "<%= user %>";
 
+/// 페이지가 로드될 때 커스텀 알림창을 표시 -> reportNum이 null이거나 reportStatus가 false면 띄우도록 수정
+window.onload = function () {
+    console.log("onload 작동 중")
+    const userType = document.getElementById('userType').value;
+
+    console.log("userType 확인", userType);
+
+    if (userType == 'student') {
+        const reportNum = document.getElementById('reportNum').value;
+        console.log("reportNum 확인", reportNum);
+        if (!reportNum) {
+            showCustomAlert(`보고서를 작성하지 않았습니다.<br>보고서를 먼저 작성하고 오세요.`);
+        }
+    } else {
+        const reportStatusStr = document.getElementById('reportStatus').value;
+        // 문자열을 boolean으로 변환
+        const reportStatus = reportStatusStr === 'true';
+        console.log("reportStatus 확인", reportStatus);
+        if (!reportStatus) {
+            showCustomAlert(`보고서를 확인 않았습니다.<br>보고서를 먼저 확인하고 오세요.`);
+        }
+    }
+};
+
+// Custom Alert 표시
+function showCustomAlert(message) {
+    document.getElementById('alertMessage').innerHTML = message;
+    document.getElementById('customAlert').classList.remove('hidden');
+}
+
+// Custom Alert 닫기
+function closeAlert() {
+    document.getElementById('customAlert').classList.add('hidden');
+
+    window.location.href = '/reportList';
+}
+
 
 document.addEventListener('DOMContentLoaded', function () {
     const stars = document.querySelectorAll('.star-rating .star');
@@ -26,7 +63,7 @@ function handleSubmit(event) {
     event.preventDefault(); //기본 폼 제출 막기
 
     //한 줄 후기가 작성되었는지 확인
-    const reviewInput = document.getElementById('reviewText'); 
+    const reviewInput = document.getElementById('reviewText');
 
     //평점 입력 여부 확인
     const ratingInputs = document.querySelectorAll('.star');
@@ -66,11 +103,15 @@ function handleSubmit(event) {
         }
     });
 
-    console.log("rating: ",formData.rating);
+    console.log("rating: ", formData.rating);
     const promiseNum = document.getElementById('promiseNum').value;
-    const matchingNum = document.getElementById('matchingNum').value;
+    const roomNum = document.getElementById('roomNum').value;
 
-    const url = `/review/${promiseNum}/${matchingNum}`;
+    // 확인을 위해 콘솔에 로그를 남깁니다.
+    console.log("Room Number:", roomNum);
+    console.log("Promise Number:", promiseNum);
+
+    const url = `/review/${roomNum}/${promiseNum}`;
 
     //fetch 함수를 사용해 서버로 입력받은 데이터 전달
     fetch(url, {
@@ -80,74 +121,30 @@ function handleSubmit(event) {
         },
         body: JSON.stringify(formData)
     })
-    .then(response => {
-        if (response.ok) {
-            return response.json();
-        } else {
-            return response.json().then(data => {
-                throw new Error(data.error); //서버에서 전송한 오류 메시지를 에러로 처리
-            });
-        }
-    })
-    .then(data => {
-        console.log('서버로부터의 응답:', data);
-        alert("후기가 작성되었습니다.");
-        window.location.href = '/promiseList'; //리뷰를 성공적으로 작성하면 
-    })
-    .catch(error => {
-        console.error('서버 응답 오류:', error);
-        if (error.message === '후기가 이미 존재합니다.') {
-            //서버에서 받은 오류 메시지가 '후기가 이미 존재합니다.'인 경우
-            alert("후기를 이미 작성하셨습니다.");
-            window.location.href = '/main'; //메인홈이동
-        } else {
-            //그 외의 경우
-            alert("알 수 없는 오류가 발생했습니다.");
-            window.location.href = '/main'; //메인홈이동
-        }
-    });
+        .then(response => {
+            if (response.ok) {
+                return response.json();
+            } else {
+                return response.json().then(data => {
+                    throw new Error(data.error); //서버에서 전송한 오류 메시지를 에러로 처리
+                });
+            }
+        })
+        .then(data => {
+            console.log('서버로부터의 응답:', data);
+            alert("후기가 작성되었습니다.");
+            window.location.href = '/chat'; //리뷰를 성공적으로 작성하면 
+        })
+        .catch(error => {
+            console.error('서버 응답 오류:', error);
+            if (error.message === '후기가 이미 존재합니다.') {
+                //서버에서 받은 오류 메시지가 '후기가 이미 존재합니다.'인 경우
+                alert("후기를 이미 작성하셨습니다.");
+                window.location.href = '/main'; //메인홈이동
+            } else {
+                //그 외의 경우
+                alert("알 수 없는 오류가 발생했습니다.");
+                window.location.href = '/main'; //메인홈이동
+            }
+        });
 }
-
-/*
-function handleSubmit(event) {
-    event.preventDefault(); // 기본 폼 제출 막기
-
-    // 한 줄 후기가 작성되었는지 확인
-    const reviewInput = document.getElementById('reviewText'); // 한 줄 후기 입력 필드의 id가 'reviewText'
-
-    // 평점 입력 여부 확인
-    const ratingInputs = document.querySelectorAll('.star'); // 모든 별점 입력 필드의 클래스가 'star'
-    let isChecked = false;
-
-    ratingInputs.forEach(input => {
-        if (input.checked) {
-            isChecked = true;
-        }
-    });
-
-    if (!reviewInput.value.trim() && !isChecked) {
-        alert("만족 스티커와 한 줄 후기를 작성하지 않았습니다.\n 작성한 뒤 제출해주세요.");
-        return;
-    } else if (!reviewInput.value.trim()) {
-        alert("한 줄 후기를 작성해주세요.");
-        return;
-    } else if (!isChecked) {
-        alert("평점을 선택해주세요.");
-        return;
-    }
-
-    // 버튼 색 변경
-    const submitButton = document.querySelector('.submit-button input[type="submit"]');
-    submitButton.style.backgroundColor = '#E1EFD7'; // 원하는 색상으로 변경
-
-    // 알림 창 띄우기
-    //alert("후기가 작성되었습니다.");
-
-    // 폼 제출
-    document.getElementById('reviewForm').submit();
-
-    // 폼 제출
-    //submitReview();
-
-}
-*/

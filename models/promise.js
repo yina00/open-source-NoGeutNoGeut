@@ -45,7 +45,12 @@ const Promise = sequelize.define("Promise", {
   promiseSender: {
     type: DataTypes.BIGINT,
     allowNull: true
+  },
+  promiseTitle: {
+    type: DataTypes.STRING(20),
+    allowNull: false
   }
+
 });
 
 module.exports = Promise;

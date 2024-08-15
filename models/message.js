@@ -1,8 +1,6 @@
-//message.js
-const { Sequelize, DataTypes } = require("sequelize");
+const { DataTypes } = require("sequelize");
 const sequelize = require("../config/database");
-const Member = require("./member");
-const ChatRoom = require("./chatRoom");
+const Promise = require('./promise');
 
 const Message = sequelize.define("Message", {
   messageID: {
@@ -14,7 +12,7 @@ const Message = sequelize.define("Message", {
     type: DataTypes.BIGINT,
     allowNull: false,
     references: {
-      model: Member,
+      model: 'Members',
       key: 'memberNum'
     }
   },
@@ -22,49 +20,59 @@ const Message = sequelize.define("Message", {
     type: DataTypes.BIGINT,
     allowNull: false,
     references: {
-      model: Member,
+      model: 'Members',
       key: 'memberNum'
     }
   },
-  chatRoomNum: {
-    type: DataTypes.INTEGER,
+  roomNum: {
+    type: DataTypes.BIGINT,
     allowNull: false,
     references: {
-      model: ChatRoom,
-      key: 'chatRoomNum'
+      model: 'ChatRooms',
+      key: 'roomNum'
     }
   },
-  sendDate: {
+  sendDay: {
     type: DataTypes.DATE,
     allowNull: false,
     defaultValue: DataTypes.NOW
   },
-  isChecked: {
-    type: DataTypes.TINYINT,
+  check: {
+    type: DataTypes.BOOLEAN,
     allowNull: false,
-    defaultValue: 0
+    defaultValue: false
   },
-  messageType: {
-    type: DataTypes.STRING(10),
-    allowNull: false,
-    defaultValue: "text"
-  },
-  messageContent: {
+  message: {
     type: DataTypes.TEXT,
-    allowNull: true
+    allowNull: false
   },
-  messageImage: {
-    type: DataTypes.BLOB("medium"),
-    allowNull: true
+  promiseNum: {
+    type: DataTypes.INTEGER,
+    allowNull: true,
+    references: {
+      model: 'Promises',
+      key: 'promiseNum'
+    },
+    onUpdate: 'CASCADE'
+  }, readStatus: {
+    type: DataTypes.BOOLEAN,
+    allowNull: false,
+    defaultValue: false
   }
 }, {
   timestamps: false,
   indexes: [
     {
       unique: true,
-      fields: ['senderNum', 'receiverNum', 'sendDate']
+      fields: ['senderNum', 'receiverNum', 'sendDay']
     }
   ]
 });
+
+
+// 관계 설정
+Message.belongsTo(Promise, { foreignKey: 'promiseNum' });
+Promise.hasMany(Message, { foreignKey: 'promiseNum' });
+
 
 module.exports = Message;

@@ -1,0 +1,427 @@
+.chat__container {
+    display: flex;
+    width: 1000px;
+    height: 850px;
+    margin: auto;
+    background: rgba(247, 247, 247, 1);
+}
+
+.chat__room__list {
+    width: 300px;
+    border-right: 1px solid #ddd;
+    overflow-y: auto;
+    padding: 10px;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+.chat__title {
+    color: #2D6210;
+}
+
+.chat__room__list__line {
+    background-color: #E1EFD7;
+    height: 20px;
+    margin-bottom: 25px;
+}
+
+.settings__menu__item a:hover {
+    color: #2D6210;
+    text-decoration: none;
+}
+
+.chat__room__item {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    background-color: white;
+    border: 1px solid #E1EFD7;
+    margin-bottom: 1px;
+}
+
+.chat__room__profle {
+    margin-right: 10px;
+}
+
+.chat__profile__img {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+}
+
+.chat__room__info {
+    flex-grow: 1;
+    margin-left: 10px;
+    width: calc(100% - 70px);
+    /* 프로필 이미지 너비를 고려하여 너비 설정 */
+}
+
+.chat__other-user {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 5px;
+}
+
+.chat__other-user span:first-child {
+    font-size: 16px;
+}
+
+.chat__other-user span:last-child {
+    font-size: 12px;
+}
+
+.chat__last__message {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 5px;
+    overflow: hidden;
+    /* 넘치는 부분을 숨김 */
+    white-space: nowrap;
+    /* 텍스트를 한 줄로 유지 */
+    text-overflow: ellipsis;
+    /* 넘치는 부분에 생략 부호(...) 표시 */
+}
+
+.chat_last__message__time {
+    margin-right: 5px;
+}
+
+.chat__last__message span:first-child {
+    font-size: 12px;
+    overflow: hidden;
+    /* 넘치는 부분 숨김 */
+    text-overflow: ellipsis;
+    /* 넘치는 부분 생략 부호로 표시 */
+    white-space: nowrap;
+    /* 텍스트를 한 줄로 유지 */
+}
+
+.inChatRoom {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    padding-bottom: 50px;
+    max-width: 700px;
+    /* 최대 너비 설정 (원하는 너비로 조정) */
+    width: 100%;
+    /* 전체 너비를 차지하도록 설정 */
+}
+
+.other-user {
+    display: flex;
+    justify-content: space-between;
+    background-color: #E1EFD7;
+    padding: 15px;
+    position: relative;
+}
+
+.chat__room__title {
+    font-size: 20px;
+    font-weight: bold;
+    padding-left: 20px;
+    color: #2D6210;
+}
+
+.settings__button {
+    font-size: 20px;
+    color: #2D6210;
+    font-weight: bold;
+    padding-right: 20px;
+    cursor: pointer;
+}
+
+.settings__menu {
+    display: none;
+    position: absolute;
+    top: 100%;
+    right: 20px;
+    background-color: white;
+    border: 1px solid #E1EFD7;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+    padding: 10px;
+    width: 150px;
+    border: 1px solid #E1EFD7;
+}
+
+.settings__menu__list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.settings__menu__item {
+    padding: 10px;
+    cursor: pointer;
+}
+
+/*
+ul li a:hover {
+    color: #2D6210;
+}
+*/
+.settings__menu__item:hover {
+    color: #2D6210;
+}
+
+.chat__message {
+    flex-grow: 1;
+    padding: 10px;
+    overflow-y: auto;
+    /* chat__message에서 스크롤이 생기도록 */
+    max-height: calc(100% - 70px);
+    /* input__message 높이를 고려 */
+}
+
+.chatting__list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.sent__container {
+    padding: 3px;
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-end;
+    flex-direction: row-reverse;
+    max-width: 100%;
+    /* 컨테이너 너비를 넘지 않도록 설정 */
+}
+
+.received__container {
+    padding: 3px;
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-end;
+    max-width: 100%;
+    /* 컨테이너 너비를 넘지 않도록 설정 */
+}
+
+.sent__message__content {
+    background: white;
+    border-radius: 10px 10px 0px 10px;
+    padding: 5px;
+    font-size: 16px;
+    word-break: break-word;
+}
+
+.sent__message__time {
+    font-size: 10px;
+    margin: 0 5px;
+    /* 시간을 항상 가로로 표시하기 위한 레이아웃 설정 */
+    white-space: nowrap;
+    /* 텍스트가 줄 바꿈 없이 가로로 표시되도록 설정 */
+    flex-shrink: 0;
+    /* 시간이 줄어들지 않도록 설정 */
+}
+
+.received__message__content {
+    background: white;
+    border: 2px solid #E1EFD7;
+    border-radius: 10px 10px 10px 0px;
+    padding: 5px;
+    font-size: 16px;
+    word-break: break-word;
+}
+
+.received__message__time {
+    font-size: 10px;
+    margin: 0 5px;
+    /* 시간을 항상 가로로 표시하기 위한 레이아웃 설정 */
+    white-space: nowrap;
+    /* 텍스트가 줄 바꿈 없이 가로로 표시되도록 설정 */
+    flex-shrink: 0;
+    /* 시간이 줄어들지 않도록 설정 */
+}
+
+.input__message {
+    background: rgba(247, 247, 247, 1);
+    display: flex;
+    justify-content: stretch;
+    align-items: stretch;
+    padding: 10px;
+    border-top: 1px solid #E1EFD7;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000;
+    height: 70px;
+}
+
+.input__message-span {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    padding: 3px;
+    width: 100%;
+}
+
+.chatting__input {
+    flex: 8;
+    padding: 10px;
+    border: 1px solid #E1EFD7;
+    border-radius: 5px;
+}
+
+.send__button {
+    padding: 10px;
+    flex: 1;
+    width: 100px;
+    margin-left: 10px;
+    border: none;
+    background-color: #E1EFD7;
+    color: black;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.promise__modal {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 59%;
+    transform: translate(-50%, -50%);
+    background-color: white;
+    border: 3px solid #E1EFD7;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+    width: 300px;
+    padding: 20px;
+}
+
+.promise__modal__title {
+    color: #2D6210;
+}
+
+.modal__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #E1EFD7;
+    padding-bottom: 10px;
+    margin-bottom: 10px;
+}
+
+.close__btn {
+    cursor: pointer;
+    color: #E1EFD7;
+    border: none;
+    background: none;
+    font-size: 20px;
+}
+
+.close__btn:hover {
+    color: #2D6210;
+}
+
+.modal__content {
+    margin-bottom: 10px;
+}
+
+.modal__footer {
+    text-align: right;
+}
+
+.promise__button {
+    width: 70px;
+    padding: 5px 10px;
+    border: none;
+    background-color: #E1EFD7;
+    color: black;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.promise__button:hover {
+    color: white;
+    background-color: #2D6210;
+}
+
+/* Custom Alert �ㅽ��� */
+.custom-alert {
+    position: fixed;
+    top: 50%;
+    left: 59%;
+    transform: translate(-50%, -50%);
+    background-color: rgba(45, 98, 16, 0.8);
+    color: white;
+    border-radius: 5px;
+    padding: 20px;
+    z-index: 1000;
+    /* Ensure it's above other elements */
+}
+
+.hidden {
+    display: none;
+}
+
+.alert-content {
+    text-align: center;
+}
+
+.student {
+    border: 2px solid #E1EFD7;
+    margin: 5px;
+    padding: 10px;
+    border-radius: 10px 10px 0px 10px;
+}
+
+.promise__info {
+    color: #2D6210;
+    font-weight: bold;
+}
+
+.button__box {
+    text-align: center;
+}
+
+.deposit__button {
+    color: #2D6210;
+    border: 1px solid #E1EFD7;
+    width: 70px;
+    border-radius: 10px 10px 10px 10px;
+    padding: 5px 10px;
+}
+
+.deposit__button:hover {
+    color: #2D6210;
+    background-color: #E1EFD7;
+}
+
+.protector {
+    border: 2px solid #E1EFD7;
+    border-radius: 10px 10px 10px 0px;
+    padding: 10px;
+    margin: 5px;
+}
+
+.promise__comment {
+    display: flex;
+    justify-content: space-between;
+}
+
+.time__box {
+    display: flex;
+    justify-content: space-between;
+    margin-right: 20px;
+    /* 요소 사이에 20px 간격 추가 */
+}
+
+.deposit__status {
+    color: #2D6210;
+    font-size: 12px;
+}
+
+.account__button {
+    color: #2D6210;
+    border: 1px solid #E1EFD7;
+    width: 130px;
+    border-radius: 10px 10px 10px 10px;
+    padding: 5px 10px;
+    font-size: 14px;
+}

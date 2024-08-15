@@ -1,6 +1,8 @@
 .review-container {
+    /*width: 1000px;
+    height: 1000px;*/
     width: 1000px;
-    height: 1000px;
+    height: 100%;
     margin: auto;
     background-color: white;
     padding: 2%;
@@ -31,6 +33,7 @@
     font-size: 60px;
     position: relative;
 }
+
 .sticker-icons .material-icons:nth-child(2) {
     left: 150px;
 }
@@ -46,6 +49,7 @@
 .sticker-icons .material-icons:nth-child(5) {
     left: 600px;
 }
+
 .one-line-review {
     margin-top: 70px;
 }
@@ -82,13 +86,14 @@
     color: #2D6210;
     /* 호버 시 텍스트 색상 */
 }
+
 .star-rating {
     /*display: flex;*/
     display: flex;
     justify-content: center;
-        /* 가운데 정렬 */
+    /* 가운데 정렬 */
     gap: 120px;
-        /* 별 사이의 간격 조절 */
+    /* 별 사이의 간격 조절 */
 }
 
 .star {
@@ -101,8 +106,67 @@
     color: #E1EFD7;
     font-size: 60px;
 }
+
 .star.selected::after {
     content: '★';
     color: #E1EFD7;
     /* 선택된 색상 */
+}
+
+.custom-alert {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    width: 1000px;
+    height: 900px;
+    transform: translate(-50%, -50%);
+    background-color: rgba(45, 98, 16, 0.8);
+    color: white;
+    border-radius: 5px;
+    padding: 100px;
+    z-index: 1000;
+    /* Ensure it's above other elements */
+    display: flex;
+    /* Flexbox를 사용 */
+    align-items: center;
+    /* 수직 중앙 정렬 */
+    justify-content: center;
+    /* 수평 중앙 정렬 */
+    flex-direction: column;
+    /* 내용이 수직으로 배치되도록 설정 */
+    text-align: center;
+    /* 텍스트 중앙 정렬 */
+    font-size: 20px;
+}
+
+.hidden {
+    display: none;
+}
+
+.alert-content {
+    text-align: center;
+}
+
+.notandum {
+    color: red;
+    font-size: 17px;
+    display: block;
+}
+
+.title {
+    font-size: 20px;
+    font-weight: bold;
+    color: #2D6210;
+    margin-right: 20px;
+}
+
+.name {
+    font-size: 20px;
+    font-weight: bold;
+    color: #2D6210;
+    margin: 20px;
+}
+
+.info {
+    font-size: 20px
 }

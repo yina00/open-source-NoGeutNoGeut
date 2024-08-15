@@ -8,6 +8,9 @@ const passport = require('./config/passportConfig');
 const { ensureAuthenticated } = require('./middlewares/authMiddleware');
 const multer = require('multer');
 const fs = require('fs');
+const http = require('http');
+const socketIO = require('socket.io');
+const socketSetup = require('./socket');
 const cookieParser = require("cookie-parser");
 const connectFlash = require("connect-flash");
 const uploadDir = path.join(__dirname, 'uploads');
@@ -33,6 +36,8 @@ const reportRoutes = require("./routes/reportRoutes.js");
 const appointmentRoutes = require('./routes/appointmentRoutes.js');
 const googleRoutes = require('./routes/googleRoutes');
 const postListRoutes = require("./routes/postListRoutes.js");
+const chatRoutes = require('./routes/chatRoutes.js');
+const promiseRoutes = require('./routes/promiseRoutes.js');
 // 컨트롤러
 const errorController = require("./controllers/errorController");
 const loginController = require("./controllers/loginController");
@@ -42,9 +47,23 @@ const oldProfileController = require("./controllers/oldProfileController");
 const youngProfileController = require('./controllers/youngProfileController');
 const reportController = require("./controllers/reportController.js");
 const deleteController = require("./controllers/deleteController.js") //회원 탈퇴 컨트롤러
+const promiseController = require('./controllers/promiseController');
 
 const app = express();
 app.set("port", process.env.PORT || 3030);
+
+// 서버 생성
+const server = http.createServer(app);
+
+// Socket.IO 설정
+const io = socketIO(server);
+
+// 소켓 이벤트 설정
+//require('./socket')(io);
+socketSetup(io); // io 객체를 소켓 모듈에 전달
+// 의존성 주입
+promiseController.init(io);
+
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, 'views'));
 
@@ -163,7 +182,9 @@ app.use('/', creationRoutes);
 app.use('/review', reviewRoutes);
 app.use('/promiseToStd', promiseToStdRoutes);
 app.use('/promiseTosn', promiseToSnRoutes);
-app.use('/promiseList', promiseListRoutes);
+app.use('/promiseList', promiseRoutes);
+app.use('/chat', chatRoutes);
+app.use('/promise', promiseRoutes);
 app.use('/', appointmentRoutes);
 app.use('/', reportRoutes);
 app.use('/postList', postListRoutes);
@@ -222,6 +243,9 @@ app.use(errorController.pageNotFoundError);
 app.use(errorController.internalServerError);
 
 // 서버 시작
-const server = app.listen(app.get("port"), () => {
+server.listen(app.get("port"), () => {
   console.log(`Server running at http://localhost:${app.get("port")}`);
 });
+
+// io 객체를 내보내기
+module.exports = { io, server };

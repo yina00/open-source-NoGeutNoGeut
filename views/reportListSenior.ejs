@@ -45,23 +45,27 @@
     </div>
     
   </header>
-
-    <div class="list-container">
-        <% reports.forEach(report => { %>
-            <a href="/report/<%= report.reportNum %>">
-                <div class="report-item">
-                    <div class="report-details">
-                        <span>보고서 번호: <%= report.reportNum %></span>
-                        <span>학생 이름: <%= report.student.name %></span>
-                        <span>작성 날짜: <%= new Date(report.createdAt).toLocaleString() %></span>
-                        <span>확인 여부: <%= report.reportStatus ? '확인' : '미확인' %></span>
-                        <% if (report.encodedImageBase64String) { %>
-                            <img src="data:image/jpeg;base64,<%= report.encodedImageBase64String %>" alt="프로필 이미지" class="profile-image">
-                        <% } %>
-                    </div>
-                </div>
-            </a>
-        <% }); %>
-    </div>
+<div class="list-container">
+  <ul>
+    <% reports.forEach(report=> { %>
+      <li>
+        <a href="/report/<%= report.reportNum %>">
+          <div class="report-item">
+            <div class="report-details">
+              <span>보고서 번호: <%= report.reportNum %></span>
+              <span>학생 이름: <%= report.student.name %></span>
+              <span>작성 날짜: <%= new Date(report.createdAt).toLocaleString() %></span>
+              <span>확인 여부: <%= report.reportStatus ? '확인' : '미확인' %></span>
+              <% if (report.encodedImageBase64String) { %>
+                <img src="data:image/jpeg;base64,<%= report.encodedImageBase64String %>" alt="프로필 이미지"
+                  class="profile-image">
+                <% } %>
+            </div>
+          </div>
+        </a>
+      </li>
+      <% }); %>
+  </ul>
+</div>
 </body>
 </html>

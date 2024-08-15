@@ -4,7 +4,7 @@
     margin: auto;
     background-color: white;
     padding: 2%;
-    
+
 }
 
 .prmoise-title {
@@ -18,9 +18,9 @@
 }
 
 .promise__submit-button {
-    background-color: white; 
-    border: 1px solid #2D6210; 
-    color: #2D6210;     
+    background-color: white;
+    border: 1px solid #2D6210;
+    color: #2D6210;
     display: flex;
     justify-content: center;
     border-radius: 5px;
@@ -32,8 +32,8 @@
     background-color: #E1EFD7;
 
 }
- 
-.div__promise-sender{
+
+.div__promise-sender {
     margin-top: 20px;
 }
 
@@ -52,10 +52,10 @@
 }
 
 .promise__detail-profile {
-    margin-top: 20px; 
-    margin-bottom: 20px; 
-    border: 1px solid #2D6210; 
-    display: flex; 
+    margin-top: 20px;
+    margin-bottom: 20px;
+    border: 1px solid #2D6210;
+    display: flex;
     justify-content: center;
 }
 

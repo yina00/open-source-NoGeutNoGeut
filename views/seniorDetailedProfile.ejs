@@ -147,14 +147,14 @@
           <% } %>
       </div>
       <br>
-      <input type="button" value="약속잡기"
+      <input type="button" value="채팅하기"
         style="font-size: 15px; color: white; border: 0; border-radius: 15px; background-color:#2D6210; padding: 10px; display: inline-block;" onclick="redirectTORequest()">
       </div>
   </div>
   <script>
     function redirectTORequest() {
-      window.location.href = '/promiseToSn/<%=senior.seniorNum %>'; // 원하는 경로로 변경
-    }
+        window.location.href = '/chat/toSenior/<%=senior.seniorNum %>'; // 원하는 경로로 변경
+      }
   </script>
 </body>
 

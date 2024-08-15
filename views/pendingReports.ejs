@@ -48,17 +48,26 @@
     
   </header>
 
-    <div class="list-container">
-        <% reports.forEach(report => { %>
-            <a href="/reportForm?promiseNum=<%= report.promiseNum %>">
-                <div class="report-item">
-                    <div class="report-details">
-                        <span>약속 번호: <%= report.promiseNum %></span>
-                        <span>노인 이름: <%= report.seniorName %></span>
-                    </div>
-                </div>
-            </a>
+  <div class="list-container">
+    <ul>
+      <% reports.forEach(report=> { %>
+        <li>
+          <a href="/reportForm?promiseNum=<%= report.promiseNum %>">
+            <div class="report-item">
+              <div class="report-details">
+                <span>약속 번호: <%= report.promiseNum %></span>
+                <span>노인 이름: <%= report.seniorName %></span>
+                <% if (report.promiseTitle) { %>
+                  <span>약속 제목: <%= report.promiseTitle %></span>
+                  <% } else { %>
+                    <span>약속 제목: 알수없음</span>
+                    <% } %>
+              </div>
+            </div>
+          </a>
+        </li>
         <% }); %>
-    </div>
+    </ul>
+  </div>
 </body>
 </html>

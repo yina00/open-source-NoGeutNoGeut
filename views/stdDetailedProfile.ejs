@@ -152,7 +152,7 @@
         <% }) %>
       </div>
       <br>
-      <input type="button" value="약속잡기"
+      <input type="button" value="채팅하기"
         style="font-size: 15px; color: white; border: 0; border-radius: 15px; background-color: #2D6210; padding: 10px; display: inline-block;" onclick="redirectTORequest()">
       <button id="keep-button" onclick="toggleKeep(<%= student.stdNum %>)"
         style="font-size: 15px; color: white; border: 0; border-radius: 15px; background-color: #2D6210; padding: 10px; display: inline-block;">
@@ -165,7 +165,7 @@
     const isKeep = <%= JSON.stringify(isKeep) %>;
 
     function redirectTORequest() {
-      window.location.href = '/promiseToStd/<%=student.stdNum %>';
+      window.location.href = '/chat/toStudent/<%=student.stdNum %>';
     }
 
     async function toggleKeep(stdNum) {
