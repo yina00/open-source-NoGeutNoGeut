@@ -101,11 +101,13 @@ const StudentProfile = sequelize.define("StudentProfile", {
     type: DataTypes.INTEGER,
     allowNull: true
   },
+  /*
   universityVerified: {
     type: DataTypes.TINYINT,
     allowNull: false,
     defaultValue: 0
   }
+  */
 });
 
 module.exports = StudentProfile;
