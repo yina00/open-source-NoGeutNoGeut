@@ -1,5 +1,4 @@
-//studentProfile.js
-const { Sequelize, DataTypes } = require("sequelize");
+const { DataTypes } = require("sequelize");
 const sequelize = require("../config/database");
 const Member = require("./member");
 
@@ -7,6 +6,7 @@ const StudentProfile = sequelize.define("StudentProfile", {
   stdNum: {
     type: DataTypes.BIGINT,
     primaryKey: true,
+    allowNull: false,
     references: {
       model: Member,
       key: "memberNum"
@@ -28,9 +28,9 @@ const StudentProfile = sequelize.define("StudentProfile", {
     allowNull: false
   },
   enableMatching: {
-    type: DataTypes.TINYINT,
+    type: DataTypes.BOOLEAN,
     allowNull: false,
-    defaultValue: 1
+    defaultValue: true
   },
   gender: {
     type: DataTypes.STRING(20),
@@ -59,11 +59,15 @@ const StudentProfile = sequelize.define("StudentProfile", {
   },
   recentMatchingTime: {
     type: DataTypes.DATE,
-    allowNull: true
+    allowNull: true,   
   },
   yearOfBirth: {
     type: DataTypes.INTEGER,
-    allowNull: false
+    allowNull: false,
+    validate: {
+      min: 1940,
+      max: 2024
+    }
   },
   sido: {
     type: DataTypes.STRING(20),
@@ -85,6 +89,10 @@ const StudentProfile = sequelize.define("StudentProfile", {
     type: DataTypes.STRING(50),
     allowNull: false
   },
+  score: {
+    type: DataTypes.DOUBLE,
+    allowNull: false
+  },
   scoreCount: {
     type: DataTypes.INTEGER,
     allowNull: true
@@ -92,16 +100,13 @@ const StudentProfile = sequelize.define("StudentProfile", {
   scoreTotal: {
     type: DataTypes.INTEGER,
     allowNull: true
-  }
-  /*
+  },
   universityVerified: {
     type: DataTypes.TINYINT,
     allowNull: false,
     defaultValue: 0
   }
-}, {
-  timestamps: false
-}*/
 });
 
 module.exports = StudentProfile;
+

@@ -1,19 +1,21 @@
 //board.js
-const { Sequelize, DataTypes } = require("sequelize");
-const sequelize = require("../config/database");
+const { DataTypes } = require('sequelize');
+const sequelize = require('../config/database');
 
-const Board = sequelize.define("Board", {
+const Board = sequelize.define('Board', {
   boardID: {
     type: DataTypes.INTEGER,
     primaryKey: true,
-    autoIncrement: false
+    autoIncrement: true,
+    allowNull: false
   },
-  name: {
-    type: DataTypes.STRING(20),
+  boardName: {
+    type: DataTypes.STRING,
     allowNull: false
   }
 }, {
-  timestamps: false
+  timestamps: false,
+  tableName: 'Boards'
 });
 
 module.exports = Board;

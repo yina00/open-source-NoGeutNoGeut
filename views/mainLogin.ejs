@@ -1,4 +1,3 @@
-<!-- mainLogin.ejs -->
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -9,9 +8,10 @@
   <title>노긋노긋</title>
   <link href="/css/header.css" rel="stylesheet" type="text/css">
   <link rel="stylesheet" href="/css/login.css">
-  <script defer src="https://use.fontawesome.com/releases/v5.15.3/js/all.js"
-    integrity="sha384-haqrlim99xjfMxRP6EWtafs0sB1WKcMdynwZleuUSwJR0mDeRYbhtY+KPMr+JL6f"
-    crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.3/css/all.css"> <!-- FontAwesome -->
+  <script>
+    
+  </script>
 </head>
 <body>
   <!-- Header Section -->
@@ -37,6 +37,12 @@
         <label for="password">비밀번호</label>
         <input type="password" id="password" name="password" placeholder="Password" required>
         <button type="submit">로그인</button>
+         <!-- 구글 로그인 버튼 추가 -->
+    <div class="google-signin">
+      <a href="/auth/google" class="google-signin-button">
+        <i class="fab fa-google"></i> 구글로 로그인하기
+      </a>
+    </div>
         <div class="options">
           <a href="#">아이디 찾기</a>
           <a href="#">비밀번호 찾기</a>
@@ -44,6 +50,9 @@
         </div>
       </form>
     </div>
+    
+   
+
     <div class="image-container">
       <img src="/images/mainhome.jpeg" alt="Large Image">
     </div>
