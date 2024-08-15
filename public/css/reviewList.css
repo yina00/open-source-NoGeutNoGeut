@@ -1,0 +1,38 @@
+.review-list {
+    height: 900px;
+    width: 1000px;
+    margin: auto;
+    background-color: white;
+    padding: 2%;
+    overflow-y: auto;
+}
+
+.review-item {
+    background-color: white;
+    width: 600px;
+    display: flex;
+    margin: auto;
+    flex-direction: column;
+    justify-content: center;
+    padding: 10px;
+    border-radius: 15px;
+    border: 2px solid #E1EFD7;
+    margin-bottom: 20px;
+}
+
+.review-item:hover {
+    background-color: #E1EFD7;
+}
+
+.review-details {
+    padding: 5px;
+}
+
+.info__box {
+    display: flex;
+    justify-content: space-between;
+}
+
+.infoDetail {
+    color: #2D6210;
+}
