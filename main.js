@@ -142,7 +142,8 @@ app.use('/', googleRoutes); // 구글 로그인 라우터
 app.use('/main', mainController.mainRender);
 app.get('/logout', loginController.logout);
 app.get('/Detail', detailedController.myPage);
-app.post("/Detail/goodbye", deleteController.record_delete, deleteController.user_delete); //탈퇴 하기 기능
+//탈퇴 하기 기능
+app.post("/Detail/goodbye", deleteController.board_delete, deleteController.record_delete, deleteController.user_delete);
 app.get('/Detail/profile', detailedController.detail);
 app.get('/Detail/Senior', detailedController.oldDetail);
 app.use('/senior', seniorProfileRoutes);

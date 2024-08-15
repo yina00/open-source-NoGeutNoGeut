@@ -35,41 +35,6 @@ exports.board_delete = async (req, res, next) => {
     }
 };
 
-// 채팅 삭제
-exports.chat_delete = async (req, res, next) => {
-    try {
-        const memberNum = req.session.userID;
-
-        console.log('회원 번호: ', memberNum);
-
-        await MemberChatRoom.destroy({ where: { memberNum: memberNum } });
-
-        //
-        await ChatRoom.destroy({
-            where: {
-                [Op.or]: [
-                    { stdNum: memberNum },
-                    { protectorNum: memberNum }
-                ]}
-        });
-
-        await Message.destroy({
-            where: {
-                [Op.or]: [
-                    { senderNum : memberNum }, //유지
-                    { receiverNum: memberNum }
-                ]}
-        });
-
-        console.log('채팅 기록 삭제 성공');
-        res.next();
-
-    } catch (error) {
-        console.log('채팅 관련 데이터 삭제 중 오류가 발생했습니다.',error);
-        res.status(500).send('채팅 관련 데이터 삭제 중 오류가 발생했습니다.');
-    }
-};
-
 // 리뷰-보고서-약속 삭제
 exports.record_delete = async (req, res, next) => {
     try {
@@ -182,6 +147,41 @@ exports.goodbye= async (req, res) => {
         res.status(500).send('매칭 삭제 중 오류가 발생했습니다.');
     }
 }; */
+
+// 채팅 삭제
+exports.chat_delete = async (req, res, next) => {
+    try {
+        const memberNum = req.session.userID;
+
+        console.log('회원 번호: ', memberNum);
+
+        await MemberChatRoom.destroy({ where: { memberNum: memberNum } });
+
+        //
+        await ChatRoom.destroy({
+            where: {
+                [Op.or]: [
+                    { stdNum: memberNum },
+                    { protectorNum: memberNum }
+                ]}
+        });
+
+        await Message.destroy({
+            where: {
+                [Op.or]: [
+                    { senderNum : memberNum }, //유지
+                    { receiverNum: memberNum }
+                ]}
+        });
+
+        console.log('채팅 기록 삭제 성공');
+        res.next();
+
+    } catch (error) {
+        console.log('채팅 관련 데이터 삭제 중 오류가 발생했습니다.',error);
+        res.status(500).send('채팅 관련 데이터 삭제 중 오류가 발생했습니다.');
+    }
+};
 
 // 찜 삭제 (노인만)
 exports.keep_delete = async (req, res) => {
