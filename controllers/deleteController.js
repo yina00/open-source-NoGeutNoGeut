@@ -10,6 +10,65 @@ const Keep = require("../models/keep");
 const Report = require('../models/report');
 const Review = require('../models/review');
 const Matching = require('../models/matching');
+const MemberChatRoom = require('../models/memberChatRoom');
+const ChatRoom = require('../models/chatRoom');
+const Message = require('../models/message');
+const Comment = require('../models/comment');
+const Post = require('../models/post');
+
+// 게시판 삭제
+exports.board_delete = async (req, res, next) => {
+    try {
+        const memberNum = req.session.userID;
+
+        console.log('회원 번호: ', memberNum);
+
+        await Comment.destroy({ where: { memberNum: memberNum } });
+        await Post.destroy({ where: { memberNum: memberNum } });
+
+        console.log('게시판 관련 데이터 삭제 성공');
+        res.next();
+
+    } catch (error) {
+        console.log('게시판 관련 데이터 삭제 중 오류가 발생했습니다.',error);
+        res.status(500).send('게시판 관련 데이터 삭제 중 오류가 발생했습니다.');
+    }
+};
+
+// 채팅 삭제
+exports.chat_delete = async (req, res, next) => {
+    try {
+        const memberNum = req.session.userID;
+
+        console.log('회원 번호: ', memberNum);
+
+        await MemberChatRoom.destroy({ where: { memberNum: memberNum } });
+
+        //
+        await ChatRoom.destroy({
+            where: {
+                [Op.or]: [
+                    { stdNum: memberNum },
+                    { protectorNum: memberNum }
+                ]}
+        });
+
+        await Message.destroy({
+            where: {
+                [Op.or]: [
+                    { senderNum : memberNum }, //유지
+                    { receiverNum: memberNum }
+                ]}
+        });
+
+        console.log('채팅 기록 삭제 성공');
+        res.next();
+
+    } catch (error) {
+        console.log('채팅 관련 데이터 삭제 중 오류가 발생했습니다.',error);
+        res.status(500).send('채팅 관련 데이터 삭제 중 오류가 발생했습니다.');
+    }
+};
 
 // 리뷰-보고서-약속 삭제
 exports.record_delete = async (req, res, next) => {
@@ -27,7 +86,7 @@ exports.record_delete = async (req, res, next) => {
             });
 
         await Review.destroy({
-            where: { reviewReceiver: memberNum }
+            where: { reviewReceiver: memberNum } // 리뷰 삭제(내가 작성한 후기는 세이브)
         });
 
         await Report.destroy({
@@ -46,7 +105,7 @@ exports.record_delete = async (req, res, next) => {
                 ]}
         });
 
-        console.log('테스트 성공');
+        console.log('리뷰-보고서-약속 데이터 삭제 성공');
         next();
 
     } catch (error) {
@@ -59,27 +118,18 @@ exports.record_delete = async (req, res, next) => {
 exports.user_delete = async (req, res) => {
     try {
         const memberNum = req.session.userID;
+        const userType = req.session.userType;
         console.log('회원 번호: ', memberNum);
-        
-        const member = await Member.findOne({
-            where: { memberNum: memberNum },
-            attributes: ['userType'],
-        });
-
-        if (!member) {
-            throw new Error('회원 정보를 찾을 수 없습니다.');
-        }
-
-        const userType = member.userType;
         console.log('회원 유형: ', userType);
 
         await InterestField.destroy({ where: { memberNum: memberNum } });
 
         if (userType === 'student') {
-            await StudentProfile.destroy({ where: { memberNum: memberNum } });
+            await StudentProfile.destroy({ where: { stdNum: memberNum } });
             console.log('학생 프로필 삭제 완료');
-        } else if (userType === 'senior') {
-            await SeniorProfile.destroy({ where: { memberNum: memberNum } });
+        }
+        else if (userType === 'senior') {
+            await SeniorProfile.destroy({ where: { seniorNum: memberNum } });
             console.log('시니어 프로필 삭제 완료');
         }
 
@@ -88,7 +138,7 @@ exports.user_delete = async (req, res) => {
         req.session.destroy(err => {
             if (err) {
                 console.log('세션 종료 중 오류가 발생했습니다.', err);
-                return res.status(500).send('세션 종료 중 오류가 발생했습니다.'); //세션 종료 오류 발생 시 데베 삭제 막기
+                return res.status(500).send('세션 종료 중 오류가 발생했습니다.');
             }
             console.log('계정 삭제 성공 및 세션 종료 완료');
             res.redirect('/');
@@ -100,29 +150,9 @@ exports.user_delete = async (req, res) => {
     }
 };
 
-// 찜 삭제 (노인만)
-exports.keep_delete = async (req, res) => {
-    try {
-        const memberNum = req.session.userID;
-        console.log('memberNum: ', memberNum);
 
-        await Keep.destroy({
-        //수정
-            where: {
-                [Op.or]: [
-                    { stdNum: memberNum },
-                    { seniorNum: memberNum }
-                ]}
-        });
 
-        console.log('테스트 성공');
-        res.redirect('/');
-
-    } catch (error) {
-        console.log('찜 목록 삭제 중 오류가 발생했습니다.',error);
-        res.status(500).send('찜 목록 삭제 중 오류가 발생했습니다.');
-    }
-};
+//------------------------------------------------
 
 // 매칭 삭제 (미완)
 /*
@@ -153,13 +183,14 @@ exports.goodbye= async (req, res) => {
     }
 }; */
 
-// 보고서 삭제
-exports.report_delete = async (req, res) => {
+// 찜 삭제 (노인만)
+exports.keep_delete = async (req, res) => {
     try {
         const memberNum = req.session.userID;
         console.log('memberNum: ', memberNum);
 
-        await Report.destroy({
+        await Keep.destroy({
+        //수정
             where: {
                 [Op.or]: [
                     { stdNum: memberNum },
@@ -171,29 +202,7 @@ exports.report_delete = async (req, res) => {
         res.redirect('/');
 
     } catch (error) {
-        console.log('보고서 목록 삭제 중 오류가 발생했습니다.',error);
-        res.status(500).send('보고서 삭제 중 오류가 발생했습니다.');
+        console.log('찜 목록 삭제 중 오류가 발생했습니다.',error);
+        res.status(500).send('찜 목록 삭제 중 오류가 발생했습니다.');
     }
 };
-
-// 리뷰 삭제(내가 작성한 후기는 세이브)
-exports.review_delete = async (req, res) => {
-    try {
-        const memberNum = req.session.userID;
-        console.log('memberNum: ', memberNum);
-
-        await Review.destroy({
-            where: { reviewReceiver: memberNum }
-        });
-
-        console.log('테스트 성공');
-        res.redirect('/');
-
-    } catch (error) {
-        console.log('리뷰 삭제 중 오류가 발생했습니다.',error);
-        res.status(500).send('리뷰 삭제 중 오류가 발생했습니다.');
-    }
-};
-
-// 게시판 삭제 (boards, comments, posts)
-// 채팅 삭제 (chatRooms, memberChatRooms, messages)
