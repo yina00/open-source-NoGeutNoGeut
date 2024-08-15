@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="stylesheet" href="/css/header.css" type="text/css" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="start-date" content="2024-05-10">
+  <title>노긋노긋</title>
+  <script defer src="https://use.fontawesome.com/releases/v5.15.3/js/all.js"
+    integrity="sha384-haqrlim99xjfMxRP6EWtafs0sB1WKcMdynwZleuUSwJR0mDeRYbhtY+KPMr+JL6f"
+    crossorigin="anonymous"></script>
+</head>
+
+<body style="background-color: #E1EFD7;">
+  <header class="header__container">
+    <!-- Site H1 / display: none -->
+    <h1 class="main-title">노긋노긋메인홈</h1>
+    <div class="header__block">
+      <a href="/Detail"> 마이페이지 </a>
+      <a href="/logout"> 로그아웃 </a>
+    </div>
+    <div class="header_nav-main-block">
+      <!-- 네비게이션에 해당하는 부분 -->
+      <nav class="header__nav-block">
+        <ul class="nav__list" role="navigation">
+          <li class="nav__list-item">
+            <a href="/main" aria-label="노긋노긋 홈페이지">
+              <img src="/images/logo.png" width="50" alt="로고">
+            </a>
+          </li>
+          <li class="nav__list-item">
+            <a href="/filter"> 매칭 </a>
+          </li>
+          <li class="nav__list-item">
+            <a href="/chat"> 채팅 </a>
+          </li>
+          <li class="nav__list-item">
+            <a href="/promiseList"> 약속 </a>
+          </li>
+          <li class="nav__list-item">
+            <a href="/postList/1"> 게시판 </a>
+          </li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <div style="width: 710px; margin: auto;">
+    <h2>프로필</h2>
+    <div style="width: 700px; background-color: white; margin: auto; padding: 50px;">
+      <img src="data:image/jpeg;base64,<%= encodedImageBase64String %>"
+        style="width: 200px; height: 200px; border-radius: 50%; object-fit: cover;">
+      <table>
+        <tr>
+          <td style="width: 70px;">
+            <h4>이름</h4>
+          </td>
+          <td>
+            <%= user.name %>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <h4>나이</h4>
+          </td>
+          <td id="age">
+            <!-- 나이는 JavaScript로 동적으로 계산됩니다 -->
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <h4>성별</h4>
+          </td>
+          <td>
+            <%= student.gender %>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <h4>지역</h4>
+          </td>
+          <td>
+            <%= student.sido %>
+            <%= student.gu %>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <h4>매칭횟수</h4>
+          </td>
+          <td>
+            <%= student.matchingCount %>번
+          </td>
+        </tr>
+      </table>
+      <hr>
+      <h4>희망 분야</h4>
+      <div style="width: 110%; height: 60px;">
+        <% for (let i=0; i < interests.length; i++) { %>
+          <div
+            style="margin-bottom: 10px; margin-right: 15px ; width: 70px; height: 30px; border-radius: 15px; background-color: #E1EFD7; text-align : center; float: left;">
+            <%= interests[i] %>
+          </div>
+        <% } %>
+      </div>
+      <br>
+      <h4 style="display: inline;">희망 금액</h4>
+      <h6 style="display: inline;"> 1시간 기준</h6><br><br>
+      <div
+        style="width: 70px; height: 30px; border-radius: 15px; background-color: #E1EFD7; display: flex; justify-content: center; align-items: center;">
+        <%= student.desiredAmount %>
+      </div>
+      <br>
+
+      <h4>가능 요일과 시간</h4>
+      <div
+        style="width: 120px; height: 30px; border-radius: 15px; background-color: #E1EFD7; display: flex; justify-content: center; align-items: center;">
+        <%= student.availableDay %>요일 <%= student.availableTime %>
+      </div>
+      <br>
+
+      <hr>
+      <h4>자기소개</h4>
+      <div class="self-intro" style="background-color: #F8F8F8; border-radius: 20px; padding: 10px;">
+        <%- student.introduce %>
+      </div>
+      <br>
+      <hr>
+      <h4>후기 평점</h4>
+      <div style="width: 70px; height: 30px; border-radius: 15px; background-color: #E1EFD7; display: flex; justify-content: center; align-items: center;">
+        <%= student.score %>점
+      </div>
+
+      <h4>후기</h4>
+      <div style="overflow-y: scroll; background-color: #F8F8F8; border-radius: 20px; padding: 15px; height: 300px;">
+        <% for (let i=0; i < review.length; i++) { %>
+          <div style="background-color: #E1EFD7; border-radius: 20px; padding: 15px; margin-bottom: 10px;">
+            <%= review[i].reviewContent %>
+          </div>
+        <% } %>
+      </div>
+      <br>
+      <input type="button" value="약속잡기"
+        style="font-size: 15px; color: white; border: 0; border-radius: 15px; background-color:#2D6210; padding: 10px; display: inline-block;"
+        onclick="redirectToNext()">
+    </div>
+  </div>
+  <script>
+    // 출생연도 값 가져오기
+    const birthYear = <%= student.birthYear %>;
+    const currentYear = new Date().getFullYear();
+    const age = currentYear - birthYear + 1; // 생년 기준으로 계산 (출생연도 포함)
+
+    // 나이 표시
+    document.getElementById('age').textContent = `${age}세`;
+
+    function redirectToNext() {
+      window.location.href = '#';
+    }
+  </script>
+</body>
+
+</html>

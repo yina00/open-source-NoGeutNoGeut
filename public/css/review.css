@@ -1,0 +1,108 @@
+.review-container {
+    width: 1000px;
+    height: 1000px;
+    margin: auto;
+    background-color: white;
+    padding: 2%;
+}
+
+.review-container section {
+    margin-top: 20px;
+}
+
+.review-container h1 {
+    color: #2D6210;
+    margin-top: 0;
+    padding-top: 10px;
+}
+
+.satisfaction-sticker {
+    margin-top: 20px;
+}
+
+.sticker-icons {
+    display: flex;
+    margin-top: 50px;
+    margin-left: 20px;
+}
+
+.sticker-icons .material-icons {
+    color: #E1EFD7;
+    font-size: 60px;
+    position: relative;
+}
+.sticker-icons .material-icons:nth-child(2) {
+    left: 150px;
+}
+
+.sticker-icons .material-icons:nth-child(3) {
+    left: 300px;
+}
+
+.sticker-icons .material-icons:nth-child(4) {
+    left: 450px;
+}
+
+.sticker-icons .material-icons:nth-child(5) {
+    left: 600px;
+}
+.one-line-review {
+    margin-top: 70px;
+}
+
+.one-line-review input[type="text"] {
+    width: 950px;
+    height: 60px;
+    font-size: 15px;
+    border: 1px solid #2D6210;
+    margin: auto;
+    display: flex;
+    justify-content: center;
+}
+
+.submit-button {
+    display: flex;
+    justify-content: center;
+    margin-top: 80px;
+}
+
+.submit-button input[type="submit"] {
+    height: 40px;
+    width: 90px;
+    font-size: 20px;
+    border: 1px solid #2D6210;
+    margin-bottom: 50px;
+    color: #2D6210;
+}
+
+/* hover 상태 정의 */
+.submit-button input[type="submit"]:hover {
+    background-color: #E1EFD7;
+    /* 호버 시 배경색 */
+    color: #2D6210;
+    /* 호버 시 텍스트 색상 */
+}
+.star-rating {
+    /*display: flex;*/
+    display: flex;
+    justify-content: center;
+        /* 가운데 정렬 */
+    gap: 120px;
+        /* 별 사이의 간격 조절 */
+}
+
+.star {
+    appearance: none;
+    padding: 10px;
+}
+
+.star::after {
+    content: '☆';
+    color: #E1EFD7;
+    font-size: 60px;
+}
+.star.selected::after {
+    content: '★';
+    color: #E1EFD7;
+    /* 선택된 색상 */
+}

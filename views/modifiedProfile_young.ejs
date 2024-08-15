@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+   <link  rel="stylesheet" href="/css/header.css" type="text/css"/>
+  <link  rel="stylesheet" href="/css/youngProfile.css" type="text/css"/>
+  
+   <meta http-equiv="X-UA-Compatible" content="IE=edge">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <meta name="start-date" content="2024-05-10">
+   <title>노긋노긋</title>
+   <script defer src="https://use.fontawesome.com/releases/v5.15.3/js/all.js" integrity="sha384-haqrlim99xjfMxRP6EWtafs0sB1WKcMdynwZleuUSwJR0mDeRYbhtY+KPMr+JL6f" crossorigin="anonymous"></script>
+    </head>
+    <body style="background-color: #E1EFD7;">
+      <header class="header__container">
+        <!-- Site H1 / display: none -->
+        <h1 class="main-title">노긋노긋메인홈</h1>
+          <div class="header__block">
+            <a href="/Detail"> 마이페이지 </a>
+            <a href="/logout"> 로그아웃 </a>
+          </div>
+        <div class="header_nav-main-block">
+            <!-- 네비게이션에 해당하는 부분 -->
+          <nav class="header__nav-block">
+            <ul class="nav__list" role="navigation">
+              <li class="nav__list-item">
+                <a href="/main" aria-label="노긋노긋 홈페이지">
+                  <img src="/images/logo.png" width="50" alt="로고">
+                  </a>
+              </li>
+              <li class="nav__list-item">
+                <a href="/filter"> 매칭 </a>
+              </li>
+              <li class="nav__list-item">
+                <a href="/chat"> 채팅 </a>
+              </li>
+              <li class="nav__list-item">
+                <a href="/promiseList"> 약속 </a>
+              </li>
+              <li class="nav__list-item">
+                <a href="/postList/1"> 게시판 </a>
+              </li>
+            </ul>
+          </nav>
+        </div>
+        
+      </header>
+  
+<body>
+    <div class="container">
+        <h2>내 프로필 수정하기</h2>
+        <div class="form-container">
+          <!--경로 소문자로 설정-->
+            <form action="/edit/student" method="POST" enctype="multipart/form-data">
+
+                <h3>프로필 사진</h3>
+                <img id="profileImage" src="data:image/jpeg;base64,<%= encodedImageBase64String %>"
+                style="width: 200px; height: 200px; border-radius: 50%; object-fit: cover;">
+                <input type="file" id="chooseFile" name="profileImage" accept="image/*" onchange="loadFile(event)"
+                style="display: none;">
+
+                <input type="button" value="사진 업로드" onclick="document.getElementById('chooseFile').click();"
+                style="background-color:#F8F8F8; border: 0; width: 90px; height: 30px; border-radius: 10px;">
+                <br><br> 
+
+                <h3>이름</h3> <h6> 이름은 변경할 수 없습니다.</h6>
+                <input type="text" name="name" class="input-text" value="<%= user.name %>" disabled>
+                <br><br>
+
+                <h3>출생연도</h3> <h6> 출생연도는 변경할 수 없습니다.</h6>
+                <div class="form-group">
+                  <select id="birthYear" name="birthYear" class="age-box" disabled>
+                    <option value="<%= student.yearOfBirth %>"><%= student.yearOfBirth %></option>
+                   </select>
+                </div>
+                <br><br>
+
+                <h3>계좌번호</h3> <h6> 한국 123456789 (숫자만 입력해주세요.)</h6>
+                <input type="text" name="account" class="input-text" value="<%= student.account %>">
+                <br><br>
+
+                <h3>전화번호</h3>
+                <h6> 매칭 약속이 잡혔을 때 일정 문자발송을 위해 필요한 정보입니다. 다른 사람에겐 보이지 않는 정보입니다.</h6>
+                <input type="text" name="phoneNumber" value="<%= student.phoneNumber %>" class="input-text">
+                <br><br>
+
+                <h3>성별</h3> <h6> 성별은 변경할 수 없습니다.</h6>
+                <input type="radio" name="gender" id="female" value="female" <%- student.gender === '여성' ? 'checked' : '' %> disabled >여성
+                <input type="radio" name="gender" id="male" value="male" <%- student.gender === '남성' ? 'checked' : '' %> disabled >남성
+                <br><br>
+
+                <h3>대학명</h3> <h6> 재학 혹은 졸업한 대학 이름을 입력해 주세요.</h6>
+                <input type="text" name="university" class="input-text" value="<%= student.university %>">
+                <br><br>
+
+                <h3>전공</h3> <h6> 전공을 입력해 주세요.</h6>
+                <input type="text" name="major" class="input-text" value="<%= student.major %>">
+                <br><br>
+
+                <h3>지역</h3> <h6> 활동 가능한 지역을 선택해 주세요.</h6>
+                <div class="form-group">
+                    <select name="sido" id="sido" class="select-box">
+                        <option value="<%= student.sido %>">--<%= student.sido %>--</option>
+                    </select>
+
+                    <select name="gugun" id="gugun" class="select-box">
+                        <option value="<%= student.gu %>">--<%= student.gu %>--</option>
+                    </select>
+                </div>
+                <br><br>
+
+                
+                <h3>자신있는 분야</h3> <h6> 자신있는 분야를 선택해 주세요. (중복 선택 가능)</h6>
+                <input type="checkbox" name="favoField" value="FF_exercise" <%=interests.includes('운동') ? 'checked' : '' %>>운동
+                <input type="checkbox" name="favoField" value="FF_craft" <%=interests.includes('수공예') ? 'checked' : '' %>>수공예
+                <input type="checkbox" name="favoField" value="FF_digital" <%=interests.includes('디지털') ? 'checked' : '' %>>디지털
+                <input type="checkbox" name="favoField" value="FF_music" <%=interests.includes('음악') ? 'checked' : '' %>>음악
+                <input type="checkbox" name="favoField" value="FF_art" <%=interests.includes('미술') ? 'checked' : '' %>>미술
+                <input type="checkbox" name="favoField" value="FF_companion" <%=interests.includes('말동무') ? 'checked' : '' %>>말동무
+                <br><br>
+
+                <h3>희망 금액</h3> <h6> 원하시는 금액대를 선택해 주세요.</h6>
+                <input type="radio" name="desiredAmount" value="DA_free" <%=student.desiredAmount==='무료' ? 'checked' : '' %>>무료
+                <input type="radio" name="desiredAmount" value="DA_1" <%=student.desiredAmount==='1만원' ? 'checked' : '' %>>1만원
+                <input type="radio" name="desiredAmount" value="DA_3" <%=student.desiredAmount==='3만원' ? 'checked' : '' %>>3만원
+                <input type="radio" name="desiredAmount" value="DA_5" <%=student.desiredAmount==='5만원' ? 'checked' : '' %>>5만원
+                <input type="radio" name="desiredAmount" value="DA_10" <%=student.desiredAmount==='협의' ? 'checked' : '' %>>협의
+                <br><br>
+
+                <h3>가능 시간</h3> <h6> 가능한 시간대를 선택해 주세요.(중복 선택 불가, 가장 확실한 날을 입력해주세요.)</h6>
+                <h4>요일</h4>
+                <input type="radio" name="ableDay" value="ableDay_1" <%=student.availableDay==='월' ? 'checked' : '' %>>월
+                <input type="radio" name="ableDay" value="ableDay_2" <%=student.availableDay==='화' ? 'checked' : '' %>>화
+                <input type="radio" name="ableDay" value="ableDay_3" <%=student.availableDay==='수' ? 'checked' : '' %>>수
+                <input type="radio" name="ableDay" value="ableDay_4" <%=student.availableDay==='목' ? 'checked' : '' %>>목
+                <input type="radio" name="ableDay" value="ableDay_5" <%=student.availableDay==='금' ? 'checked' : '' %>>금
+                <input type="radio" name="ableDay" value="ableDay_6" <%=student.availableDay==='토' ? 'checked' : '' %>>토
+                <input type="radio" name="ableDay" value="ableDay_7" <%=student.availableDay==='일' ? 'checked' : '' %>>일
+                <br>
+
+                <h4>시간</h4>
+                <input type="radio" name="ableTime" value="오전" <%=student.availableTime === '오전' ? 'checked' : '' %>>오전
+                <input type="radio" name="ableTime" value="오후" <%=student.availableTime === '오후' ? 'checked' : '' %>>오후
+                <input type="radio" name="ableTime" value="협의" <%=student.availableTime === '협의' ? 'checked' : '' %>>협의
+                <br><br>
+
+                <h3>자기 소개</h3>
+                <textarea name="selfIntro" id="selfIntro" class="textarea" value="<%= student.introduce %>"><%= student.introduce %></textarea>
+                <br><br>
+
+                <!--
+                <h4>매칭 활성화 여부</h4>
+                <input type="checkbox" name="enableMatching" value= <%=student.enableMatching ? 'checked' : '' %>>활성화
+              -->
+                <br><br>
+                <input type="submit" value="저장"
+          style="font-size: 15px; color: white; border: 0; border-radius: 15px; background-color:#2D6210; padding: 10px; padding-left: 20px; padding-right: 20px; display: inline-block;">
+      
+
+                </form>
+
+            <script>
+                //프로필 수정 완료
+                function redirectToUpdate() {
+                  window.location.href = '/main'; // 임시
+                }
+
+                //시작 연도와 종료 연도를 설정
+                const startYear = 1940;
+                const endYear = 2024;
+        
+                const birthYearSelect = document.getElementById('birthYear');
+        
+                for (let year = startYear; year <= endYear; year++) {
+                  const option = document.createElement('option');
+                  option.value = year;
+                  option.text = year;
+                  birthYearSelect.appendChild(option);
+                }
+        
+        
+                birthYearSelect.addEventListener('mousedown', function () {
+                  this.size = 1; 
+                });
+        
+                const regionData = {
+                  "서울특별시": ["강남구", "강동구", "강북구", "강서구", "관악구", "광진구", "구로구", "금천구", "노원구", "도봉구", "동대문구", "동작구", "마포구", "서대문구", "서초구", "성동구", "성북구", "송파구", "양천구", "영등포구", "용산구", "은평구", "종로구", "중구", "중랑구"],
+                  "부산광역시": ["강서구", "금정구", "기장군", "남구", "동구", "동래구", "부산진구", "북구", "사상구", "사하구", "서구", "수영구", "연제구", "영도구", "중구", "해운대구"],
+                  "대구광역시": ["남구", "달서구", "달성군", "동구", "북구", "서구", "수성구", "중구"],
+                  "인천광역시": ["강화군", "계양구", "남동구", "동구", "미추홀구", "부평구", "서구", "연수구", "옹진군", "중구"],
+                  "광주광역시": ["광산구", "남구", "동구", "북구", "서구"],
+                  "대전광역시": ["대덕구", "동구", "서구", "유성구", "중구"],
+                  "울산광역시": ["남구", "동구", "북구", "울주군", "중구"],
+                  "세종특별자치시": ["세종시"],
+                  "경기도": ["가평군", "고양시", "과천시", "광명시", "광주시", "구리시", "군포시", "김포시", "남양주시", "동두천시", "부천시", "성남시", "수원시", "시흥시", "안산시", "안성시", "안양시", "양주시", "양평군", "여주시", "연천군", "오산시", "용인시", "의왕시", "의정부시", "이천시", "파주시", "평택시", "포천시", "하남시", "화성시"],
+                  "강원도": ["강릉시", "고성군", "동해시", "삼척시", "속초시", "양구군", "양양군", "영월군", "원주시", "인제군", "정선군", "철원군", "춘천시", "태백시", "평창군", "홍천군", "화천군", "횡성군"],
+                  "충청북도": ["괴산군", "단양군", "보은군", "영동군", "옥천군", "음성군", "제천시", "진천군", "청주시", "충주시", "증평군"],
+                  "충청남도": ["계룡시", "공주시", "금산군", "논산시", "당진시", "보령시", "부여군", "서산시", "서천군", "아산시", "연기군", "예산군", "천안시", "청양군", "태안군", "홍성군"],
+                  "전라북도": ["고창군", "군산시", "김제시", "남원시", "무주군", "부안군", "순창군", "완주군", "익산시", "임실군", "장수군", "전주시", "정읍시", "진안군"],
+                  "전라남도": ["강진군", "고흥군", "곡성군", "광양시", "구례군", "나주시", "담양군", "목포시", "무안군", "보성군", "순천시", "신안군", "여수시", "영광군", "영암군", "완도군", "장성군", "장흥군", "진도군", "함평군", "해남군", "화순군"],
+                  "경상북도": ["경산시", "경주시", "고령군", "구미시", "군위군", "김천시", "문경시", "봉화군", "상주시", "성주군", "안동시", "영덕군", "영양군", "영주시", "영천시", "예천군", "울릉군", "울진군", "의성군", "청도군", "청송군", "칠곡군", "포항시"],
+                  "경상남도": ["거제시", "거창군", "고성군", "김해시", "남해군", "밀양시", "사천시", "산청군", "양산시", "의령군", "진주시", "창녕군", "창원시", "통영시", "하동군", "함안군", "함양군", "합천군"],
+                  "제주특별자치도": ["서귀포시", "제주시"]
+                };
+        
+                const sidoSelect = document.getElementById('sido');
+                const gugunSelect = document.getElementById('gugun');
+        
+                for (const sido in regionData) {
+                  const option = document.createElement('option');
+                  option.value = sido;
+                  option.text = sido;
+                  sidoSelect.appendChild(option);
+                }
+        
+                sidoSelect.addEventListener('change', function () {
+                  gugunSelect.innerHTML = '<option value="">선택하세요</option>';
+        
+                  const selectedSido = this.value;
+                  const gugunList = regionData[selectedSido];
+        
+                  if (gugunList) {
+                    gugunList.forEach(function (gugun) {
+                      const option = document.createElement('option');
+                      option.value = gugun;
+                      option.text = gugun;
+                      gugunSelect.appendChild(option);
+                    });
+                  }
+                });
+        
+                //이미지 미리보기 기능
+                function loadFile(event) {
+                  const output = document.getElementById('profileImage');
+                  output.src = URL.createObjectURL(event.target.files[0]);
+                  output.onload = function () {
+                    URL.revokeObjectURL(output.src)
+                  }
+                }
+              
+              </script>
+
+        </div>
+    </div>
+</body>
+
+    <footer class="footer__container">
+        <section class="pages__container">
+          <a href="#">이용약관</a>
+          <a href="#">개인정보처리방침</a>
+          <a href="#">커뮤니티이용규칙</a>
+          <a href="#">문의하기</a>
+        </section>
+    </footer>
+</html>

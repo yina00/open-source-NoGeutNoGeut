@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <link rel="stylesheet" href="/css/header.css" type="text/css" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="start-date" content="2024-05-10">
+  <title>노긋노긋</title>
+  <script defer src="https://use.fontawesome.com/releases/v5.15.3/js/all.js"
+    integrity="sha384-haqrlim99xjfMxRP6EWtafs0sB1WKcMdynwZleuUSwJR0mDeRYbhtY+KPMr+JL6f"
+    crossorigin="anonymous"></script>
+</head>
+<body style="background-color: #E1EFD7;">
+
+  <div style="width: 710px; margin: auto;">
+    <h2>노인 프로필 등록하기</h2>
+    <div style="width: 800px; background-color: white; margin: auto; padding: 50px;">
+      <form action="/senior/create" method="POST" enctype="multipart/form-data">
+        <h3 style="display: inline;">프로필 사진</h3><br><br>
+        <img id="profileImage" src="/images/default_profile.png" onerror=""
+          style="width: 200px; height: 200px; border-radius: 50%; object-fit: cover;">
+        <input type="file" id="chooseFile" name="profileImage" accept="image/*" onchange="loadFile(event)"
+          style="display: none;">
+        <input type="button" value="사진 업로드" onclick="document.getElementById('chooseFile').click();"
+          style="background-color:#F8F8F8; border: 0; width: 90px; height: 30px; border-radius: 10px;"><br><br>
+        <h3 style="display: inline;">이름</h3>
+        <h6 style="display: inline;"> 이름을 입력해 주세요.</h6><br><br>
+        <input type="text" name="name"
+          style="border: 0; background-color: #F8F8F8; height: 30px; border-radius: 10px; padding: 10px;"><br><br><br>
+        <h3 style="display: inline;">출생연도</h3>
+        <h6 style="display: inline;"> 노인분의 출생연도를 선택해 주세요.</h6><br><br>
+        <div class="form-group">
+          <select style="font-size: large; width: 100px;" id="birthYear" name="birthYear"></select>
+        </div>
+        <br><br><br>
+        <h3 style="display: inline;">전화번호</h3>
+        <h6 style="display: inline;"> 노인분의 전화번호를 입력해 주세요.</h6><br>
+        <h6 style="display: inline;"> 매칭 약속이 잡혔을 때 일정 문자발송을 위해 필요한 정보입니다. 다른 사람에겐 보이지 않는 정보입니다.</h6><br><br>
+        <input type="text" name="phoneNumber" placeholder="예: 01012345678"
+          style="border: 0; background-color: #F8F8F8; height: 30px; border-radius: 10px; padding: 10px;"><br><br><br>
+        <h3 style="display: inline;">성별</h3>
+        <h6 style="display: inline;"> 노인분의 성별을 선택해 주세요.</h6><br><br>
+        <input type="radio" name="gender" value="female">여성
+        <input type="radio" name="gender" value="male">남성<br><br><br>
+        <h3 style="display: inline;">지역</h3>
+        <h6 style="display: inline;"> 거주중인 지역을 선택해 주세요.</h6><br><br>
+        <div class="form-group">
+          <label for="sido">시/도:</label>
+          <select style="font-size: large;" id="sido" name="sido">
+            <option value="">선택하세요</option>
+          </select><br><br>
+
+          <label for="gugun">구/군:</label>
+          <select style="font-size: large;" id="gugun" name="gugun">
+            <option value="">선택하세요</option>
+          </select>
+        </div>
+        <br><br><br>
+        <h3 style="display: inline;">희망하는 분야</h3>
+        <h6 style="display: inline;"> 자신있는 분야를 선택해 주세요. (중복 선택 가능)</h6><br><br>
+        <input type="checkbox" name="favoField" value="FF_exercise">운동
+        <input type="checkbox" name="favoField" value="FF_craft">수공예
+        <input type="checkbox" name="favoField" value="FF_digital">디지털
+        <input type="checkbox" name="favoField" value="FF_music">음악
+        <input type="checkbox" name="favoField" value="FF_art">미술
+        <input type="checkbox" name="favoField" value="FF_companion">말동무<br><br><br>
+        <h3 style="display: inline;">희망 금액</h3>
+        <h6 style="display: inline;"> 원하시는 금액대를 선택해 주세요.</h6><br><br>
+        <input type="radio" name="desiredAmount" value="DA_free">무료
+        <input type="radio" name="desiredAmount" value="DA_1">1만원
+        <input type="radio" name="desiredAmount" value="DA_3">3만원
+        <input type="radio" name="desiredAmount" value="DA_5">5만원
+        <input type="radio" name="desiredAmount" value="DA_disscu">협의<br><br><br>
+        <h3 style="display: inline;">가능 시간</h3>
+        <h6 style="display: inline;"> 가능한 시간대를 선택해 주세요.(중복 선택 가능)</h6><br><br>
+        <h4 style="display: inline; color: #434343;">요일</h4><br>
+        <input type="radio" name="ableDay" value="ableDay_1">월
+        <input type="radio" name="ableDay" value="ableDay_2">화
+        <input type="radio" name="ableDay" value="ableDay_3">수
+        <input type="radio" name="ableDay" value="ableDay_4">목
+        <input type="radio" name="ableDay" value="ableDay_5">금
+        <input type="radio" name="ableDay" value="ableDay_6">토
+        <input type="radio" name="ableDay" value="ableDay_7">일<br><br>
+        <h4 style="display: inline; color: #434343;">시간</h4><br>
+        <input type="radio" name="ableTime" value="ableTime_morn">오전
+        <input type="radio" name="ableTime" value="ableTime_noon">오후
+        <input type="radio" name="ableTime" value="ableTime_disscu">협의<br><br><br>
+        <h3 style="display: inline;">자기 소개</h3><br><br>
+        <textarea id="selfIntro" name="selfIntro" style="width: 700px; height: 300px; padding: 10px;"
+          placeholder="좀 더 구체적인 본인 소개와 가능 시간을 기재해 주세요. (500자 이내)" maxlength="500"></textarea>
+        <br><br>
+        <h3 id="caution" style="display: inline;">주의 사항</h3><br><br>
+        <textarea name="caution" style="width: 700px; height: 300px; padding: 10px;"
+          placeholder="노인분이 알러지 혹은 반드시 숙지해야하는 주의사항이 있다면 기재해 주세요. (500자 이내)" maxlength="500"></textarea>
+        <br><br>
+        <h4 style="display: inline;">매칭 활성화 여부</h3><br>
+          <input type="checkbox" name="active" id="active">활성화<br><br>
+          <input type="submit"
+            style="color: white; background-color: #2D6210; border: 0; width: 70px; height: 35px; border-radius: 10px;">
+      </form>
+
+      <script>
+        //시작 연도와 종료 연도를 설정
+        const startYear = 1940;
+        const endYear = new Date().getFullYear();
+
+        const birthYearSelect = document.getElementById('birthYear');
+        for (let year = startYear; year <= endYear; year++) {
+          const option = document.createElement('option');
+          option.value = year;
+          option.text = year;
+          birthYearSelect.appendChild(option);
+        }
+
+        //시/도와 구/군 데이터
+        const regionData = {
+          "서울특별시": ["강남구", "강동구", "강북구", "강서구", "관악구", "광진구", "구로구", "금천구", "노원구", "도봉구", "동대문구", "동작구", "마포구", "서대문구", "서초구", "성동구", "성북구", "송파구", "양천구", "영등포구", "용산구", "은평구", "종로구", "중구", "중랑구"],
+          "부산광역시": ["강서구", "금정구", "기장군", "남구", "동구", "동래구", "부산진구", "북구", "사상구", "사하구", "서구", "수영구", "연제구", "영도구", "중구", "해운대구"],
+          "대구광역시": ["남구", "달서구", "달성군", "동구", "북구", "서구", "수성구", "중구"],
+          "인천광역시": ["강화군", "계양구", "남동구", "동구", "미추홀구", "부평구", "서구", "연수구", "옹진군", "중구"],
+          "광주광역시": ["광산구", "남구", "동구", "북구", "서구"],
+          "대전광역시": ["대덕구", "동구", "서구", "유성구", "중구"],
+          "울산광역시": ["남구", "동구", "북구", "울주군", "중구"],
+          "세종특별자치시": ["세종시"],
+          "경기도": ["가평군", "고양시", "과천시", "광명시", "광주시", "구리시", "군포시", "김포시", "남양주시", "동두천시", "부천시", "성남시", "수원시", "시흥시", "안산시", "안성시", "안양시", "양주시", "양평군", "여주시", "연천군", "오산시", "용인시", "의왕시", "의정부시", "이천시", "파주시", "평택시", "포천시", "하남시", "화성시"],
+          "강원도": ["강릉시", "고성군", "동해시", "삼척시", "속초시", "양구군", "양양군", "영월군", "원주시", "인제군", "정선군", "철원군", "춘천시", "태백시", "평창군", "홍천군", "화천군", "횡성군"],
+          "충청북도": ["괴산군", "단양군", "보은군", "영동군", "옥천군", "음성군", "제천시", "진천군", "청주시", "충주시", "증평군"],
+          "충청남도": ["계룡시", "공주시", "금산군", "논산시", "당진시", "보령시", "부여군", "서산시", "서천군", "아산시", "연기군", "예산군", "천안시", "청양군", "태안군", "홍성군"],
+          "전라북도": ["고창군", "군산시", "김제시", "남원시", "무주군", "부안군", "순창군", "완주군", "익산시", "임실군", "장수군", "전주시", "정읍시", "진안군"],
+          "전라남도": ["강진군", "고흥군", "곡성군", "광양시", "구례군", "나주시", "담양군", "목포시", "무안군", "보성군", "순천시", "신안군", "여수시", "영광군", "영암군", "완도군", "장성군", "장흥군", "진도군", "함평군", "해남군", "화순군"],
+          "경상북도": ["경산시", "경주시", "고령군", "구미시", "군위군", "김천시", "문경시", "봉화군", "상주시", "성주군", "안동시", "영덕군", "영양군", "영주시", "영천시", "예천군", "울릉군", "울진군", "의성군", "청도군", "청송군", "칠곡군", "포항시"],
+          "경상남도": ["거제시", "거창군", "고성군", "김해시", "남해군", "밀양시", "사천시", "산청군", "양산시", "의령군", "진주시", "창녕군", "창원시", "통영시", "하동군", "함안군", "함양군", "합천군"],
+          "제주특별자치도": ["서귀포시", "제주시"]
+        };
+
+        const sidoSelect = document.getElementById('sido');
+        const gugunSelect = document.getElementById('gugun');
+        for (const sido in regionData) {
+          const option = document.createElement('option');
+          option.value = sido;
+          option.text = sido;
+          sidoSelect.appendChild(option);
+        }
+        sidoSelect.addEventListener('change', function () {
+          gugunSelect.innerHTML = '<option value="">선택하세요</option>';
+          const selectedSido = this.value;
+          const gugunList = regionData[selectedSido];
+          if (gugunList) {
+            gugunList.forEach(function (gugun) {
+              const option = document.createElement('option');
+              option.value = gugun;
+              option.text = gugun;
+              gugunSelect.appendChild(option);
+            });
+          }
+        });
+
+        function loadFile(event) {
+          const output = document.getElementById('profileImage');
+          output.src = URL.createObjectURL(event.target.files[0]);
+          output.onload = function () {
+            URL.revokeObjectURL(output.src) // free memory
+          }
+        }
+
+        //폼 제출 전 확인 스크립트
+        document.querySelector('form').addEventListener('submit', function(event) {
+            const requiredFields = [
+                'name',
+                'birthYear',
+                'phoneNumber',
+                'gender',
+                'sido',
+                'gugun',
+                'favoField',
+                'desiredAmount',
+                'ableDay',
+                'ableTime',
+                'selfIntro'
+            ];
+            let valid = true;
+            requiredFields.forEach(field => {
+                if (!document.querySelector(`[name="${field}"]`).value) {
+                    valid = false;
+                }
+            });
+            if (!valid) {
+                event.preventDefault();
+                alert('필수 입력 필드를 모두 입력하세요.');
+            }
+        });
+
+      </script>
+
+    </div>
+  </div>
+  <footer class="footer__container">
+    <section class="pages__container">
+      <a href="#">이용약관</a>
+      <a href="#">개인정보처리방침</a>
+      <a href="#">커뮤니티이용규칙</a>
+      <a href="#">문의하기</a>
+    </section>
+  </footer>
+</body>
+</html>

@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>보고서 상세</title>
+    <link href="/css/reportDetail.css?v=1.0" rel="stylesheet" type="text/css">
+    <link href="/css/header?v=1.0" rel="stylesheet" type="text/css">
+</head>
+<body>
+      <!-- Header Section -->
+      <header class="header__container">
+        <!-- Site H1 / display: none -->
+        <h1 class="main-title">노긋노긋메인홈</h1>
+          <div class="header__block">
+            <a href="/Detail"> 마이페이지 </a>
+            <a href="/logout"> 로그아웃 </a>
+          </div>
+        <div class="header_nav-main-block">
+            <!-- 네비게이션에 해당하는 부분 -->
+          <nav class="header__nav-block">
+            <ul class="nav__list" role="navigation">
+              <li class="nav__list-item">
+                <a href="/main" aria-label="노긋노긋 홈페이지">
+                  <img src="/images/logo.png" width="50" alt="로고">
+                  </a>
+              </li>
+              <li class="nav__list-item">
+                <a href="/filter"> 매칭 </a>
+              </li>
+              <li class="nav__list-item">
+                <a href="/chat"> 채팅 </a>
+              </li>
+              <li class="nav__list-item">
+                <a href="/promiseList"> 약속 </a>
+              </li>
+              <li class="nav__list-item">
+                <a href="/postList/1"> 게시판 </a>
+              </li>
+            </ul>
+          </nav>
+        </div>
+        <div class="side__nav-container">
+            <ul class="nav__list" role="navigation">
+                <li class="nav__review__list-item">
+                    <a href="/reportList">보고서 목록</a>
+                </li>
+            </ul>
+        </div>
+        
+      </header>
+  <div id="container" style="width: 900px; margin: auto;">
+    <div id="container1" style="background-color: white; width: 900px;">
+        <div class="report-number" style="margin-top: 20px;">
+            <h2>보고서 상세페이지</h2>
+        </div>
+        <div id="date" style="margin-left: 30px; margin-top: 50px;">
+            <div>보고서 번호: <%= report.reportNum %></div>
+            <div>보고서 작성 날짜: <%= report.createdAt.toLocaleString() %> </div>
+            <div>약속 날짜: <%= promiseDay.toLocaleDateString() %> <%= startTime %> - <%= finishTime %></div>
+            <div>확인 여부: <% if (report.reportStatus) { %><%= report.updatedAt.toLocaleString() %><% } else { %>아직 확인하지 않았습니다.<% } %></div>
+        </div>
+        <div id="name" style="margin-left: 30px; margin-top: 20px;">
+            <div>학생 이름: <%= student.name %></div>
+            <div>노인 이름: <%= senior.seniorName %></div>
+        </div>
+        <div id="contents" style="margin-left: 30px; margin-top: 20px;">
+            <label for="reportContent">활동 내용:</label><br>
+            <textarea id="reportContent" name="reportContent" rows="4" cols="50"  readonly><%= report.reportContent %></textarea><br>
+        </div>
+        <div class="image-container" style="width: 700px; height: 300px; text-align: center; margin-left: 30px; margin-top: 20px;">
+            <img src="data:image/png;base64,<%= base64Image %>" alt="Report Image">
+        </div>
+    </div>
+    <div class="report-confirm"style="text-align:center; margin-top: 20px;">
+        <% if (user.userType === 'senior') { %>
+            <% if (!report.reportStatus) { %>
+                <button onclick="confirmReport(<%= report.reportNum %>)">확인</button>
+            <% } else { %>
+                <span>이미 확인이 완료되었습니다.</span>
+            <% } %>
+        <% } else if (user.userType === 'student') { %>
+            <% if (report.reportStatus) { %>
+                <span>확인이 완료된 보고서입니다.</span>
+            <% } %>
+        <% } %>
+    </div>
+    <script>
+        function confirmReport(reportNum) {
+            fetch(`/confirmReport/${reportNum}`, { method: 'POST' })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.message) {
+                        alert(data.message);
+                        location.reload();
+                    } else {
+                        alert('확인 중 오류가 발생했습니다.');
+                    }
+                })
+                .catch(error => console.error('Error:', error));
+        }
+    </script>
+
+
+</body>
+</html>

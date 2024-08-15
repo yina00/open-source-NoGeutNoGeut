@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="start-date" content="2024-05-10">
+  <title>노긋노긋</title>
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link href="/css/header.css" rel="stylesheet" type="text/css">
+  <link href="/css/mainhome.css" rel="stylesheet" type="text/css">
+  <script defer src="https://use.fontawesome.com/releases/v5.15.3/js/all.js"
+    integrity="sha384-haqrlim99xjfMxRP6EWtafs0sB1WKcMdynwZleuUSwJR0mDeRYbhtY+KPMr+JL6f"
+    crossorigin="anonymous"></script>
+</head>
+<body>
+  <!-- Header Section -->
+  <header class="header__container">
+    <!-- Site H1 / display: none -->
+    <h1 class="main-title">노긋메인홈</h1>
+    <div class="header__block">
+      <% if (typeof user !== 'undefined' && user) { %>
+        <h6 style="font-size: small; padding: 0; margin-top: 0; margin-bottom: 0; margin-right: 20px;">반갑습니다, <%= user.name %>님!</h6>
+        <a href="/Detail"> 마이페이지 </a>
+        <a href="/logout"> 로그아웃 </a>
+      <% } else { %>
+        <a href="/login"> 로그인 </a>
+      <% } %>
+    </div>
+    <div class="header_nav-main-block">
+      <!-- 네비게이션에 해당하는 부분 -->
+      <nav class="header__nav-block">
+        <ul class="nav__list" role="navigation">
+            <li class="nav__list-item">
+                <a href="/main" aria-label="노긋노긋 홈페이지">
+                    <img src="/images/logo.png" width="50px" alt="로고">
+                </a>
+            </li>
+            <% if (typeof user !== 'undefined' && user) { %>
+              <% if (user.userType === 'student') { %>
+                  <li class="nav__list-item"><a href="/filter"> 매칭 </a></li>
+                  <li class="nav__list-item"><a href="/chat"> 채팅 </a></li>
+                  <li class="nav__list-item"><a href="/promiseList"> 약속 </a></li>
+                  <li class="nav__list-item"><a href="/postList/1"> 게시판 </a></li>
+              <% } else if (user.userType === 'senior') { %>
+                <li class="nav__list-item"><a href="/filter"> 매칭 </a></li>
+                <li class="nav__list-item"><a href="/chat"> 채팅 </a></li>
+                <li class="nav__list-item"><a href="/promiseList"> 약속 </a></li>
+                <li class="nav__list-item"><a href="/postList/1"> 게시판 </a></li>
+
+              <% } %>
+            <% } else { %>
+              <li class="nav__list-item"><a href="/filter"> 매칭 </a></li>
+              <li class="nav__list-item"><a href="/chat"> 채팅 </a></li>
+              <li class="nav__list-item"><a href="/promiseList"> 약속 </a></li>
+              <li class="nav__list-item"><a href="/postList/1"> 게시판 </a></li>
+            <% } %>
+        </ul>
+    </nav>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <div class="main-content">
+    <div class="content-container">
+      <div class="image-placeholder">
+        <img src="/images/mainhome.jpeg" alt="이미지 넣어야함!">
+      </div>
+      <div class="introduction">
+        <h2><span>노긋노긋</span> - 노인과 대학생의 따뜻한 만남</h2>
+        <p>
+          노긋노긋은 노인과 대학생을 연결하여 서로에게 도움을 주고받을 수 있는 플랫폼입니다. 
+          노인들은 대학생들의 활력과 지식을 통해 새로운 경험을 쌓고,
+          대학생들은 인생의 지혜를 배우며 소중한 인연을 맺을 수 있습니다.
+          함께하는 시간을 통해 세대 간의 이해와 소통을 증진시키고,
+          따뜻한 사회를 만들어갑니다.
+        </p>
+      </div>
+    </div>
+    <div class="button-container">
+      <a href="<%= user ? '/promiseList' : 'javascript:void(0);' %>" class="main-button" <%= !user ? 'onclick="alert(\'로그인이 필요합니다.\'); return false;"' : '' %>>
+        <span class="material-icons">chat</span>
+        <span>약속</span>
+      </a>
+      <a href="<%= user ? '/Detail' : 'javascript:void(0);' %>" class="main-button" <%= !user ? 'onclick="alert(\'로그인이 필요합니다.\'); return false;"' : '' %>>
+        <span class="material-icons">settings</span>
+        <span>마이페이지</span>
+      </a>
+      <a href="<%= user ? '/filter' : 'javascript:void(0);' %>" class="main-button" <%= !user ? 'onclick="alert(\'로그인이 필요합니다.\'); return false;"' : '' %>>
+        <span class="material-icons">handshake</span>
+        <span>매칭</span>
+      </a>
+      <% if (typeof user !== 'undefined' && user) { %>
+        <% if (user.userType === 'student') { %>
+          <a href="/postList/1" class="main-button">
+            <span class="material-icons">assignment</span>
+            <span>게시판</span>
+          </a>
+        <% } else if (user.userType === 'senior') { %>
+          <a href="/postList/1" class="main-button">
+            <span class="material-icons">assignment</span>
+            <span>게시판</span>
+          </a>
+        <% } %>
+      <% } else { %>
+        <a href="javascript:void(0);" class="main-button" onclick="alert('로그인이 필요합니다.'); return false;">
+          <span class="material-icons">assignment</span>
+          <span>게시판</span>
+        </a>
+      <% } %>
+    </div>
+  </div>
+
+  <!-- Footer Section -->
+  <footer class="footer__container">
+    <section class="pages__container">
+      <a href="#">이용약관</a>
+      <a href="#">개인정보처리방침</a>
+      <a href="#">커뮤니티이용규칙</a>
+      <a href="#">문의하기</a>
+    </section>
+  </footer>
+</body>
+</html>

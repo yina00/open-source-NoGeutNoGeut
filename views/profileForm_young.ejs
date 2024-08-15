@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+	<link  rel="stylesheet" href="/css/header.css" type="text/css"/>
+  <link rel="stylesheet" href="/css/profileForm.css" type="text/css"/>
+  <script defer src="/js/profileForm.js"></script>
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="start-date" content="2024-05-10">
+
+	<title>노긋노긋</title>
+	<script defer src="https://use.fontawesome.com/releases/v5.15.3/js/all.js" integrity="sha384-haqrlim99xjfMxRP6EWtafs0sB1WKcMdynwZleuUSwJR0mDeRYbhtY+KPMr+JL6f" crossorigin="anonymous"></script>
+    </head>
+    <body style="background-color: #E1EFD7;">
+	    <header class="header__container">
+    <!-- Site H1 / display: none -->
+    <h1 class="main-title">노긋 노긋</h1>
+      <div class="header__block">
+        <a href="#"> 마이페이지 </a>
+        <a href="#"> 로그인 </a>
+      </div>
+
+    <div class="header_nav-main-block">
+        <!-- 네비게이션에 해당하는 부분 -->
+      <nav class="header__nav-block">
+        <ul class="nav__list" role="navigation">
+
+          <li class="nav__list-item">
+            <a href="/main" aria-label="노긋노긋 홈페이지">
+                <img src="/images/logo.png" width=50px alt="로고">
+              </a>
+          </li>
+          <li class="nav__list-item">
+            <a href="/filter"> 매칭 </a>
+          </li>
+          <li class="nav__list-item">
+            <a href="/chat"> 채팅 </a>
+          </li>
+          <li class="nav__list-item">
+            <a href="/promiseList"> 약속 </a>
+          </li>
+          <li class="nav__list-item">
+            <a href="/postList/1"> 게시판 </a>
+          </li>
+        </ul>
+      </nav>
+    </div>
+
+    <script>
+    </script>
+
+  </header>
+  
+    <div class="container">
+        <h2>대학생 프로필 등록하기</h2>
+        <div class="form-container">
+            <form action="/create", method="post">
+                <h3>프로필 사진</h3>
+                <img src="./tmp.jpg" class="profile-image">
+                <input type="button" name="imageUpload" value="사진 업로드" class="upload-button">
+                <br><br> 
+
+                <h3>이름</h3> <h6> 이름을 입력해 주세요.</h6>
+                <input type="text" name="name" class="input-text">
+                <br><br>
+                <!--
+                <h3>나이</h3> <h6> 출생연도를 입력해 주세요.</h6>
+                <input type="text" name="birthYear" placeholder=" YYYY" class="input-text input-year">
+                <br><br>
+                -->
+
+                <h3>전화번호</h3>
+                <h6> 매칭 약속이 잡혔을 때 일정 문자발송을 위해 필요한 정보입니다. 다른 사람에겐 보이지 않는 정보입니다.</h6>
+                <input type="text" name="phoneNumber" placeholder="예: 01012345678" class="input-text">
+                <br><br>
+
+                <h3>성별</h3> <h6> 성별을 선택해 주세요.</h6>
+                <input type="radio" name="gender" id="female">여성
+                <input type="radio" name="gender" id="male">남성
+                <br><br>
+
+                <h3>대학명</h3> <h6> 재학 혹은 졸업한 대학 이름을 입력해 주세요.</h6>
+                <input type="text" name="unversity" class="input-text">
+                <br><br>
+
+                <h3>전공</h3> <h6> 전공을 입력해 주세요.</h6>
+                <input type="text" name="major" class="input-text">
+                <br><br>
+
+                <h3>지역</h3> <h6> 활동 가능한 지역을 선택해 주세요.</h6>
+                <div class="form-group">
+                    <select name="sido" class="select-box">
+                     <option>--시/도 선택--</option>
+                    </select>
+
+                    <select name="gugun" class="select-box">
+                        <option>--구/군 선택--</option>
+                    </select>
+                </div>
+                <br><br>
+
+                <h3>자신있는 분야</h3> <h6> 자신있는 분야를 선택해 주세요. (중복 선택 가능)</h6>
+                <input type="checkbox" name="favoField" id="FF_exercise">운동
+                <input type="checkbox" name="favoField" id="FF_craft">수공예
+                <input type="checkbox" name="favoField" id="FF_digital">디지털
+                <input type="checkbox" name="favoField" id="FF_music">음악
+                <input type="checkbox" name="favoField" id="FF_art">미술
+                <input type="checkbox" name="favoField" id="FF_companion">말동무
+                <br><br>
+
+                <h3>희망 금액</h3> <h6> 원하시는 금액대를 선택해 주세요.</h6>
+                <input type="radio" name="desiredAmount" id="DA_free">무료
+                <input type="radio" name="desiredAmount" id="DA_1">1만원
+                <input type="radio" name="desiredAmount" id="DA_3">3만원
+                <input type="radio" name="desiredAmount" id="DA_5">5만원
+                <input type="radio" name="desiredAmount" id="DA_disscu">협의
+                <br><br>
+
+                <h3>가능 시간</h3> <h6> 가능한 시간대를 선택해 주세요.()</h6>
+                <h4>요일</h4>
+                <input type="radio" name="ableDay" id="ableDay_1">월
+                <input type="radio" name="ableDay" id="ableDay_2">화
+                <input type="radio" name="ableDay" id="ableDay_3">수
+                <input type="radio" name="ableDay" id="ableDay_4">목
+                <input type="radio" name="ableDay" id="ableDay_5">금
+                <input type="radio" name="ableDay" id="ableDay_6">토
+                <input type="radio" name="ableDay" id="ableDay_7">일
+
+                <h4>시간</h4>
+                <input type="radio" name="ableTime" id="ableTime_morn">오전
+                <input type="radio" name="ableTime" id="ableTime_noon">오후
+                <input type="radio" name="ableTime" id="ableTime_disscu">협의
+                <br><br>
+
+                <h3>자기 소개</h3>
+                <textarea name="selfIntro" class="textarea" placeholder=" 더 구체적인 본인 소개와 가능 시간을 기재해 주세요."></textarea>
+                <br><br>
+
+                <h4>매칭 활성화 여부</h4>
+                <input type="radio" name="active" id="active">활성화
+                <br><br><br>
+
+                <input type="submit" class="submit-button">
+            </form>
+
+        </div>
+    </div>
+  </body>
+
+    <footer class="footer__container">
+        <section class="pages__container">
+          <a href="#">이용약관</a>
+          <a href="#">개인정보처리방침</a>
+          <a href="#">커뮤니티이용규칙</a>
+          <a href="#">문의하기</a>
+        </section>
+    </footer>
+</html>

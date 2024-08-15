@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="start-date" content="2024-05-10">
+  <title>노긋노긋</title>
+  <link href="/css/header.css" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="/css/login.css">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.3/css/all.css"> <!-- FontAwesome -->
+  <script>
+    
+  </script>
+</head>
+<body>
+  <!-- Header Section -->
+  <header class="header__container">
+    <h1 class="main-title">코밋메인홈</h1>
+    <div style="height: 30px; background-color: white;"></div>
+    <div class="header_nav-main-block">
+      <nav class="header__nav-block">
+      </nav>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <div class="container">
+    <div class="login-container">
+      <form class="login-form" action="/login" method="POST">
+        <h2>로그인</h2>
+        <% if (typeof error !== 'undefined' && error) { %>
+          <p><%= error %></p>
+        <% } %>
+        <label for="email">이메일</label>
+        <input type="email" id="email" name="email" placeholder="Email" required>
+        <label for="password">비밀번호</label>
+        <input type="password" id="password" name="password" placeholder="Password" required>
+        <button type="submit">로그인</button>
+         <!-- 구글 로그인 버튼 추가 -->
+    <div class="google-signin">
+      <a href="/auth/google" class="google-signin-button">
+        <i class="fab fa-google"></i> 구글로 로그인하기
+      </a>
+    </div>
+        <div class="options">
+          <a href="#">아이디 찾기</a>
+          <a href="#">비밀번호 찾기</a>
+          <a href="/signup">회원가입</a> <!-- 회원가입 링크 추가 -->
+        </div>
+      </form>
+    </div>
+    
+   
+
+    <div class="image-container">
+      <img src="/images/mainhome.jpeg" alt="Large Image">
+    </div>
+  </div>
+
+  <!-- Footer Section -->
+  <footer class="footer__container">
+    <section class="pages__container">
+      <a href="#">이용약관</a>
+      <a href="#">개인정보처리방침</a>
+      <a href="#">커뮤니티이용규칙</a>
+      <a href="#">문의하기</a>
+    </section>
+  </footer>
+</body>
+</html>

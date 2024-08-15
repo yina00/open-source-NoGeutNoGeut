@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>회원가입</title>
+  <link href="/css/header.css" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="/css/signup.css">
+
+  <style>
+    .container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 90vh;
+      margin-top: -50px;
+    }
+
+    .signup-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+    }
+
+    .signup-form {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      width: 250px;
+    }
+
+    .signup-form input[type="email"] {
+      margin-right: 10px;
+    }
+
+    .signup-form button#checkEmail {
+      width: 80px; 
+      height: 40px; 
+      border: none; 
+      border-radius: 10px; 
+      background-color: #E1EFD7; 
+      color: #676767; 
+      font-size: 12px; 
+      font-weight: bold; 
+      cursor: pointer;
+    }
+
+    .signup-form input {
+      margin-top: 15px;
+      border: none;
+      width: 250px;
+      height: 40px;
+      border-radius: 10px;
+      color: black;
+      background-color: #F8F8F8;
+      font-size: 14px;
+      font-weight: bold;
+      text-align: center;
+      text-decoration: none;
+    }
+
+    .signup-form input::placeholder {
+      font-size: 12px;
+    }
+
+    .signup-form select, .signup-form button {
+      margin-top: 15px;
+      border: none;
+      width: 250px;
+      height: 40px;
+      border-radius: 10px;
+      color: black;
+      background-color: #F8F8F8;
+      font-size: 14px;
+      font-weight: bold;
+      text-align: center;
+      text-decoration: none;
+    }
+
+    .signup-form button {
+      background-color: #E1EFD7;
+      color: #676767;
+      font-size: 14px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    .signup-form button:hover, .signup-form button#checkEmail:hover {
+      background-color: #E1E1E1;
+    }
+
+    .age-userType-container {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .age-userType-container input,
+    .age-userType-container select {
+      width: 120px;
+      height: 40px;
+      border-radius: 10px;
+      color: black;
+      background-color: #F8F8F8;
+      font-size: 14px;
+      font-weight: bold;
+      text-align: center;
+      border: none;
+    }
+
+    .tooltip {
+      position: relative;
+      display: inline-block;
+      cursor: pointer;
+    }
+
+    .tooltip .tooltiptext {
+      color: black;
+      font-size: 13px;
+      text-align: center;
+      text-decoration: none;
+
+      visibility: hidden;
+      width: 280px;
+      height: 80px;
+      background-color: #333;
+      color: #fff;
+      text-align: center;
+      border-radius: 10px;
+      padding: 10px;
+      position: absolute;
+      z-index: 1;
+      bottom: 100%;
+      left: 70%;
+      margin-left: -100px;
+      opacity: 0.5;
+      transition: opacity 0.3s;
+    }
+
+    .tooltip .tooltiptext::after {
+      content: '';
+      position: absolute;
+      top: 100%;
+      left: 50%;
+      margin-left: -5px;
+      border-width: 5px;
+      border-style: solid;
+      border-color: #333 transparent transparent transparent;
+    }
+
+    .tooltip:hover .tooltiptext {
+      visibility: visible;
+      opacity: 1;
+    }
+
+  </style>
+</head>
+<body style="background-color: #EEECEC;">
+    <header class="header__container">
+        <!-- Site H1 / display: none -->
+        <h1 class="main-title">노긋노긋메인홈</h1>
+        <div class="header_nav-main-block">
+            <!-- 네비게이션에 해당하는 부분 -->
+          <nav class="header__nav-block" style="display: flex; justify-content: start">
+            <ul class="nav__list" role="navigation">
+              <li class="nav__list-item" style="margin-left: 300px;">
+                    <a href="/main" aria-label="노긋노긋 홈페이지">
+                    <img src="/images/logo.png" width="50" alt="로고">
+                    </a>
+                </li>
+            </ul>
+          </nav>
+        </div>
+        
+      </header>
+
+  <div class="container">
+    <div class="signup-container">
+      <form class="signup-form" action="/signup" method="POST">
+
+        <% if (typeof error !== 'undefined' && error) { %>
+          <p><%= error %></p>
+        <% } %>
+
+        <div>
+        <h2 style="color: #676767; margin-left: 80px;"> 회원가입 </h2>
+        
+        <div style="display: flex; align-items: center;">
+        <!--Email-->
+        <input type="email" id="email" name="email" placeholder="이메일을 입력해주세요." required>
+        <!--작동 안됨-->
+        <button type="button" id="checkEmail"> 중복확인 </button>
+        </div>
+        
+        <!--Password-->
+        <input type="password" id="password" name="password" placeholder="비밀번호를 입력해주세요." required>
+        
+        <!--Name-->
+        <input type="text" id="name" name="name" placeholder="이름을 입력해주세요." required>
+        
+        <div class="age-userType-container">
+          <!--Brith Year-->
+          <input type="age" id="age" name="age" placeholder="출생연도" required>
+          
+          <!--사용자 유형-->
+          <div class="tooltip">
+            <select id="userType" name="userType" required>
+              <option value="student"> 학생 </option>
+              <option value="senior"> 노인 </option>
+            </select>
+
+            <div class="tooltiptext">
+              서비스 사용 유형을 선택해주세요. <br> 유형에 따라 제공되는 서비스가 일부 달라지며 
+              <br> 선택 후 변경이 불가능합니다.
+            </div>
+          </div>
+        </div>
+
+        <button type="submit">회원가입</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+</body>
+<footer class="footer__container">
+    <section class="pages__container">
+      <a href="#">이용약관</a>
+      <a href="#">개인정보처리방침</a>
+      <a href="#">커뮤니티이용규칙</a>
+      <a href="#">문의하기</a>
+    </section>
+</footer>
+</html>

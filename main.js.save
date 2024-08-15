@@ -1,0 +1,60 @@
+"use strict";
+
+const express = require("express"),
+  layouts = require("express-ejs-layouts"),
+  app = express(),
+  router = express.Router(),
+  errorController = require("./controllers/errorController"),
+  categoryController = require("./controllers/categoryController.js"),
+  methodOverride = require("method-override");
+
+
+app.set("port", process.env.PORT || 80);
+app.set("view engine", "ejs");
+
+router.use(
+  methodOverride("_method", {
+    methods: ["POST", "GET"]
+  })
+);
+
+router.use(layouts);
+router.use(express.static("public"));
+
+router.use(
+  express.urlencoded({
+    extended: false
+  })
+);
+router.use(express.json());
+
+router.get("/", categoryController.index);
+
+//카테고리 라우트
+router.get("/categories", categoryController.index, categoryController.indexView);
+router.get("/categories/new", categoryController.new);
+router.post("/categories/create", categoryController.create, categoryController.redirectView);
+router.get("/categories/:id/edit", categoryController.edit);
+router.put("/categories/:id/update", categoryController.update, categoryController.redirectView);
+router.get("/categories/:id", categoryController.show, categoryController.showView);
+router.delete("/categories/:id/delete", categoryController.delete, categoryController.redirectView);
+
+//에러핸들링
+router.use(errorController.pageNotFoundError);
+router.use(errorController.internalServerError);
+
+app.use("/", router);
+
+app.listen(app.get("port"), () => {
+  console.log(`Server running at http://localhost:${app.get("port")}`);
+});
+g20221146@test2:~/sorting$ sudo node main.js
+Server running at http://localhost:80
+^C
+g20221146@test2:~/sorting$g20221146@test2:~/sorting$ sudo node main.js
+Server running at http://localhost:80
+^C
+g20221146@test2:~/sorting$g20221146@test2:~/sorting$ sudo node main.js
+Server running at http://localhost:80
+^C
+g20221146@test2:~/sorting$

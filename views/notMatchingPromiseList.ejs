@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Not Matching Promises</title>
+    <link href="/css/header.css?v=1.0" rel="stylesheet" type="text/css">
+    <link href="/css/promiseList.css?v=1.0" rel="stylesheet" type="text/css">
+</head>
+
+<body>
+    <header class="header__container">
+        <!-- Site H1 / display: none -->
+        <h1 class="main-title">노긋노긋메인홈</h1>
+          <div class="header__block">
+            <a href="/Detail"> 마이페이지 </a>
+            <a href="/logout"> 로그아웃 </a>
+          </div>
+        <div class="header_nav-main-block">
+            <!-- 네비게이션에 해당하는 부분 -->
+          <nav class="header__nav-block">
+            <ul class="nav__list" role="navigation">
+              <li class="nav__list-item">
+                <a href="/main" aria-label="노긋노긋 홈페이지">
+                  <img src="/images/logo.png" width="50" alt="로고">
+                  </a>
+              </li>
+              <li class="nav__list-item">
+                <a href="/filter"> 매칭 </a>
+              </li>
+              <li class="nav__list-item">
+                <a href="/chat"> 채팅 </a>
+              </li>
+              <li class="nav__list-item">
+                <a href="/promiseList"> 약속 </a>
+              </li>
+              <li class="nav__list-item">
+                <a href="/postList/1"> 게시판 </a>
+              </li>
+            </ul>
+          </nav>
+        </div>
+
+        <div class="side__nav-container">
+            <ul class="nav__list" role="navigation">
+                <li class="side__nav__list-item">
+                    <a href="/promiseList/notmatchingPromiseList"> 수락 전 </a>
+                </li>
+                <li class="side__nav__list-item">
+                    <a href="/promiseList/matchingPromiseList"> 수락 후</a>
+                </li>
+            </ul>
+        </div>
+
+        
+      </header>
+
+    <main>
+        <div class="promise__list-container">
+            <h2 class="prmoise-title"> 성사 전 약속 </h2>
+                <% if (promises.length===0) { %>
+                <h3 class="heading"> 아직 잡은 약속이 없습니다. </h3>
+                <% } else { %>
+                    <ul class="promise-list">
+                    <% promises.forEach(promise=> { %>
+                        <li class="promise-item" onclick="redirectToPromiseDetailPage('<%= promise.promiseNum %>')">
+                            <div div class="div1">
+                                <span>약속번호: <%= promise.promiseNum %></span>
+                            </div>
+                            <div class="div2">
+                                <span>약속 날짜: <%= promise.date %></span>
+                            </div>
+                            <div class="names-container">
+                                <span class="student-name">시작 시간: <%= promise.startTime %></span>
+                                <span class="student-name">종료 시간: <%= promise.finishTime %></span>
+                            </div>
+                        </li>
+                     <% }); %>
+                    </ul>
+                <% } %>
+            </div>
+    </main>
+    <!-- 자바스크립트 코드 추가 -->
+    <!-- 자바스크립트 코드 추가 -->
+    <script>
+        function redirectToPromiseDetailPage(promiseNum) {
+            // 약속 상세페이지의 URL을 생성합니다.
+            const promiseDetailUrl = `/promiseList/${promiseNum}/request`;
+
+            //약속 상세페이지로 이동
+            window.location.href = promiseDetailUrl;
+        }
+    </script>
+    <!-- Footer Section -->
+    <footer class="footer__container">
+        <section class="pages__container">
+            <a href="#">이용약관</a>
+            <a href="#">개인정보처리방침</a>
+            <a href="#">커뮤니티이용규칙</a>
+            <a href="#">문의하기</a>
+        </section>
+    </footer>
+</body>
+
+</html>

@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="start-date" content="2024-05-10">
+    <title>약속 확인</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <link href="/css/header.css?v=1.0" rel="stylesheet" type="text/css">
+    <link href="/css/promise.css?v=1.0" rel="stylesheet" type="text/css">
+</head>
+
+<body>
+    <!-- Header Section -->
+    <!-- Header Section -->
+  <header class="header__container">
+    <!-- Site H1 / display: none -->
+    <h1 class="main-title">노긋노긋메인홈</h1>
+      <div class="header__block">
+        <a href="/Detail"> 마이페이지 </a>
+        <a href="/logout"> 로그아웃 </a>
+      </div>
+    <div class="header_nav-main-block">
+        <!-- 네비게이션에 해당하는 부분 -->
+      <nav class="header__nav-block">
+        <ul class="nav__list" role="navigation">
+          <li class="nav__list-item">
+            <a href="/main" aria-label="노긋노긋 홈페이지">
+              <img src="/images/logo.png" width="50" alt="로고">
+              </a>
+          </li>
+          <li class="nav__list-item">
+            <a href="/filter"> 매칭 </a>
+          </li>
+          <li class="nav__list-item">
+            <a href="/chat"> 채팅 </a>
+          </li>
+          <li class="nav__list-item">
+            <a href="/promiseList"> 약속 </a>
+          </li>
+          <li class="nav__list-item">
+            <a href="/postList/1"> 게시판 </a>
+          </li>
+        </ul>
+      </nav>
+    </div>
+    
+  </header>
+    <!--학생에게 보여주는 화면-->
+    <h2>약속이 성사되었습니다</h2>
+    <h4>입금 확인이 되었다면 아래의 확인버튼을 눌러주세요.</h4>
+
+    <!-- 약속 정보 표시 -->
+    <!--<p>약속 일자: <%= promise.promiseDay %></p>-->
+    <p>약속 일자: <%= promise.formattedPromiseDay %>
+    </p>
+    <p>시작 시간: <%= promise.startTime %>
+    </p>
+    <p>종료 시간: <%= promise.finishTime %>
+    </p>
+
+    <!-- 입금 확인 버튼 -->
+    <% if (!promise.depositStatus) { %>
+        <form action="/promiseList/<%=promise.promiseNum%>/deposit" method="POST">
+            <button type="submit" style="color: #2D6210;">입금 확인</button>
+        </form>
+        <% } else { %>
+            <p>입금 확인: 이미 확인되었습니다.</p>
+            <% } %>
+
+                <!-- Footer Section -->
+                <footer class="footer__container">
+                    <section class="pages__container">
+                        <a href="#">이용약관</a>
+                        <a href="#">개인정보처리방침</a>
+                        <a href="#">커뮤니티이용규칙</a>
+                        <a href="#">문의하기</a>
+                    </section>
+                </footer>
+</body>
+
+</html>

@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>게시판</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            display: flex;
+            height: 1080px;
+        }
+
+        .sidebar {
+            width: 240px;
+            background-color: #E1EFD7;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        .sidebar ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        .sidebar li {
+            margin-bottom: 10px;
+        }
+
+        .sidebar a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .content {
+            flex-grow: 1;
+            display: flex;
+            justify-content: center;
+            background-color: #ffffff;
+            padding: 20px;
+        }
+
+        .post-container {
+            width: 100%;
+            max-width: 800px;
+        }
+
+        .post-list {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        .post-list li {
+            background-color: #f9f9f9;
+            margin-bottom: 10px;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 15px;
+            width: 100%;
+        }
+
+        .post-list a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .post-list .region {
+            color: green;
+            font-weight: bold;
+            margin-right: 10px;
+        }
+
+        .floating-button {
+            position: fixed;
+            bottom: 50px;
+            right: 50px;
+            z-index: 1000;
+            /* 버튼이 다른 콘텐츠 위에 표시되도록 설정 */
+        }
+
+        .floating-button button {
+            background-color: green;
+            color: white;
+            border: none;
+            padding: 15px 20px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        .floating-button button:hover {
+            background-color: #3c974e;
+        }
+        .pagination {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .pagination a {
+            margin: 0 5px;
+            text-decoration: none;
+            color: green;
+        }
+
+        .pagination a:hover {
+            text-decoration: underline;
+        }
+
+        .search-container {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+
+        .search-container input[type="text"] {
+            width: 300px;
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+            margin-right: 10px;
+        }
+
+        .search-container button {
+            padding: 10px 20px;
+            background-color: green;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .search-container button:hover {
+            background-color: #3c974e;
+        }
+    </style>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="/css/header.css" rel="stylesheet" type="text/css">
+    <link href="/css/mainhome.css" rel="stylesheet" type="text/css">
+    <script defer src="https://use.fontawesome.com/releases/v5.15.3/js/all.js"
+        integrity="sha384-haqrlim99xjfMxRP6EWtafs0sB1WKcMdynwZleuUSwJR0mDeRYbhtY+KPMr+JL6f"
+        crossorigin="anonymous"></script>
+</head>
+
+<body>
+    <!-- Header Section -->
+    <header class="header__container">
+        <!-- Site H1 / display: none -->
+        <h1 class="main-title">노긋메인홈</h1>
+        <div class="header__block">
+            <% if (typeof user !=='undefined' && user) { %>
+                <h6 style="font-size: small; padding: 0; margin-top: 0; margin-bottom: 0; margin-right: 20px;">반갑습니다,
+                    <%= user.name %>님!
+                </h6>
+                <a href="/Detail"> 마이페이지 </a>
+                <a href="/logout"> 로그아웃 </a>
+                <% } else { %>
+                    <a href="/login"> 로그인 </a>
+                    <% } %>
+        </div>
+        <div class="header_nav-main-block">
+            <!-- 네비게이션에 해당하는 부분 -->
+            <nav class="header__nav-block">
+                <ul class="nav__list" role="navigation">
+                    <li class="nav__list-item">
+                        <a href="/main" aria-label="노긋노긋 홈페이지">
+                            <img src="/images/logo.png" width="50px" alt="로고">
+                        </a>
+                    </li>
+                    <% if (typeof user !=='undefined' && user) { %>
+                        <li class="nav__list-item"><a href="/filter"> 매칭 </a></li>
+                        <li class="nav__list-item"><a href="/chat"> 채팅 </a></li>
+                        <li class="nav__list-item"><a href="/promiseList"> 약속 </a></li>
+                        <li class="nav__list-item"><a href="/postList/1"> 게시판 </a></li>
+                        <% if (user.userType==='student' ) { %>
+                            <% } else if (user.userType==='senior' ) { %>
+
+                                <% } %>
+                                    <% } else { %>
+                                        <li class="nav__list-item"><a href="javascript:void(0);"
+                                                onclick="alert('로그인이 필요합니다.'); return false;"> 매칭 </a></li>
+                                        <li class="nav__list-item"><a href="javascript:void(0);"
+                                                onclick="alert('로그인이 필요합니다.'); return false;"> 채팅 </a></li>
+                                        <li class="nav__list-item"><a href="javascript:void(0);"
+                                                onclick="alert('로그인이 필요합니다.'); return false;"> 약속 </a></li>
+                                        <li class="nav__list-item"><a href="javascript:void(0);"
+                                                onclick="alert('로그인이 필요합니다.'); return false;"> 게시판 </a></li>
+                                        <% } %>
+                </ul>
+            </nav>
+        </div>
+    </header>
+    <div class="container">
+        <div class="sidebar">
+            <ul id="region-list">
+                <% boards.forEach(function(board) { %>
+                    <li>
+                        <a href="/postList/<%= board.boardID %>">
+                            <%= board.boardName %> 게시판
+                        </a>
+                    </li>
+                    <% }); %>
+            </ul>
+        </div>
+        <div class="content">
+            <div class="post-container">
+                <div class="search-container">
+                    <h1><%= board.boardName %> 게시판</h1>
+                    <form action="/postList/search/<%= board.boardID %>" method="GET">
+                        <input type="text" name="word" placeholder="검색어를 입력하세요..." />
+                        <button type="submit">검색</button>
+                    </form>
+                </div>
+                <ul class="post-list" id="post-list">
+                    <% posts.forEach(function(post) { %>
+                        <li>
+                            <a href="/post/<%= post.postID %>">
+                                <span class="region">
+                                    <%= post.region %>
+                                </span>
+                                <span class="title">
+                                    <%= post.title %>
+                                </span>
+                            </a>
+                        </li>
+                        <% }); %>
+                </ul>
+                <div class="pagination">
+                    <% if (currentPage > 1) { %>
+                        <a href="?page=<%= currentPage - 1 %>">이전</a>
+                    <% } %>
+                    
+                    <% for (let i = 1; i <= totalPages; i++) { %>
+                        <a href="?page=<%= i %>" class="<%= currentPage === i ? 'active' : '' %>"><%= i %></a>
+                    <% } %>
+                    
+                    <% if (currentPage < totalPages) { %>
+                        <a href="?page=<%= currentPage + 1 %>">다음</a>
+                    <% } %>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="floating-button">
+        <a href="/post/renderCreatePost">
+            <button>게시글 작성</button>
+        </a>
+    </div>
+</body>
+
+</html>

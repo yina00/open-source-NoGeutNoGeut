@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>프로필</title>
+</head>
+<body>
+    <h1>환영합니다, <%= user.name %>님!</h1>
+    <p>아이디: <%= user.memberID %></p>
+    <p>나이: <%= user.age %></p>
+    <img src="data:image/jpeg;base64,<%= encodedImageBase64String %>" alt="프로필 사진">
+    <!-- 다른 사용자 정보 표시 -->
+</body>
+</html>

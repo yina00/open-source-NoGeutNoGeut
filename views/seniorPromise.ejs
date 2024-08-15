@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="start-date" content="2024-05-10">
+  <title>약속잡기</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+  <link href="/css/header.css?v=1.0" rel="stylesheet" type="text/css">
+  <link href="/css/promise.css?v=1.0" rel="stylesheet" type="text/css">
+</head>
+
+<body>
+  <!-- Header Section -->
+  <header class="header__container">
+    <!-- Site H1 / display: none -->
+    <h1 class="main-title">노긋노긋메인홈</h1>
+      <div class="header__block">
+        <a href="/Detail"> 마이페이지 </a>
+        <a href="/logout"> 로그아웃 </a>
+      </div>
+    <div class="header_nav-main-block">
+        <!-- 네비게이션에 해당하는 부분 -->
+      <nav class="header__nav-block">
+        <ul class="nav__list" role="navigation">
+          <li class="nav__list-item">
+            <a href="/main" aria-label="노긋노긋 홈페이지">
+              <img src="/images/logo.png" width="50" alt="로고">
+              </a>
+          </li>
+          <li class="nav__list-item">
+            <a href="/filter"> 매칭 </a>
+          </li>
+          <li class="nav__list-item">
+            <a href="/chat"> 채팅 </a>
+          </li>
+          <li class="nav__list-item">
+            <a href="/promiseList"> 약속 </a>
+          </li>
+          <li class="nav__list-item">
+            <a href="/postList/1"> 게시판 </a>
+          </li>
+        </ul>
+      </nav>
+    </div>
+    
+  </header>
+
+  <div class="prmoise-container">
+    <h1 class="prmoise-title">약속잡기</h1>
+    <!-- 상대방 이름 불러오기 -->
+    <form action="/promiseTosn/<%=seniorNum%>" id="promiseForm" method="POST">
+      <div class="form-group">
+        <label for="promiseDay">약속 날짜</label>
+        <input type="date" class="form-control" id="promiseDay" name="promiseDay" required>
+      </div>
+      <div class="form-group">
+        <label for="startTime">시작 시간</label>
+        <input type="time" class="form-control" id="startTime" name="startTime">
+      </div>
+      <div class="form-group">
+        <label for="finishTime">종료 시간</label>
+        <input type="time" class="form-control" id="finishTime" name="finishTime">
+      </div>
+      <button type="submit" class="promise__submit-button">약속 신청</button>
+    </form>
+  </div>
+  <!-- Footer Section -->
+  <footer class="footer__container">
+    <section class="pages__container">
+      <a href="#">이용약관</a>
+      <a href="#">개인정보처리방침</a>
+      <a href="#">커뮤니티이용규칙</a>
+      <a href="#">문의하기</a>
+    </section>
+  </footer>
+</body>
+
+</html>

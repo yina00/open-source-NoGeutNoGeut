@@ -1,0 +1,24 @@
+.container {
+    margin-top: 50px;
+    padding-top: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.buttons {
+    display: flex;
+    gap: 20px; /* 버튼 사이의 간격 */
+}
+.button {
+    width: 250px;
+    height: 180px;
+    background-color: #E1EFD7;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    margin: 20px;
+    margin-top: 0;
+    border-radius: 20px;
+}

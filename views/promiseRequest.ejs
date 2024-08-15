@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="start-date" content="2024-05-10">
+    <title>약속 확인</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <link href="/css/header.css?v=1.0" rel="stylesheet" type="text/css">
+    <link href="/css/promise.css?v=1.0" rel="stylesheet" type="text/css">
+    <script src="/js/stdPromise.js"></script>
+</head>
+
+<body>
+      <!-- Header Section -->
+  <header class="header__container">
+    <!-- Site H1 / display: none -->
+    <h1 class="main-title">노긋노긋메인홈</h1>
+      <div class="header__block">
+        <a href="/Detail"> 마이페이지 </a>
+        <a href="/logout"> 로그아웃 </a>
+      </div>
+    <div class="header_nav-main-block">
+        <!-- 네비게이션에 해당하는 부분 -->
+      <nav class="header__nav-block">
+        <ul class="nav__list" role="navigation">
+          <li class="nav__list-item">
+            <a href="/main" aria-label="노긋노긋 홈페이지">
+              <img src="/images/logo.png" width="50" alt="로고">
+              </a>
+          </li>
+          <li class="nav__list-item">
+            <a href="/filter"> 매칭 </a>
+          </li>
+          <li class="nav__list-item">
+            <a href="/chat"> 채팅 </a>
+          </li>
+          <li class="nav__list-item">
+            <a href="/promiseList"> 약속 </a>
+          </li>
+          <li class="nav__list-item">
+            <a href="/postList/1"> 게시판 </a>
+          </li>
+        </ul>
+      </nav>
+    </div>
+    
+  </header>
+    <div class="prmoise-container">
+    <% if (sender===promise.promiseSender) { %>
+        <!--요청 보내는 쪽-->
+        <h2 class="prmoise-title">약속 확인 페이지</h2>
+        <h4>약속 요청을 보냈어요!</h4>
+        
+        <!-- 약속 정보 표시 -->
+        <div class="promise__deposit-item">약속 일자: <%= promise.formattedPromiseDay %>
+        </div>
+        <div class="promise__deposit-item">시작 시간: <%= promise.startTime %>
+        </div>
+        <div class="promise__deposit-item">종료 시간: <%= promise.finishTime %>
+        </div>
+        <button type="button" class="promise__submit-button" id="confirmButton">확인</button>
+        <script>
+            document.getElementById("confirmButton").addEventListener("click", function () {
+                window.location.href = "/promiseList/notmatchingPromiseList";
+            });
+        </script>
+    <% } else { %>
+            <!--요청 받는 쪽-->
+            <h2 class="prmoise-title">약속 확인 페이지</h2>
+            <h4>약속 요청이 들어왔어요!</h4>
+            <h4>아래의 내용을 잘 읽고 수락 여부를 결정하세요.</h4>
+            <h4>약속이 한 번 성사된 후에는 취소하실 수 없습니다. </h4>
+            <h4> 신중하게 결정해주세요</h4>
+            <!--<form action="/promiseList/<%=promise.promiseNum%>/<%=promise.promiseSender%>"> 
+                <button type="button" class="btn btn-detail">상대방 프로필 보기</button>
+            </form>-->
+<div class="promise__detail-profile" >
+    <a href="/promiseList/<%=promise.promiseNum%>/request/<%=promise.promiseSender%>">상대방 프로필 보기</a>
+</div>
+            
+
+            <!-- 약속 정보 표시 -->
+            <div class="promise__deposit-item">약속 일자: <%= promise.formattedPromiseDay %>
+            </div >
+            <div class="promise__deposit-item">시작 시간: <%= promise.startTime %>
+            </div>
+            <div class="promise__deposit-item">종료 시간: <%= promise.finishTime %>
+            </div>
+            <!--아래 경로 수정-->
+                <form action="/promiseList/<%=promise.promiseNum%>/request" id="promiseForm" method="POST">
+                    <div class="promise__deposit-button-container">
+                    <div>
+                        <button type="button" class="promise__submit-button" onclick="acceptPromise('<%= promise.promiseNum %>')">수락</button>
+                    </div>
+                    <div style="margin-left: 20px;">
+                        <button type="button" class="promise__submit-button" onclick="rejectPromise('<%= promise.promiseNum %>')">거절</button>
+                    </div>
+                </div>
+                </form>
+            
+            
+    <% } %>
+    </div>
+    <!-- Footer Section -->
+    <footer class="footer__container">
+        <section class="pages__container">
+            <a href="#">이용약관</a>
+            <a href="#">개인정보처리방침</a>
+            <a href="#">커뮤니티이용규칙</a>
+            <a href="#">문의하기</a>
+        </section>
+    </footer>
+</body>
+
+</html>
