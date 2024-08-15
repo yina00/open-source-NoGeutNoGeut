@@ -27,7 +27,7 @@ exports.board_delete = async (req, res, next) => {
         await Post.destroy({ where: { memberNum: memberNum } });
 
         console.log('게시판 관련 데이터 삭제 성공');
-        res.next();
+        next();
 
     } catch (error) {
         console.log('게시판 관련 데이터 삭제 중 오류가 발생했습니다.',error);
