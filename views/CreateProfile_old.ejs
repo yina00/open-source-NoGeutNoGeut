@@ -18,7 +18,7 @@
     <div style="width: 800px; background-color: white; margin: auto; padding: 50px;">
       <form action="/senior/create" method="POST" enctype="multipart/form-data">
         <h3 style="display: inline;">프로필 사진</h3><br><br>
-        <img id="profileImage" src="" onerror="this.src='https://i.ytimg.com/vi/as9gGq8itrk/maxresdefault.jpg'"
+        <img id="profileImage" src="/images/default_profile.png" onerror=""
           style="width: 200px; height: 200px; border-radius: 50%; object-fit: cover;">
         <input type="file" id="chooseFile" name="profileImage" accept="image/*" onchange="loadFile(event)"
           style="display: none;">

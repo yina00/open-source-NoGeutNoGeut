@@ -17,7 +17,7 @@
             <form id="profileForm" action="/student/create" method="post" enctype="multipart/form-data">
                 <!-- 폼 내용 -->
                 <h3>프로필 사진</h3>
-                <img id="profileImage" src="" onerror="this.src='https://i.ytimg.com/vi/as9gGq8itrk/maxresdefault.jpg'"
+                <img id="profileImage" src="/images/default_profile.png" onerror=""
                 style="width: 200px; height: 200px; border-radius: 50%; object-fit: cover;">
                 <input type="file" id="chooseFile" name="profileImage" accept="image/*" onchange="loadFile(event)"
                 style="display: none;">
