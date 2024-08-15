@@ -50,6 +50,10 @@
 
               <% } %>
             <% } else { %>
+              <li class="nav__list-item"><a href="/filter"> 매칭 </a></li>
+              <li class="nav__list-item"><a href="/chat"> 채팅 </a></li>
+              <li class="nav__list-item"><a href="/promiseList"> 약속 </a></li>
+              <li class="nav__list-item"><a href="/postList/1"> 게시판 </a></li>
             <% } %>
         </ul>
     </nav>
@@ -88,20 +92,20 @@
       </a>
       <% if (typeof user !== 'undefined' && user) { %>
         <% if (user.userType === 'student') { %>
-          <a href="/reportList" class="main-button">
+          <a href="/postList/1" class="main-button">
             <span class="material-icons">assignment</span>
-            <span>보고서 작성</span>
+            <span>게시판</span>
           </a>
         <% } else if (user.userType === 'senior') { %>
-          <a href="/reportList" class="main-button">
+          <a href="/postList/1" class="main-button">
             <span class="material-icons">assignment</span>
-            <span>보고서 확인</span>
+            <span>게시판</span>
           </a>
         <% } %>
       <% } else { %>
         <a href="javascript:void(0);" class="main-button" onclick="alert('로그인이 필요합니다.'); return false;">
           <span class="material-icons">assignment</span>
-          <span>보고서 작성 및 확인</span>
+          <span>게시판</span>
         </a>
       <% } %>
     </div>
