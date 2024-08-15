@@ -32,6 +32,7 @@ const promiseListRoutes = require("./routes/promiseListRoutes.js");
 const reportRoutes = require("./routes/reportRoutes.js");
 const appointmentRoutes = require('./routes/appointmentRoutes.js');
 const googleRoutes = require('./routes/googleRoutes');
+const postListRoutes = require("./routes/postListRoutes.js");
 // 컨트롤러
 const errorController = require("./controllers/errorController");
 const loginController = require("./controllers/loginController");
@@ -164,6 +165,7 @@ app.use('/promiseTosn', promiseToSnRoutes);
 app.use('/promiseList', promiseListRoutes);
 app.use('/', appointmentRoutes);
 app.use('/', reportRoutes);
+app.use('/postList', postListRoutes);
 
 app.get('/complete-profile', ensureAuthenticated, async (req, res) => {
   try {
