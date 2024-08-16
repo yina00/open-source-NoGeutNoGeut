@@ -54,14 +54,48 @@
         <a href="/report/<%= report.reportNum %>">
           <div class="report-item">
             <div class="report-details">
-              <span>보고서 번호: <%= report.reportNum %></span>
-              <span>노인 이름: <%= report.seniorProfile.seniorName %></span>
-              <span>작성 날짜: <%= new Date(report.createdAt).toLocaleString() %></span>
-              <span>확인 여부: <%= report.reportStatus ? '확인' : '미확인' %></span>
-              <% if (report.encodedImageBase64String) { %>
-                <img src="data:image/jpeg;base64,<%= report.encodedImageBase64String %>" alt="프로필 이미지"
-                  class="profile-image">
-                <% } %>
+              <span style="color: #2D6210; font-size: 16px; font-weight: bold;">보고서 번호:</span>
+              <span style="font-size: 16px;">
+                <%= report.reportNum %>
+              </span>
+              <div style="display: flex; justify-content: space-between;">
+                <div>
+                  <span style="color: #2D6210; font-size: 16px; font-weight: bold;">약속 제목: </span>
+                  <% if (report.promiseTitle) { %>
+                    <span style="font-size: 16px;">
+                      <%= report.promiseTitle %>
+                    </span>
+                    <% } else { %>
+                      <span style="font-size: 16px;">알수 없음</span>
+                      <% } %>
+                </div>
+                <div>
+                  <span style="color: #2D6210; font-size: 16px; font-weight: bold;">채팅 상대방 이름:</span>
+                  <span style="font-size: 16px;">
+                    <%= report.seniorName %>
+                  </span>
+                </div>
+              </div>
+              <div style="display: flex; justify-content: space-between;">
+                <div>
+                  <span style="color: #2D6210; font-size: 16px; font-weight: bold;">작성 날짜: </span>
+                  <span style="font-size: 16px;">
+                    <%= report.createdAt %>
+                  </span>
+                </div>
+                <div>
+                  <span style="color: #2D6210; font-size: 16px; font-weight: bold;">확인 여부: </span>
+                  <% if (report.reportStatus) { %>
+                    <span class="status-green" style="font-size: 16px;">확인</span>
+                    <% } else { %>
+                      <span class="status-black" style="font-size: 16px;">미확인</span>
+                      <% } %>
+                        <% if (report.encodedImageBase64String) { %>
+                          <img src="data:image/jpeg;base64,<%= report.encodedImageBase64String %>" alt="프로필 이미지"
+                            class="profile-image">
+                          <% } %>
+                </div>
+              </div>
             </div>
           </div>
         </a>
@@ -69,6 +103,7 @@
       <% }); %>
   </ul>
 </div>
+
 
 <!-- Footer Section -->
 <footer class="footer__container">

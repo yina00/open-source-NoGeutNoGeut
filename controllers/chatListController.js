@@ -49,9 +49,14 @@ exports.showChatRoomsList = async (req, res) => {
                     }
                 ]
             });
-            seniorName = SeniorProfile.seniorName;
-            seniorNum = SeniorProfile.seniorNum;
-            roomNum = chatRooms[0].roomNum; // roomNum 추출
+
+            if (chatRooms.length > 0) {
+                seniorName = SeniorProfile.seniorName;
+                seniorNum = SeniorProfile.seniorNum;
+                roomNum = chatRooms[0].roomNum; // roomNum 추출
+            } else {
+                return res.render('chat', { user: user });
+            }
         } else if (userType === 'senior') {
             // 사용자가 노인인 경우
             chatRooms = await ChatRoom.findAll({
@@ -93,9 +98,12 @@ exports.showChatRoomsList = async (req, res) => {
                     console.log('StudentProfile is null');
                     studentName = 'No Name';  // 기본값 설정
                 }
-                roomNum = chatRooms[0].roomNum; // roomNum 추출
+                if (chatRooms.length > 0) {
+                    roomNum = chatRooms[0].roomNum; // roomNum 추출
+                } else {
+                    return res.render('chat', { user: user });
+                }
             }
-
         } else {
             return res.status(400).json({ error: '잘못된 사용자 역할입니다.' });
         }

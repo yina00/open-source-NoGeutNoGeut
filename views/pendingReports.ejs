@@ -58,13 +58,45 @@
           <a href="/reportForm?promiseNum=<%= report.promiseNum %>">
             <div class="report-item">
               <div class="report-details">
-                <span>약속 번호: <%= report.promiseNum %></span>
-                <span>노인 이름: <%= report.seniorName %></span>
                 <% if (report.promiseTitle) { %>
-                  <span>약속 제목: <%= report.promiseTitle %></span>
-                  <% } else { %>
-                    <span>약속 제목: 알수없음</span>
-                    <% } %>
+                  <div style=" display: flex; justify-content: space-between;">
+                    <div>
+                      <span style="color: #2D6210; font-size: 16px; font-weight: bold;">약속 제목: </span>
+                      <span style="font-size: 16px;">
+                        <%= report.promiseTitle %>
+                      </span>
+                      <% } else { %>
+                        <span style="color: #2D6210; font-size: 16px; font-weight: bold;">약속 제목: </span>
+                        <span style="font-size: 16px;">알수 없음</span>
+                        <% } %>
+                    </div>
+                    <div>
+                      <span style="color: #2D6210; font-size: 16px; font-weight: bold;">채팅 상대방 이름:</span>
+                      <span style="font-size: 16px;">
+                        <%= report.seniorName %>
+                      </span>
+                    </div>
+                  </div>
+                  <div>
+                    <span style="color: #2D6210; font-size: 16px; font-weight: bold;">약속 날짜:</span>
+                    <span style="font-size: 16px;">
+                      <%= report.promiseDay %>
+                    </span>
+                  </div>
+                  <div style=" display: flex; justify-content: space-between;">
+                    <div>
+                      <span style="color: #2D6210; font-size: 16px; font-weight: bold;">시작 시간: </span>
+                      <span style="font-size: 16px;">
+                        <%= report.startTime %>
+                      </span>
+                    </div>
+                    <div>
+                      <span style="color: #2D6210; font-size: 16px; font-weight: bold;">종료시간:</span>
+                      <span style="font-size: 16px;">
+                        <%= report.finishTime %>
+                      </span>
+                    </div>
+                  </div>
               </div>
             </div>
           </a>

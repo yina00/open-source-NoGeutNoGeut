@@ -18,14 +18,21 @@ const StudentProfile = require('../models/studentProfile');
 const { Op, Sequelize } = require('sequelize');
 const multer = require('multer');
 const sequelize = require('../config/database');
+const { format } = require('date-fns');
+const moment = require('moment-timezone');
+const { ko } = require('date-fns/locale'); // date-fns에서 한글 로케일을 사용합니다.
 
 
 const sortOptions = {
-  latest: ['createdAt', 'DESC'],
-  oldest: ['createdAt', 'ASC']
+    latest: ['createdAt', 'DESC'],
+    oldest: ['createdAt', 'ASC']
 };
 
 
+const getDayNameInKorean = (date) => {
+    const dayNames = ['일요일', '월요일', '화요일', '수요일', '목요일', '금요일', '토요일'];
+    return dayNames[date.getDay()];
+};
 async function fetchData(reportNum) {
     try {
         const report = await Report.findOne({ where: { reportNum } });
@@ -100,7 +107,7 @@ exports.submitReport = async (req, res) => {
 
         //매칭정보도 업데이트해야함
         await Matching.update(
-            { reportNum: newReport.reportNum, reportStatus: true },
+            { reportNum: newReport.reportNum },
             { where: { promiseNum: promiseNum } }
         );
 
@@ -198,28 +205,55 @@ exports.pendingReports = async (req, res) => {
     try {
         const userID = req.session.userID;
 
-        //지금 사용자ID랑 같은 거 근데 레포트상태 f인 거
+        // 1. 사용자 ID와 일치하는 stdNum을 가진 Promise 조회
+        const promises = await Promise.findAll({
+            where: {
+                stdNum: userID
+            },
+            attributes: ['promiseNum'] // 필요한 필드만 선택
+        });
+
+        // 2. 조회된 Promise의 promiseNum을 배열로 추출
+        const promiseNums = promises.map(p => p.promiseNum);
+
+        // 3. promiseNum을 기준으로 Matching 테이블에서 reportNum이 null인 레코드 조회
         const pendingReports = await Matching.findAll({
             where: {
-                reportStatus: false,
-                '$Promise.stdNum$': userID
+                promiseNum: promiseNums,
+                reportNum: {
+                    [Sequelize.Op.is]: null
+                }
             },
             include: [
                 {
                     model: Promise,
-                    required: true
+                    required: true,
+                    attributes: ['promiseNum', 'promiseTitle', 'promiseDay', 'startTime', 'finishTime', 'stdNum', 'protectorNum'] // 필요한 필드 추가
                 }
             ]
         });
 
+        console.log("pendingReports 확인", pendingReports);
         const reports = [];
         for (const pendingReport of pendingReports) {
             const student = await StudentProfile.findOne({ where: { stdNum: pendingReport.Promise.stdNum } });
             const senior = await SeniorProfile.findOne({ where: { seniorNum: pendingReport.Promise.protectorNum } });
 
+            const promiseDate = new Date(pendingReport.Promise.promiseDay);
+            const formattedDate = format(promiseDate, 'yyyy년 MM월 dd일', { locale: ko });
+            const dayName = getDayNameInKorean(promiseDate);
+            const formattedDateWithDay = `${formattedDate} ${dayName}`;
+
+            const formattedStartTime = moment(pendingReport.Promise.startTime, 'HH:mm').format('A h시 mm분').replace('AM', '오전').replace('PM', '오후');
+            const formattedFinishTime = moment(pendingReport.Promise.finishTime, 'HH:mm').format('A h시 mm분').replace('AM', '오전').replace('PM', '오후');
+
             reports.push({
                 matchingNum: pendingReport.matchingNum,
-                promiseNum: pendingReport.promiseNum,
+                promiseNum: pendingReport.Promise.promiseNum,
+                promiseTitle: pendingReport.Promise.promiseTitle,  // promiseTitle이 제대로 설정되었는지 확인
+                promiseDay: formattedDateWithDay,
+                startTime: formattedStartTime,
+                finishTime: formattedFinishTime,
                 studentName: student ? student.name : 'Unknown',
                 seniorName: senior ? senior.seniorName : 'Unknown'
             });
@@ -231,6 +265,8 @@ exports.pendingReports = async (req, res) => {
         res.status(500).json({ error: 'Pending reports could not be fetched.' });
     }
 };
+
+
 
 
 //보고서 목록 페이지 렌더링하는 함수
@@ -247,41 +283,177 @@ exports.renderReportListPage = async (req, res) => {
 
         let reports = [];
 
+        /*
+                if (userType === 'student') {
+                    reports = await Report.findAll({
+                        where: { stdNum: userID },
+                        include: [
+                            {
+                                model: SeniorProfile,
+                                as: 'seniorProfile',
+                                attributes: ['seniorName', 'profileImage']
+                            }
+                        ],
+                        order: [order]
+                    });
+                    res.render('reportListStudent', { reports, sortBy });
+                } else if (userType === 'senior') {
+                    reports = await Report.findAll({
+                        where: { seniorNum: userID },
+                        include: [
+                            {
+                                model: StudentProfile,
+                                as: 'studentProfile',
+                                attributes: ['profileImage']
+                            },
+                            {
+                                model: Member,
+                                as: 'student',
+                                attributes: ['name']
+                            }
+                        ],
+                        order: [order]
+                    });
+                    res.render('reportListSenior', { reports, sortBy });
+                } else {
+                    res.status(400).json({ error: '알 수 없는 사용자 유형입니다.' });
+                }
+        */
+
 
         if (userType === 'student') {
-            reports = await Report.findAll({
+            // 1. 학생 ID와 일치하는 stdNum을 가진 약속(Promise) 조회
+            const promises = await Promise.findAll({
                 where: { stdNum: userID },
-                include: [
-                    {
-                        model: SeniorProfile,
-                        as: 'seniorProfile',
-                        attributes: ['seniorName', 'profileImage']
-                    }
-                ],
-                order: [order]
+                attributes: ['promiseNum']
             });
-            res.render('reportListStudent', { reports, sortBy });
-        } else if (userType === 'senior') {
-            reports = await Report.findAll({
-                where: { seniorNum: userID },
+
+            // 2. 조회된 Promise의 promiseNum을 배열로 추출
+            const promiseNums = promises.map(p => p.promiseNum);
+
+            // 3. promiseNum을 기준으로 Matching 테이블에서 reportNum이 null이 아닌 레코드 조회
+            const pendingReports = await Matching.findAll({
+                where: {
+                    promiseNum: promiseNums,
+                    reportNum: { [Sequelize.Op.not]: null }
+                },
                 include: [
                     {
-                        model: StudentProfile,
-                        as: 'studentProfile',
-                        attributes: ['profileImage']
+                        model: Promise,
+                        required: true,
+                        attributes: ['promiseNum', 'promiseTitle', 'promiseDay', 'startTime', 'finishTime', 'stdNum', 'protectorNum']
                     },
                     {
-                        model: Member,
-                        as: 'student',
-                        attributes: ['name']
+                        model: Report,
+                        required: true,
+                        where: { stdNum: userID }
                     }
                 ],
                 order: [order]
             });
+
+            const reports = [];
+            for (const pendingReport of pendingReports) {
+                const senior = await SeniorProfile.findOne({ where: { seniorNum: pendingReport.Promise.protectorNum } });
+                // 날짜와 시간 포맷팅
+                const promiseDate = new Date(pendingReport.Promise.promiseDay);
+                const formattedDate = format(promiseDate, 'yyyy년 MM월 dd일', { locale: ko });
+                const dayName = format(promiseDate, 'EEEE', { locale: ko }); // 요일 가져오기
+                const formattedDateWithDay = `${formattedDate} ${dayName}`;
+                // 보고서 작성 시간 포맷팅
+                const reportCreatedAt = new Date(pendingReport.Report.createdAt);
+                const formattedCreatedAt = format(reportCreatedAt, 'yyyy년 MM월 dd일 EEEE', { locale: ko });
+
+                // 보고서 데이터 구성
+                reports.push({
+                    matchingNum: pendingReport.matchingNum,
+                    promiseNum: pendingReport.Promise.promiseNum,
+                    promiseTitle: pendingReport.Promise.promiseTitle,
+                    promiseDay: formattedDateWithDay,
+                    seniorName: senior ? senior.seniorName : 'Unknown',
+                    createdAt: formattedCreatedAt, // 보고서 작성 시간 추가
+                    reportNum: pendingReport.Report.reportNum, // 보고서 번호 추가
+                    reportStatus: pendingReport.Report.reportStatus
+                });
+            }
+
+            res.render('reportListStudent', { reports, sortBy });
+
+        } else if (userType === 'senior') {
+            // 1. 보호자 ID와 일치하는 seniorNum을 가진 약속(Promise) 조회
+            const promises = await Promise.findAll({
+                where: { protectorNum: userID },
+                attributes: ['promiseNum']
+            });
+
+            // 2. 조회된 Promise의 promiseNum을 배열로 추출
+            const promiseNums = promises.map(p => p.promiseNum);
+
+            // 3. promiseNum을 기준으로 Matching 테이블에서 reportNum이 null이 아닌 레코드 조회
+            const pendingReports = await Matching.findAll({
+                where: {
+                    promiseNum: promiseNums,
+                    reportNum: { [Sequelize.Op.not]: null }
+                },
+                include: [
+                    {
+                        model: Promise,
+                        required: true,
+                        attributes: ['promiseNum', 'promiseTitle', 'promiseDay', 'startTime', 'finishTime', 'stdNum', 'protectorNum']
+                    },
+                    {
+                        model: Report,
+                        required: true,
+                        where: { seniorNum: userID },
+                        include: [
+                            {
+                                model: StudentProfile,
+                                as: 'studentProfile',
+                                attributes: ['profileImage']
+                            },
+                            {
+                                model: Member,
+                                as: 'student',
+                                attributes: ['name']
+                            }
+                        ]
+                    }
+                ],
+                order: [order]
+            });
+
+            const reports = [];
+            for (const pendingReport of pendingReports) {
+                const student = await StudentProfile.findOne({ where: { stdNum: pendingReport.Promise.stdNum } });
+                // 날짜와 시간 포맷팅
+                const promiseDate = new Date(pendingReport.Promise.promiseDay);
+                const formattedDate = format(promiseDate, 'yyyy년 MM월 dd일', { locale: ko });
+                const dayName = format(promiseDate, 'EEEE', { locale: ko });
+                const formattedDateWithDay = `${formattedDate} ${dayName}`;
+
+                // 보고서 작성 시간 포맷팅
+                const reportCreatedAt = new Date(pendingReport.Report.createdAt);
+                const formattedCreatedAt = format(reportCreatedAt, 'yyyy년 MM월 dd일 EEEE', { locale: ko });
+
+                // 보고서 데이터 구성
+                reports.push({
+                    matchingNum: pendingReport.matchingNum,
+                    promiseNum: pendingReport.Promise.promiseNum,
+                    promiseTitle: pendingReport.Promise.promiseTitle,
+                    promiseDay: formattedDateWithDay,
+                    studentName: student ? student.name : 'Unknown',
+                    createdAt: formattedCreatedAt, // 보고서 작성 시간 추가
+                    reportNum: pendingReport.Report.reportNum, // 보고서 번호 추가
+                    reportStatus: pendingReport.Report.reportStatus
+                });
+            }
+
             res.render('reportListSenior', { reports, sortBy });
+
         } else {
             res.status(400).json({ error: '알 수 없는 사용자 유형입니다.' });
         }
+
 
     } catch (error) {
         console.error('Error fetching reports:', error);
@@ -322,6 +494,15 @@ exports.confirmReport = async (req, res) => {
         report.reportStatus = true;
         report.updatedAt = currentTime;
         await report.save();
+        const matching = await Matching.findOne({ where: { reportNum: reportNum } });
+
+        if (!matching) {
+            console.log(`Matching record for promise number ${promiseNum} not found.`);
+            return res.status(404).json({ error: '매칭 레코드를 찾을 수 없습니다.' });
+        }
+
+        matching.reportStatus = true;
+        await matching.save();
 
         res.json({ message: '보고서가 확인되었습니다. 매칭횟수가 +1 되었습니다.' });
     } catch (error) {
