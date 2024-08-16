@@ -483,6 +483,7 @@ function showModal(modalId) {
 
 function hideModal(modalId) {
     document.getElementById(modalId).style.display = 'none';
+    document.getElementById('promiseTitle').value = '';
 }
 
 

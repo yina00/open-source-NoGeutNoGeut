@@ -66,7 +66,7 @@ function calculateKoreanAgeByYear(birthYear) {
 exports.createYoungProfile = (req, res) => {
     //const user = fetchData(req.session.userID);
     const user = req.session.user;
-    res.render("CreateProfile_young.ejs",  { user: user});
+    res.render("CreateProfile_young.ejs", { user: user });
 };
 
 exports.postcreateYoungProfile = (req, res) => {
@@ -141,11 +141,11 @@ exports.createStudentProfile = async (req, res) => {
         const studentProfile = await StudentProfile.create({
             stdNum: req.session.user.memberNum,
             profileImage: profileImage,
-            //studentName: name,
+            memberNum: req.session.user.memberNum,
             account: account,
             yearOfBirth: req.session.user.age,
             phoneNumber: phoneNumber,
-            gender: gender === 'male'? '남성' : '여성',
+            gender: gender === 'male' ? '남성' : '여성',
             university: university,
             major: major,
             sido: sido,
@@ -163,7 +163,7 @@ exports.createStudentProfile = async (req, res) => {
         });
 
         const favoFields = Array.isArray(favoField) ? favoField : [favoField];
-        
+
         const fieldMappings = {
             'FF_exercise': '운동',
             'FF_craft': '수공예',
@@ -185,7 +185,7 @@ exports.createStudentProfile = async (req, res) => {
 
         await Member.update({ profileCreationStatus: true }, { where: { memberNum: req.session.user.memberNum } });
         res.redirect('/main');
-           
+
     } catch (error) {
         console.error("Error creating Student profile:", error);
         res.status(500).send("프로필을 생성하는 중에 오류가 발생했습니다.");
@@ -237,7 +237,7 @@ exports.updateStudentProfile = async (req, res) => {
     console.log(req.body);
 
     const userId = req.session.userID;
-    
+
     const profileImagePath = req.file ? req.file.path : null;
     if (req.file) {
         const profileImage = await fs.readFile(req.file.path);
@@ -283,7 +283,7 @@ exports.updateStudentProfile = async (req, res) => {
 
     try {
         //const userId = req.session.userID;
-;
+        ;
         await StudentProfile.update(
             { desiredAmount: DesireMapping[desiredAmount] },
             {
