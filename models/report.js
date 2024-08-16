@@ -4,6 +4,7 @@ const SeniorProfile = require("./seniorProfile");
 const StudentProfile = require("./studentProfile");
 const Member = require("./member");
 const Promise = require("./promise");  // Promise 모델을 가져옵니다.
+const Matching = require("./matching")
 
 const Report = sequelize.define("Report", {
   reportNum: {
@@ -53,5 +54,7 @@ Report.belongsTo(Promise, { foreignKey: 'promiseNum' }); // 이 부분도 추가
 
 Member.hasMany(Report, { foreignKey: 'stdNum' });
 SeniorProfile.hasMany(Report, { foreignKey: 'seniorNum' });
+Matching.belongsTo(Report, { foreignKey: 'reportNum', targetKey: 'reportNum' });
+Report.hasOne(Matching, { foreignKey: 'reportNum', sourceKey: 'reportNum' });
 
 module.exports = Report;
