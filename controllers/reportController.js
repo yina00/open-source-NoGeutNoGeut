@@ -319,8 +319,6 @@ exports.renderReportListPage = async (req, res) => {
                     res.status(400).json({ error: '알 수 없는 사용자 유형입니다.' });
                 }
         */
-
-
         if (userType === 'student') {
             // 1. 학생 ID와 일치하는 stdNum을 가진 약속(Promise) 조회
             const promises = await Promise.findAll({
@@ -352,7 +350,6 @@ exports.renderReportListPage = async (req, res) => {
                 order: [order]
             });
 
-            const reports = [];
             for (const pendingReport of pendingReports) {
                 const senior = await SeniorProfile.findOne({ where: { seniorNum: pendingReport.Promise.protectorNum } });
                 // 날짜와 시간 포맷팅
@@ -404,27 +401,14 @@ exports.renderReportListPage = async (req, res) => {
                     {
                         model: Report,
                         required: true,
-                        where: { seniorNum: userID },
-                        include: [
-                            {
-                                model: StudentProfile,
-                                as: 'studentProfile',
-                                attributes: ['profileImage']
-                            },
-                            {
-                                model: Member,
-                                as: 'student',
-                                attributes: ['name']
-                            }
-                        ]
+                        where: { seniorNum: userID }
                     }
                 ],
                 order: [order]
             });
 
-            const reports = [];
             for (const pendingReport of pendingReports) {
-                const student = await StudentProfile.findOne({ where: { stdNum: pendingReport.Promise.stdNum } });
+                const student = await Member.findOne({ where: { memberNum: pendingReport.Promise.stdNum } });
                 // 날짜와 시간 포맷팅
                 const promiseDate = new Date(pendingReport.Promise.promiseDay);
                 const formattedDate = format(promiseDate, 'yyyy년 MM월 dd일', { locale: ko });
@@ -455,6 +439,7 @@ exports.renderReportListPage = async (req, res) => {
         }
 
 
+        console.log("reports 확인", reports)
     } catch (error) {
         console.error('Error fetching reports:', error);
         res.status(500).json({ error: 'Failed to fetch reports' });
