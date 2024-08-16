@@ -17,22 +17,27 @@
 </head>
 
 <body>
+    <!-- Header Section -->
     <header class="header__container">
-        <h1 class="main-title">노긋노긋</h1>
+        <!-- Site H1 / display: none -->
+        <h1 class="main-title">코밋메인홈</h1>
         <div class="header__block">
             <a href="#"> 마이페이지 </a>
             <a href="#"> 로그인 </a>
         </div>
+
         <div class="header_nav-main-block">
+            <!-- 네비게이션에 해당하는 부분 -->
             <nav class="header__nav-block">
                 <ul class="nav__list" role="navigation">
+
                     <li class="nav__list-item">
                         <a href="/main" aria-label="노긋노긋 홈페이지">
                             <img src="/images/logo.png" width="50" alt="로고">
                         </a>
                     </li>
                     <li class="nav__list-item">
-                        <a href="/filter"> 매칭하기 </a>
+                        <a href="/filter"> 매칭 </a>
                     </li>
                     <li class="nav__list-item">
                         <a href="/chat"> 채팅 </a>
@@ -46,11 +51,15 @@
                 </ul>
             </nav>
         </div>
+
     </header>
     <main>
+        <!-- 채팅방 목록과 채팅창을 감싸는 컨테이너 -->
         <div class="chat__container">
+            <!-- 채팅방 목록 -->
             <div class="chat__room__list">
                 <h2 class="chat__title">채팅방</h2>
+                <!-- 채팅방 목록의 상단 분리선 -->
                 <div class="chat__room__list__line"></div>
                 <ul id="chat-room-list">
                     <% chatRooms.forEach(room=> { %>
@@ -58,24 +67,30 @@
                             <a href="#" onclick="openChatRoom('<%= room.dataValues.roomNum %>')">
                                 <div class="chat__room__item">
                                     <div class="chat__room__profile">
-                                        <% const profile=room.dataValues.StudentProfile; const profileImage=profile ?
-                                            profile.profileImage : null; const studentName=profile && profile.Member ?
-                                            profile.Member.name : 'No Name' ; %>
+                                        <% const profile=room.dataValues.SeniorProfile; const profileImage=profile ?
+                                            profile.profileImage : null; const seniorName=profile ? profile.seniorName
+                                            : 'No Name' ; %>
                                             <% if (profileImage) { %>
-                                                <img src="data:image/jpeg;base64,<%= Buffer.from(profileImage).toString('base64') %>"
-                                                    alt="<%= studentName %>" class="chat__profile__img">
-                                                <% } else { %>
-                                                    <img src="/path/to/default/profile-image.png" alt="Default Profile"
-                                                        class="chat__profile__img">
-                                                    <% } %>
+                                                <% // Base64로 인코딩된 이미지를 사용 const
+                                                    encodedImageBase64String=Buffer.from(profileImage).toString('base64');
+                                                    %>
+                                                    <img src="data:image/jpeg;base64,<%= encodedImageBase64String %>"
+                                                        alt="<%= seniorName %>" class="chat__profile__img">
+                                                    <% } else { %>
+                                                        <img src="/path/to/default/profile-image.png"
+                                                            alt="Default Profile" class="chat__profile__img">
+                                                        <% } %>
                                     </div>
                                     <div class="chat__room__info">
                                         <div class="chat__other-user">
                                             <span>
-                                                <%= studentName %>
+                                                <%= seniorName %>
                                             </span>
+
                                             <span class="chat_last__message__time"
-                                                data-time="<%= room.dataValues.lastMessageTime %>"></span>
+                                                data-time="<%= room.dataValues.lastMessageTime %>">
+
+                                            </span>
                                         </div>
                                         <div class="chat__last__message">
                                             <span>
@@ -89,18 +104,20 @@
                         </li>
                         <% }) %>
                 </ul>
+
             </div>
+            <!-- 채팅 메시지창 -->
             <div class="inChatRoom">
                 <div class="other-user">
                     <span id="chat-room-title" class="chat__room__title">
-                        <%= studentName %>
+                        <%= seniorProfile.seniorName %>
                     </span>
                     <span id="settings-button" class="settings__button">...</span>
                     <div id="settings-menu" class="settings__menu">
                         <ul class="settings__menu__list">
                             <li class="settings__menu__item" onclick="showModal('promise-modal')">약속잡기</li>
                             <li class="settings__menu__item"><a href="/reportList"> 보고서</a></li>
-                            <li class="settings__menu__item" onclick="clickReview()">후기 작성</li>
+                            <li class="settings__menu__item" onclick="clickReview()"> 후기 작성 </li>
                         </ul>
                     </div>
                 </div>
@@ -262,6 +279,8 @@
                     </ul>
                 </div>
 
+
+                <!-- 메시지 입력창 -->
                 <div class="input__message">
                     <span class="input__message-span">
                         <input class="chatting__input" type="text" id="chat-input" placeholder="메시지 입력">
@@ -271,11 +290,13 @@
             </div>
         </div>
 
+        <!-- 약속 잡기 모달 -->
         <div id="promise-modal" class="promise__modal">
             <div class="modal__header">
                 <span class="promise__modal__title">약속 잡기</span>
                 <button class="close__btn" onclick="hideModal('promise-modal')">&times;</button>
             </div>
+            <!-- 약속 잡기 폼 또는 내용 action="/promise/<%=roomNum%>"-->
             <form id="promiseForm" method="POST" onsubmit="handleFormSubmit(event)">
                 <div class="modal__content">
                     <p>
@@ -314,12 +335,18 @@
                 </div>
             </form>
         </div>
+
     </main>
 
+    <!-- 숨겨진 input 요소로 현재 로그인한 사용자 ID를 저장 -->
     <input type="hidden" id="currentUser" value="<%= user %>">
-    <input type="hidden" id="studentNum" value="<%= studentProfile.stdNum %>">
-    <input type="hidden" id="roomNum" value="<%= roomNum %>">
-    <input type="hidden" id="userType" value="<%= userType %>">
+    <input type="hidden" id="seniorNum" value="<%= seniorProfile.seniorNum %>">
+    <input type="hidden" id="seniorName" value="<%= seniorProfile.seniorName %>">
+    <input type="hidden" id="roomNum" value="<%=roomNum %>">
+    <input type="hidden" id="userType" value="<%=userType%>">
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="/js/chatToSenior.js"></script>
 
     <!-- Custom Alert -->
     <div id="customAlert" class="custom-alert hidden">
@@ -328,8 +355,7 @@
             <button style="color: white;" onclick="closeAlert()">닫기</button>
         </div>
     </div>
-    <script src="/socket.io/socket.io.js"></script>
-    <script src="/js/chatToStudent.js"></script>
+
     <!-- Footer Section -->
     <footer class="footer__container">
         <section class="pages__container">
