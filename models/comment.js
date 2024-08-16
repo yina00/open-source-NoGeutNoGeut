@@ -53,4 +53,6 @@ Comment.belongsTo(Post, { foreignKey: 'postID' });
 Member.hasMany(Comment, { foreignKey: 'memberNum' });
 Comment.belongsTo(Member, { foreignKey: 'memberNum' });
 
+Comment.hasMany(Comment, { as: 'Replies', foreignKey: 'parentCommentId' });
+
 module.exports = Comment;
