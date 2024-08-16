@@ -92,6 +92,15 @@ const SeniorProfile = sequelize.define("SeniorProfile", {
     type: DataTypes.INTEGER,
     allowNull: true
   }
+}, {
+  indexes: [
+    { fields: ['score'] },  //별점에 대한 인덱스
+    { fields: ['matchingCount'] },  //매칭 횟수에 대한 인덱스
+    { fields: ['recentMatchingTime'] }, //최근 매칭 시간에 대한 인덱스
+    { fields: ['creationTime'] },  //생성 시간에 대한 인덱스
+    { fields: ['desiredAmount'] },  //희망 금액에 대한 인덱스
+    { fields: ['sido', 'gu'] }  //지역 정보 (시도와 구)에 대한 복합 인덱스
+  ]
 });
 
 module.exports = SeniorProfile;
