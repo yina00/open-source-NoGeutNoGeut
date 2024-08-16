@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="stylesheet" href="/css/header.css" type="text/css" />
+  <link rel="stylesheet" href="/css/createdList.css" type="text/css" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="start-date" content="2024-05-10">
+  <title>노긋노긋</title>
+  <script defer src="https://use.fontawesome.com/releases/v5.15.3/js/all.js"
+    integrity="sha384-haqrlim99xjfMxRP6EWtafs0sB1WKcMdynwZleuUSwJR0mDeRYbhtY+KPMr+JL6f"
+    crossorigin="anonymous"></script>
+</head>
+
+<body style="background-color: #E1EFD7;">
+  <!-- Header Section -->
+  <header class="header__container">
+    <!-- Site H1 / display: none -->
+    <h1 class="main-title">노긋메인홈</h1>
+    <div class="header__block">
+        <% if (typeof user !=='undefined' && user) { %>
+            <h6 style="font-size: small; padding: 0; margin-top: 0; margin-bottom: 0; margin-right: 20px;">반갑습니다,
+                <%= user.name %>님!
+            </h6>
+            <a href="/Detail"> 마이페이지 </a>
+            <a href="/logout"> 로그아웃 </a>
+            <% } else { %>
+                <a href="/login"> 로그인 </a>
+                <% } %>
+    </div>
+    <div class="header_nav-main-block">
+        <!-- 네비게이션에 해당하는 부분 -->
+        <nav class="header__nav-block">
+            <ul class="nav__list" role="navigation">
+                <li class="nav__list-item">
+                    <a href="/main" aria-label="노긋노긋 홈페이지">
+                        <img src="/images/logo.png" width="50px" alt="로고">
+                    </a>
+                </li>
+                <% if (typeof user !=='undefined' && user) { %>
+                    <li class="nav__list-item"><a href="/filter"> 매칭하기 </a></li>
+                    <% if (user.userType==='student' ) { %>
+                        <li class="nav__list-item"><a href="/promiseList"> 약속 </a></li>
+                        <li class="nav__list-item"><a href="/reportList"> 보고서작성 </a></li>
+                        <li class="nav__list-item"><a href="/postList/1"> 게시판 </a></li>
+                        <% } else if (user.userType==='senior' ) { %>
+                            <li class="nav__list-item"><a href="/promiseList"> 약속 </a></li>
+                            <li class="nav__list-item"><a href="/reportList"> 보고서확인 </a></li>
+                            <li class="nav__list-item"><a href="/postList/1"> 게시판 </a></li>
+                            <% } %>
+                                <% } else { %>
+                                    <li class="nav__list-item"><a href="javascript:void(0);"
+                                            onclick="alert('로그인이 필요합니다.'); return false;"> 매칭하기 </a></li>
+                                    <li class="nav__list-item"><a href="javascript:void(0);"
+                                            onclick="alert('로그인이 필요합니다.'); return false;"> 약속 </a></li>
+                                    <li class="nav__list-item"><a href="javascript:void(0);"
+                                            onclick="alert('로그인이 필요합니다.'); return false;"> 보고서작성 </a></li>
+                                    <li class="nav__list-item"><a href="javascript:void(0);"
+                                            onclick="alert('로그인이 필요합니다.'); return false;"> 보고서확인 </a></li>
+                                    <% } %>
+            </ul>
+        </nav>
+    </div>
+    
+    <div class="createdHeader">
+        <a href="/post/createdPostList"><h4>내가 작성한 게시글</h4></a>
+        <a href="/post/createdCommentList"><h4>내가 작성한 댓글</h4></a>
+      </div>
+  </header>
+
+  <div id="created">
+    <div style="display: flex;">
+      <h3>게시글 </h3>&nbsp;&nbsp;
+      <h3><%= postCount %></h3>
+    </div>  
+    <% if ( postCount > 0) { %>
+      <% post.forEach(post => { %>
+        <div class="createdList">
+
+          <a href="/post/<%= post.postID %>">
+            <span class="createdBoardName"><%= post.Board.boardName %></span>
+            <span><%= post.title %></span> <br>
+            <span class="createdTime"><%= post.creationDate.toLocaleString('ko-KR', {
+                year: 'numeric',
+                month: '2-digit',
+                day: '2-digit',
+                hour: '2-digit',
+                minute: '2-digit'
+              }) %></span>
+          </a>
+          
+        </div>
+      <% }); %>
+    <% } else { %>
+      <div class="none"><p>작성한 게시글이 없습니다.</p></div>
+    <% } %>
+
+    <div class="pagination">
+      <% if (currentPage > 1) { %>
+          <a href="?page=<%= currentPage - 1 %>">이전</a>
+      <% } %>
+      
+      <% for (let i = 1; i <= totalPages; i++) { %>
+          <a href="?page=<%= i %>" class="<%= currentPage === i ? 'active' : '' %>"><%= i %></a>
+      <% } %>
+      
+      <% if (currentPage < totalPages) { %>
+          <a href="?page=<%= currentPage + 1 %>">다음</a>
+      <% } %>
+    </div>
+  
+  </div>
+  
+
+  <footer class="footer__container">
+    <section class="pages__container">
+      <a href="#">이용약관</a>
+      <a href="#">개인정보처리방침</a>
+      <a href="#">커뮤니티이용규칙</a>
+      <a href="#">문의하기</a>
+    </section>
+  </footer>
+</body>
+</html>

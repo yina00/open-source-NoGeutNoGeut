@@ -117,7 +117,7 @@
                     </div>
 
                     <div>
-                      <button class="myboard_btn">
+                      <button class="myboard_btn" onclick="redirectTOPost()">
                       <span> 내가 쓴 게시글/댓글 </span>
                       </button>                
                     </div>
@@ -150,6 +150,10 @@
 
       function redirectTOReport() {
         window.location.href = '/reportList';
+      }
+
+      function redirectTOPost() {
+        window.location.href = '/createdList';
       }
     </script>
 

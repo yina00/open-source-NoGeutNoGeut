@@ -1,0 +1,136 @@
+/* Container for the post creation form */
+.bigContainer {
+    display: flex;
+}
+
+#container {
+  width: 900px; 
+  margin: auto;
+}
+
+#postFormContainer {
+    background-color: #FFFFFF;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    margin-top: 20px;
+  }
+
+  /* Labels for form fields */
+  .form-label {
+    font-size: 16px;
+    font-weight: bold;
+    margin-bottom: 10px;
+    display: block;
+  }
+  
+  /* Text input and select elements */
+  input[type="text"],
+  select,
+  textarea {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 20px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    font-size: 14px;
+    box-sizing: border-box;
+    background-color: rgba(247, 247, 247, 1);
+  }
+  
+  /* Textarea specific styles */
+  textarea {
+    resize: none;
+    height: 110px;
+  }
+  
+  /* Submit button */
+  #submitButton {
+    background-color: #2D6210;
+    color: #FFFFFF;
+    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  #submitButton:hover {
+    background-color: #225107;
+  }
+
+  .submit {
+    background-color: green; 
+    width: 70px; 
+    height: 25px; 
+    color: white; 
+    border-radius: 10px; 
+    float: right;
+  }
+
+  /* 목록으로 돌아가기 버튼 */
+  .floating-button {
+    position: fixed;
+    left: 35px;
+    top: 115px;
+    z-index: 1000;
+    /* 버튼이 다른 콘텐츠 위에 표시되도록 설정 */
+}
+
+.floating-button button {
+    background-color: green;
+    color: white;
+    border: none;
+    padding: 15px 20px;
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.floating-button button:hover {
+    background-color: #3c974e;
+}
+
+.viewTitle {
+  background-color: #F8F8F8; 
+  border-radius: 20px; 
+  padding: 10px;
+}
+
+.viewDetail {
+  height: 30px; 
+  border-radius: 15px; 
+  background-color: #E1EFD7; 
+  display: inline-block; 
+  padding: 0 10px; 
+  text-align: center; 
+  line-height: 30px; 
+  margin-bottom: 20px;
+}
+
+.viewContent {
+  background-color: #F8F8F8; 
+  border-radius: 20px; 
+  padding: 10px;
+}
+
+.commentBody {
+  background-color: #F8F8F8; 
+  border-radius: 20px; 
+  padding: 10px;
+}
+
+.commentTime {
+  font-size: small;
+}
+
+.replyButton {
+  border-color: black; 
+  border-radius: 10px; 
+  padding: 5px;
+}
+
+.none {
+  display: flex; 
+  justify-content: center;
+}

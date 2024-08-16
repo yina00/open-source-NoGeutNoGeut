@@ -35,6 +35,7 @@ const promiseListRoutes = require("./routes/promiseListRoutes.js");
 const reportRoutes = require("./routes/reportRoutes.js");
 const appointmentRoutes = require('./routes/appointmentRoutes.js');
 const googleRoutes = require('./routes/googleRoutes');
+const postRoutes = require("./routes/postRoutes.js");
 const postListRoutes = require("./routes/postListRoutes.js");
 const chatRoutes = require('./routes/chatRoutes.js');
 const promiseRoutes = require('./routes/promiseRoutes.js');
@@ -80,7 +81,10 @@ const models = [
   require("./models/interestField"),
   require("./models/report"),
   require("./models/keep"),
-  require("./models/memberChatRoom")
+  require("./models/memberChatRoom"),
+  require("./models/board"),
+  require("./models/post"),
+  require("./models/comment")
 ];
 
 const [Member, StudentProfile, ChatRoom, Message, SeniorProfile, Matching, Promise, Review, InterestField, Report, Keep, MemberChatRoom] = models;
@@ -188,6 +192,7 @@ app.use('/promise', promiseRoutes);
 app.use('/', appointmentRoutes);
 app.use('/', reportRoutes);
 app.use('/postList', postListRoutes);
+app.use('/post', postRoutes);
 
 app.get('/complete-profile', ensureAuthenticated, async (req, res) => {
   try {

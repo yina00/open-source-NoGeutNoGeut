@@ -1,0 +1,40 @@
+.createdHeader {
+	display: flex; 
+    justify-content: center; 
+    gap: 100px;
+}
+
+#created {
+	margin: auto; 
+    width: 500px;
+}
+
+.createdList {
+	background-color: #f9f9f9;
+    margin-bottom: 10px;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 15px;
+    width: 100%;
+}
+
+.createdBoardName {
+	color: green; 
+    font-weight: bold; 
+    margin-right: 10px;
+}
+
+.createdTime {
+	font-size: small; 
+    justify-items:right;
+}
+
+.none {
+	 display: flex; 
+     justify-content: center;
+}
+
+.pagination {
+	text-align: center; 
+    margin: 20px;
+}
