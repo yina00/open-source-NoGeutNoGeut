@@ -50,13 +50,16 @@
                 <li class="nav__list-item"><a href="/chat"> 채팅 </a></li>
                 <li class="nav__list-item"><a href="/promiseList"> 약속 </a></li>
                 <li class="nav__list-item"><a href="/postList/1"> 게시판 </a></li>
-
                 <% } %>
                   <% } else { %>
-                    <li class="nav__list-item"><a href="/filter"> 매칭 </a></li>
-                    <li class="nav__list-item"><a href="/chat"> 채팅 </a></li>
-                    <li class="nav__list-item"><a href="/promiseList"> 약속 </a></li>
-                    <li class="nav__list-item"><a href="/postList/1"> 게시판 </a></li>
+                    <li class="nav__list-item"><a href="javascript:void(0);"
+                        onclick="alert('로그인이 필요합니다.'); return false;"> 매칭 </a></li>
+                    <li class="nav__list-item"><a href="javascript:void(0);"
+                        onclick="alert('로그인이 필요합니다.'); return false;"> 채팅 </a></li>
+                    <li class="nav__list-item"><a href="javascript:void(0);"
+                        onclick="alert('로그인이 필요합니다.'); return false;"> 약속 </a></li>
+                    <li class="nav__list-item"><a href="javascript:void(0);"
+                        onclick="alert('로그인이 필요합니다.'); return false;"> 게시판 </a></li>
                     <% } %>
         </ul>
       </nav>
@@ -96,24 +99,17 @@
         <span class="material-icons">handshake</span>
         <span>매칭</span>
       </a>
-      <% if (typeof user !=='undefined' && user) { %>
-        <% if (user.userType==='student' ) { %>
-          <a href="/postList/1" class="main-button">
+      <% if (typeof user !=='undefined' && user && (user.userType==='student' || user.userType==='senior' )) { %>
+        <a href="/postList/1" class="main-button">
+          <span class="material-icons">assignment</span>
+          <span>게시판</span>
+        </a>
+        <% } else { %>
+          <a href="javascript:void(0);" class="main-button" onclick="alert('로그인이 필요합니다.'); return false;">
             <span class="material-icons">assignment</span>
             <span>게시판</span>
           </a>
-          <% } else if (user.userType==='senior' ) { %>
-            <a href="/postList/1" class="main-button">
-              <span class="material-icons">assignment</span>
-              <span>게시판</span>
-            </a>
-            <% } %>
-              <% } else { %>
-                <a href="javascript:void(0);" class="main-button" onclick="alert('로그인이 필요합니다.'); return false;">
-                  <span class="material-icons">assignment</span>
-                  <span>게시판</span>
-                </a>
-                <% } %>
+          <% } %>
     </div>
   </div>
 
