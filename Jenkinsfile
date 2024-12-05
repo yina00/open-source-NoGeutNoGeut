@@ -1,7 +1,7 @@
 node {
 	def app
 	stage('Clone repository') {
-		git 'https://github.com/yina00/open-source-NoGeutNoGeut.git'
+		git branch='main', url: 'https://github.com/yina00/open-source-NoGeutNoGeut.git'
 	}
 	stage('Build image') {
 		app = docker.build("cyn1018/open-source-nogeutnogeut")
