@@ -8,7 +8,7 @@ node {
 	}
 	stage('Test image') {
 		app.inside {
-			sh sh '''
+			sh '''
     mkdir -p /tmp/jenkins_test
     echo "깃허브 변경 트리거 젠킨스파일 인식 성공!" > /tmp/jenkins_test/success.txt
     cat /tmp/jenkins_test/success.txt
