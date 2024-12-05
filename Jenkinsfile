@@ -4,7 +4,7 @@ node {
 		git 'https://github.com/yina00/open-source-NoGeutNoGeut.git'
 	}
 	stage('Build image') {
-		app = docker.build("cyn1018/nogeutnogeut")
+		app = docker.build("cyn1018/open-source-nogeutnogeut")
 	}
 	stage('Test image') {
 		app.inside {
