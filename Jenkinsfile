@@ -4,7 +4,7 @@ pipeline {
         PROJECT_ID = 'open-source-441017'       // GCP 프로젝트 ID
         CLUSTER_NAME = 'kube'                  // GKE 클러스터 이름
         LOCATION = 'asia-northeast3-a'          // 클러스터 위치
-        CREDENTIALS_ID = 'cyn1018'                // GCP 인증 정보 (Jenkins에서 설정한 Google 서비스 계정 키 파일)
+        CREDENTIALS_ID = 'gke'                // GCP 인증 정보 (Jenkins에서 설정한 Google 서비스 계정 키 파일)
         DOCKER_IMAGE = "cyn1018/open-source-nogeutnogeut:${BUILD_ID}"  // Docker 이미지 이름
     }
     stages {
