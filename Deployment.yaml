@@ -1,0 +1,45 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: noguetnoguet-deployment
+  labels:
+    app: noguetnoguet
+spec:
+  replicas: 2 # 파드 복제본 수
+  selector:
+    matchLabels:
+      app: noguetnoguet
+  template:
+    metadata:
+      labels:
+        app: noguetnoguet
+    spec:
+      containers:
+      - name: noguetnoguet-container
+        image: cyn1018/open-source-nogeutnogeut:latest # 사용하는 Docker 이미지
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 3030 # 컨테이너 내부에서 사용하는 포트
+        resources: # 리소스 요청 및 제한 (옵션)
+          requests:
+            memory: "64Mi"
+            cpu: "250m"
+          limits:
+            memory: "128Mi"
+            cpu: "500m"
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: noguetnoguet-service
+  labels:
+    app: noguetnoguet
+spec:
+  selector:
+    app: noguetnoguet
+  type: LoadBalancer # 외부에서 접근 가능하도록 설정
+  ports:
+  - protocol: TCP
+    port: 8080 # 외부에서 노출할 포트
+    targetPort: 3030 # 컨테이너 내부 포트
