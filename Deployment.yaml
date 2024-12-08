@@ -1,21 +1,21 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: noguetnoguet-deployment
+  name: noguetnogeut-deployment
   labels:
-    app: noguetnoguet
+    app: noguetnogeut
 spec:
   replicas: 2 # 파드 복제본 수
   selector:
     matchLabels:
-      app: noguetnoguet
+      app: noguetnogeut
   template:
     metadata:
       labels:
-        app: noguetnoguet
+        app: noguetnogeut
     spec:
       containers:
-      - name: noguetnoguet-container
+      - name: nogeutnogeut-container
         image: cyn1018/open-source-nogeutnogeut:latest # 사용하는 Docker 이미지
         imagePullPolicy: Always
         ports:
@@ -32,12 +32,12 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: noguetnoguet-service
+  name: nogeutnogeut-service
   labels:
-    app: noguetnoguet
+    app: nogeutnogeut
 spec:
   selector:
-    app: noguetnoguet
+    app: nogeutnogeut
   type: LoadBalancer # 외부에서 접근 가능하도록 설정
   ports:
   - protocol: TCP
