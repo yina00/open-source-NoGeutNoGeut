@@ -1,7 +1,7 @@
 pipeline {
     agent any
     environment {
-        PROJECT_ID = 'open-source-441017'       // GCP 프로젝트 IDㅎㅎ클러스터 플젝아이디
+        PROJECT_ID = 'open-source-441017'       // GCP 프로젝트 IDㅎㅎㅎㅎ클러스터 플젝아이디
         CLUSTER_NAME = 'kube'                  // GKE 클러스터 이름
         LOCATION = 'asia-northeast3-a'          // 클러스터 위치
         CREDENTIALS_ID = 'gke'                // GCP 인증 정보 (Jenkins에서 설정한 Google 서비스 계정 키 파일)ㅎㅎㅎ젠킨스 크레덴셜로 등록할!
