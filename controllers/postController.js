@@ -162,6 +162,70 @@ exports.createReply = async (req, res) => {
     }
 };
 
+// 댓글 삭제
+exports.deleteComment = async (req, res) => {
+    const { id, commentID } = req.params;
+
+    try {
+        // 삭제할 댓글을 검색
+        const comment = await Comment.findOne({
+            where: { commentID: commentID, postID: id, parentCommentID: null } // parentCommentID가 null이면 댓글
+        });
+
+        if (!comment) {
+            return res.status(404).send('댓글을 찾을 수 없습니다.');
+        }
+
+        // 댓글과 답글 삭제
+        await Comment.destroy({
+            where: {
+                postID: id,
+                parentCommentID: commentID
+            }
+        });
+
+        await Comment.destroy({
+            where: {
+                postID: id,
+                commentID: commentID
+            }
+        });
+
+        res.redirect(`/post/${id}`);
+    } catch (error) {
+        console.error(error);
+        res.status(500).send('댓글 삭제 중 오류가 발생했습니다.');
+    }
+};
+
+
+//답글 삭제
+exports.deleteReply = async (req, res) => {
+    const { id, commentID } = req.params;
+
+    try {
+        // 삭제할 답글을 검색
+        const reply = await Comment.findOne({
+            where: { commentID: commentID, postID: id }
+        });
+
+        // parentCommentID를 직접 확인하여 답글인지 검증
+        if (!reply || reply.parentCommentID === null) {
+            return res.status(404).send('답글을 찾을 수 없습니다.');
+        }
+
+        // 답글 삭제
+        await Comment.destroy({
+            where: { commentID: commentID, postID: id }
+        });
+
+        res.redirect(`/post/${id}`);
+    } catch (error) {
+        console.error(error);
+        res.status(500).send('답글 삭제 중 오류가 발생했습니다.');
+    }
+};
+
 
 //마이페이지에서 작성한 게시글, 댓글 조회
 exports.renderCreatedList = async (req, res) => {

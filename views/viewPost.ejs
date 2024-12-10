@@ -127,14 +127,17 @@
               year: 'numeric',
               month: '2-digit',
               day: '2-digit',
-              hour: '2-digit',
+             hour: '2-digit',
               minute: '2-digit'
             }) %> <button class="replyButton" onclick="toggleReplyForm(<%= comment.commentID %>)">답글 작성</button>
+		<form action="/post/<%= post.postID %>/comment/<%= comment.commentID %>/delete" method="POST" style="display:inline;">
+    		<button type="submit" class="deleteButton">삭제</button>
+		</form>	
             </p>
 
             <!-- 답글 표시 -->
             <% if (comment.Replies && comment.Replies.length > 0) { %>
-              <div class="replyList" style="margin-left: 20px;">
+                <div class="replyList" style="margin-left: 20px;">
                 <% comment.Replies.forEach(reply => { %>
                   <div class="replyItem">
                     <p><strong><%= reply.Member.name %></strong></p>
@@ -145,7 +148,11 @@
                       day: '2-digit',
                       hour: '2-digit',
                       minute: '2-digit'
-                    }) %></p>
+                    }) %>
+			<form action="/post/<%= post.postID %>/comment/<%= coment.commentID %>/reply/delete" method="POST" style="display: inline;">
+               		 <button type="submit" class="deleteButton">삭제</button>
+                  	</form>
+		  </p>
                   </div>
                 <% }); %>
               </div>

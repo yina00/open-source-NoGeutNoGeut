@@ -13,4 +13,8 @@ router.get('/:id(\\d+)', postController.viewPost);
 router.post('/:id/comment', postController.createComment);
 router.post('/:id/comment/:commentID/reply', postController.createReply);
 
+// 댓글 및 답글 삭제 라우트 추가
+router.post('/:id/comment/:commentID/delete', postController.deleteComment);
+router.post('/:id/comment/:commentID/reply/delete', postController.deleteComment);
+
 module.exports = router;
